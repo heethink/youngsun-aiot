@@ -1335,6 +1335,107 @@
       flex-wrap: wrap;
       gap: 12px;
     }
+
+    /* ========================================================
+       모바일 & PC 최적화 레이아웃 미디어 쿼리 (< 640px 스마트폰)
+       ======================================================== */
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 14px !important;
+      }
+      .header-inner {
+        min-height: 58px;
+        height: auto;
+        padding: 8px 0;
+        gap: 8px;
+      }
+      .brand-title {
+        font-size: 14px !important;
+      }
+      .brand-sub {
+        font-size: 10px !important;
+      }
+      .brand-icon {
+        width: 34px !important;
+        height: 34px !important;
+        font-size: 18px !important;
+      }
+      .nav-actions {
+        gap: 5px !important;
+      }
+      .nav-actions .btn {
+        padding: 6px 10px !important;
+        font-size: 12px !important;
+        min-height: 34px !important;
+      }
+      .hero-section {
+        padding: 16px 0 16px !important;
+      }
+      .hero-box {
+        padding: 18px 14px !important;
+      }
+      .hero-title {
+        font-size: 20px !important;
+        line-height: 1.35 !important;
+        margin-bottom: 10px !important;
+      }
+      .hero-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+      }
+      .hero-character-wrap {
+        order: 1 !important; /* 모바일에서 텍스트가 먼저 오고 캐릭터는 아래에 배치 */
+        margin-top: 4px !important;
+      }
+      .hero-character-img {
+        max-width: 140px !important;
+      }
+      /* 바로가기 네비게이션: 모바일에서 2열 그리드로 정돈 */
+      .portal-nav-bar {
+        padding: 10px 10px !important;
+        margin-bottom: 18px !important;
+      }
+      .portal-nav-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+      }
+      .portal-nav-grid > *:last-child {
+        grid-column: 1 / -1 !important; /* 5번째 바이브 게임 카드는 2칸 가로 확장 */
+      }
+      .portal-nav-item {
+        padding: 8px 10px !important;
+        min-height: 46px !important;
+        gap: 8px !important;
+      }
+      .portal-nav-icon {
+        width: 26px !important;
+        height: 26px !important;
+        font-size: 11px !important;
+        border-radius: 6px !important;
+      }
+      .portal-nav-title {
+        font-size: 12px !important;
+      }
+      .portal-nav-sub {
+        font-size: 9.5px !important;
+      }
+      .section-wrap {
+        padding: 20px 0 !important;
+      }
+      .section-title {
+        font-size: 18px !important;
+      }
+      .section-desc {
+        font-size: 12px !important;
+      }
+      /* 모달 모바일 반응형 핏 */
+      .modal-content {
+        padding: 18px 14px !important;
+        width: 95% !important;
+        max-height: 90vh !important;
+        margin: 10px auto !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1352,6 +1453,9 @@
         </a>
 
         <div class="nav-actions">
+          <button type="button" onclick="toggleSurveySection(true)" class="btn btn-primary" style="font-size: 13px; font-weight: 800; padding: 7px 14px; min-height: 38px; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: none; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35); display: inline-flex; align-items: center; gap: 6px;" title="공식 설문조사 열기">
+            <span>📋</span> 설문조사
+          </button>
           <button onclick="openSiteQrModal()" class="btn btn-outline" style="font-size: 13px; padding: 7px 12px; min-height: 38px;">
             <span>📱</span> 사이트 QR
           </button>
@@ -1453,9 +1557,40 @@
       </div>
     </nav>
 
-    <!-- 깔끔하고 정돈된 설문조사 안내 허브 -->
-    <section class="section-wrap" id="survey-section" style="padding-top: 0; margin-bottom: 30px;">
+    <!-- 상단 설문조사 원터치 열기/접기 바 -->
+    <div style="margin-top: -6px; margin-bottom: 20px;">
+      <button type="button" id="surveyToggleBtn" onclick="toggleSurveySection()" class="btn" style="width: 100%; justify-content: space-between; padding: 12px 18px; background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); border: 1.5px solid #7dd3fc; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); cursor: pointer; transition: all 0.2s ease;">
+        <div style="display: flex; align-items: center; gap: 10px; text-align: left;">
+          <span style="font-size: 20px;">📋</span>
+          <div>
+            <div style="font-size: 14px; font-weight: 900; color: #0f172a; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+              디지털새싹 공식 필수 설문조사
+              <span class="badge" style="background: #0284c7; color: #fff; font-size: 10px; font-weight: 800; padding: 2px 8px;">★ 핵심역량 사전 설문 진행 중</span>
+            </div>
+            <div style="font-size: 11px; color: #475569; margin-top: 2px;">수료 필수: 여기를 누르면 설문지 QR코드 및 시작 링크가 나타납니다.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+          <span id="surveyToggleArrow" style="font-size: 12px; font-weight: 900; color: #0284c7; background: #ffffff; padding: 6px 14px; border-radius: 20px; border: 1px solid #bae6fd; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+            설문지 열기 ▼
+          </span>
+        </div>
+      </button>
+    </div>
+
+    <!-- 깔끔하고 정돈된 설문조사 안내 허브 (상단 버튼 클릭 시 나타남) -->
+    <section class="section-wrap" id="survey-section" style="display: none; padding-top: 0; margin-bottom: 28px;">
       
+      <!-- 설문지 상단 헤더 & 접기 버튼 -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span style="font-size: 14px; font-weight: 800; color: #0369a1;">📋 공식 설문조사 허브</span>
+        </div>
+        <button type="button" onclick="toggleSurveySection(false)" class="btn btn-outline" style="min-height: 32px; padding: 4px 12px; font-size: 11px; font-weight: 700; color: #64748b; border-color: #cbd5e1;">
+          ▲ 설문지 접기
+        </button>
+      </div>
+
       <!-- 1. [메인 포커스] 지금 참여할 설문 1개만 크고 직관적으로 강조 -->
       <div style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border-radius: 16px; padding: 22px 28px; color: #ffffff; display: flex; align-items: center; justify-content: space-between; gap: 20px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25); margin-bottom: 14px; flex-wrap: wrap;">
         <div style="flex: 1; min-width: 260px;">
@@ -1794,7 +1929,7 @@
           <div style="padding-top: 12px; border-top: 1px solid var(--border-color); font-size: 12px; color: var(--text-muted);">
             <span style="font-weight: 700;">1회차 활용 도구:</span>
             <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
-              <a href="#survey-section" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px; color: #15803d; border-color: #86efac; font-weight: 700;">📋 사전 설문 이동</a>
+              <a href="#survey-section" onclick="toggleSurveySection(true)" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px; color: #15803d; border-color: #86efac; font-weight: 700;">📋 사전 설문 이동</a>
               <a href="https://makecode.microbit.org/" target="_blank" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px;">메이크코드</a>
               <a href="https://teachablemachine.withgoogle.com/" target="_blank" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px;">티처블머신</a>
               <a href="https://ifelse-delta.vercel.app/" target="_blank" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px;">AI 모델학습</a>
@@ -3452,6 +3587,28 @@
       });
     }
 
+    // 설문지 섹션 펼치기/접기 토글 (상단 버튼 클릭 시 실행)
+    function toggleSurveySection(forceOpen = null) {
+      const sec = document.getElementById('survey-section');
+      const arrow = document.getElementById('surveyToggleArrow');
+      const btn = document.getElementById('surveyToggleBtn');
+      if (!sec) return;
+
+      const isHidden = (sec.style.display === 'none' || sec.style.display === '');
+      const shouldOpen = forceOpen !== null ? forceOpen : isHidden;
+
+      if (shouldOpen) {
+        sec.style.display = 'block';
+        if (arrow) arrow.textContent = '설문지 접기 ▲';
+        if (btn) btn.style.borderColor = '#0284c7';
+        sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        sec.style.display = 'none';
+        if (arrow) arrow.textContent = '설문지 열기 ▼';
+        if (btn) btn.style.borderColor = '#7dd3fc';
+      }
+    }
+
     // 설문 QR 모달 열기
     function openSurveyModal(surveyKey = 'pre-effect') {
       switchModalSurvey(surveyKey);
@@ -3714,6 +3871,9 @@
     initGalleryRealtime();
     renderTable();
     renderTeacherFiles();
+    if (window.location.hash === '#survey-section' || window.location.hash === '#survey') {
+      toggleSurveySection(true);
+    }
   </script>
 </body>
 </html>
