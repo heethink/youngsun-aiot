@@ -2348,8 +2348,8 @@
       <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 12px;">
         <span id="gvDate" style="font-size: 11px; color: var(--text-light);">등록일</span>
         <div style="display: flex; gap: 8px;">
-          <button id="gvDeleteBtn" onclick="deleteCurrentGalleryItem()" class="btn btn-outline" style="min-height: 40px; padding: 6px 14px; color: #ef4444; border-color: #fca5a5;">
-            삭제
+          <button id="gvDeleteBtn" onclick="deleteCurrentGalleryItem()" class="btn btn-outline" style="min-height: 40px; padding: 6px 14px; color: #ef4444; border-color: #fca5a5; font-weight: 700;" title="관리자 비밀번호(2026) 필요">
+            🔒 관리자 삭제
           </button>
           <button onclick="closeGalleryViewModal()" class="btn btn-outline" style="min-height: 40px; padding: 6px 16px;">
             닫기
@@ -2835,21 +2835,35 @@
       document.getElementById('galleryViewModal').classList.add('hidden');
     }
 
-    // 게시물 삭제 (클라우드에서 즉시 삭제)
+    // 게시물 삭제 (관리자 비밀번호 2026 입력 시에만 삭제 허용)
+    const ADMIN_PASSWORD = "2026";
+
     async function deleteCurrentGalleryItem() {
       if (!currentViewingItemId) return;
-      if (!confirm('정말 이 게시물을 삭제하시겠습니까? (모든 학생 화면에서 삭제됩니다)')) return;
+
+      const pw = prompt("🔒 게시물을 삭제하려면 관리자 비밀번호를 입력해주세요:");
+      if (pw === null) return; // 취소 버튼
+
+      if (pw.trim() !== ADMIN_PASSWORD) {
+        alert("❌ 관리자 비밀번호가 일치하지 않습니다. (삭제 권한 없음)");
+        return;
+      }
+
+      if (!confirm("정말 이 게시물을 삭제하시겠습니까?\n모든 학생과 선생님 화면에서 영구 삭제됩니다.")) return;
 
       const targetId = currentViewingItemId;
       closeGalleryViewModal();
 
+      showToast("게시물을 삭제하는 중입니다...");
+
       try {
-        await fetch(`${CLOUD_DB_URL}/${targetId}`, { method: 'DELETE' });
-        showToast('게시물이 클라우드에서 삭제되었습니다.');
+        const res = await fetch(`${CLOUD_DB_URL}/${targetId}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error("삭제 응답 상태: " + res.status);
+        showToast("게시물이 성공적으로 삭제되었습니다.");
         await syncCloudGallery(true);
       } catch(e) {
         console.error('Delete error:', e);
-        showToast('게시물 삭제 중 오류가 발생했습니다.');
+        showToast("게시물 삭제 중 오류가 발생했습니다.");
       }
     }
 
@@ -3034,6 +3048,12 @@
     }
 
     function resetData() {
+      const pw = prompt("체크 기록을 초기화하려면 관리자 비밀번호를 입력해주세요:");
+      if (pw === null) return;
+      if (pw.trim() !== ADMIN_PASSWORD) {
+        alert("비밀번호가 일치하지 않습니다.");
+        return;
+      }
       if (confirm("정말 모든 학생의 출석 및 설문 체크 기록을 초기화하시겠습니까?")) {
         adminState = {};
         localStorage.removeItem(STORAGE_KEY);
