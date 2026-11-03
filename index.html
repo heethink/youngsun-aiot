@@ -1441,196 +1441,123 @@
       </div>
     </nav>
 
-    <!-- 디지털새싹 공식 필수 설문조사 허브 (사전 2종 + 사후 2종 = 총 4종) -->
-    <section class="survey-banner-wrap" id="survey-section" style="margin-bottom: 30px;">
-      <div class="card survey-banner-card" style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 45%, #eff6ff 100%); border: 2px solid #86efac; border-radius: var(--radius-xl); padding: 24px 26px; position: relative; overflow: hidden; box-shadow: var(--shadow-sm);">
-        <div style="position: absolute; right: -15px; top: -20px; font-size: 110px; opacity: 0.05; pointer-events: none; user-select: none;">📋</div>
-        
-        <!-- 상단 헤더 & 탭 -->
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
-          <div>
-            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
-              <span class="badge" style="background-color: #15803d; color: #ffffff; font-weight: 800; padding: 4px 12px; font-size: 12px;">
-                ★ 공식 필수 설문 4종
-              </span>
-              <span class="badge" style="background-color: #dcfce7; color: #166534; border: 1px solid #86efac; font-weight: 800;">
-                영선중학교 1학년 3반
-              </span>
-              <span class="badge" style="background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;">
-                한국과학창의재단 주관
-              </span>
-            </div>
-            <h2 style="font-size: 21px; font-weight: 900; color: #0f172a; margin-bottom: 6px;">
-              📋 디지털새싹 공식 필수 설문조사 허브 (사전 2종 • 사후 2종)
-            </h2>
-            <p style="font-size: 13px; color: #475569; margin: 0; line-height: 1.5;">
-              모든 학생은 <strong>사전 설문 2종</strong>(1회차)과 <strong>사후 설문 2종</strong>(2회차)에 참여해야 수료가 인정됩니다. 아래 카드를 눌러 참여하세요.
-            </p>
+    <!-- 깔끔하고 정돈된 설문조사 안내 허브 -->
+    <section class="section-wrap" id="survey-section" style="padding-top: 0; margin-bottom: 30px;">
+      
+      <!-- 1. [메인 포커스] 지금 참여할 설문 1개만 크고 직관적으로 강조 -->
+      <div style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border-radius: 16px; padding: 22px 28px; color: #ffffff; display: flex; align-items: center; justify-content: space-between; gap: 20px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25); margin-bottom: 14px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 260px;">
+          <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.22); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 800; margin-bottom: 8px;">
+            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #4ade80;"></span>
+            지금 참여할 설문 (사전 2차)
           </div>
-
-          <!-- 탭 전환 버튼 -->
-          <div style="display: flex; background: #ffffff; padding: 4px; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.04); gap: 4px;">
-            <button type="button" id="tabBtnSurveyPre" onclick="filterSurveyTab('pre')" class="btn" style="padding: 7px 15px; font-size: 12px; font-weight: 800; border-radius: 8px; background: #15803d; color: #ffffff;">
-              🌱 사전 설문 2종 (1회차)
-            </button>
-            <button type="button" id="tabBtnSurveyPost" onclick="filterSurveyTab('post')" class="btn" style="padding: 7px 15px; font-size: 12px; font-weight: 700; border-radius: 8px; background: transparent; color: #64748b;">
-              🌾 사후 설문 2종 (2회차)
-            </button>
-            <button type="button" id="tabBtnSurveyAll" onclick="filterSurveyTab('all')" class="btn" style="padding: 7px 15px; font-size: 12px; font-weight: 700; border-radius: 8px; background: transparent; color: #64748b;">
-              전체 보기 (4종)
+          <h2 style="font-size: 21px; font-weight: 900; margin: 0 0 6px 0; letter-spacing: -0.02em;">
+            🌱 중학교 핵심역량 진단 사전 설문
+          </h2>
+          <p style="font-size: 13px; opacity: 0.92; margin: 0 0 16px 0; line-height: 1.5; word-break: keep-all;">
+            사전 효과성 설문을 마친 학생은 <strong>우측 QR코드를 스마트폰으로 스캔</strong>하거나 <strong>[설문 시작하기]</strong> 버튼을 눌러주세요.
+          </p>
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <a href="https://form.kosac.re.kr/v/4MyHDskwLX0s2i9sVZXJ" target="_blank" rel="noopener noreferrer" style="background: #ffffff; color: #0284c7; padding: 10px 22px; border-radius: 10px; font-weight: 900; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: transform 0.15s ease;">
+              <span>📝</span> 설문 바로 시작하기 ↗
+            </a>
+            <button type="button" onclick="openSurveyModal('pre-competency')" style="background: rgba(255,255,255,0.15); color: #ffffff; border: 1px solid rgba(255,255,255,0.4); padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer;">
+              🔍 QR 크게보기
             </button>
           </div>
         </div>
 
-        <!-- 설문 4종 카드 그리드 -->
-        <div id="surveyCardsWrap" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+        <!-- 큼직하고 선명한 QR 카드 -->
+        <div onclick="openSurveyModal('pre-competency')" style="cursor: pointer; background: #ffffff; padding: 12px 14px; border-radius: 14px; text-align: center; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.12);" title="클릭하여 크게보기">
+          <img src="./survey-pre-competency.png" alt="핵심역량 사전설문 QR" style="width: 115px; height: 115px; display: block; border-radius: 6px;">
+          <div style="font-size: 11px; font-weight: 800; color: #0284c7; margin-top: 6px;">스마트폰 카메라 스캔 📱</div>
+        </div>
+      </div>
+
+      <!-- 2. [전체 현황 요약] 선생님 공지표 형태의 심플하고 정돈된 2열 테이블 -->
+      <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 14px; padding: 16px 20px; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div style="font-size: 13px; font-weight: 800; color: #334155; display: flex; align-items: center; gap: 6px;">
+            <span>📋</span> 디지털새싹 필수 설문 4종 전체 진행 현황
+          </div>
+          <button type="button" onclick="openOriginalNoticeOnly()" style="background: none; border: 1px solid #cbd5e1; border-radius: 6px; padding: 3px 10px; font-size: 11px; color: #64748b; cursor: pointer; font-weight: 600;">
+            🖼️ 공지 원본 표 보기
+          </button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px;">
           
-          <!-- 카드 1: 사전 설문 ① 효과성 측정 -->
-          <div class="survey-card pre" data-survey-category="pre">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
-              <div style="flex: 1;">
-                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-                  <span class="badge" style="background-color: #dcfce7; color: #15803d; font-weight: 800; font-size: 11px;">사전 1</span>
-                  <span style="font-size: 12px; font-weight: 800; color: #15803d;">효과성 측정 설문</span>
-                  <span class="badge" style="background-color: #16a34a; color: #ffffff; font-weight: 800; font-size: 10px;">✓ 참여 완료</span>
+          <!-- 좌측 열: 핵심역량 진단 도구 -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px;">
+            <div style="font-size: 13px; font-weight: 800; color: #0f172a; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+              <span>1. 핵심역량 진단 도구</span>
+              <span style="font-size: 10px; color: #64748b; background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">중학교 전용</span>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <!-- 사전 (지금 진행 중) -->
+              <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1.5px solid #0284c7; border-radius: 8px; padding: 8px 12px;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-size: 12px; font-weight: 800; color: #0284c7;">사전 설문</span>
+                  <span style="font-size: 10px; background: #ef4444; color: #ffffff; font-weight: 800; padding: 2px 6px; border-radius: 4px;">★ 지금 참여</span>
                 </div>
-                <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
-                  1. 효과성 측정 사전 설문
-                </h3>
-                <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 12px;">
-                  디지털 역량, AI 흥미도 및 교육 전 기대효과 설문조사 (약 5분)
-                </p>
-                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                  <a href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; background-color: #15803d;">
-                    <span>📝</span> 설문 바로가기 ↗
-                  </a>
-                  <button type="button" onclick="openSurveyModal('pre-effect')" class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-color: #86efac; color: #15803d;">
-                    <span>🔍</span> QR 확대
-                  </button>
-                  <button type="button" onclick="copySpecificSurveyLink('https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr', '사전 효과성 설문')" class="btn btn-outline" style="padding: 6px 10px; font-size: 12px;">
-                    📋 링크 복사
-                  </button>
+                <div style="display: flex; gap: 6px;">
+                  <a href="https://form.kosac.re.kr/v/4MyHDskwLX0s2i9sVZXJ" target="_blank" style="font-size: 11px; font-weight: 800; color: #0284c7; text-decoration: underline;">참여하기 ↗</a>
+                  <button type="button" onclick="openSurveyModal('pre-competency')" style="background: none; border: none; font-size: 11px; color: #64748b; cursor: pointer; text-decoration: underline;">QR</button>
                 </div>
               </div>
 
-              <!-- QR 썸네일 -->
-              <div onclick="openSurveyModal('pre-effect')" style="cursor: pointer; text-align: center; background: #f8fafc; border: 1px solid #bbf7d0; padding: 6px; border-radius: 8px; flex-shrink: 0;" title="클릭하여 QR 확대">
-                <img src="./survey-pre-effect.png" alt="사전 효과성 QR" style="width: 85px; height: 85px; display: block; border-radius: 4px;">
-                <div style="font-size: 10px; color: #15803d; font-weight: 700; margin-top: 4px;">📱 QR 스캔</div>
+              <!-- 사후 (2회차 예정) -->
+              <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 12px; opacity: 0.75;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-size: 12px; font-weight: 600; color: #475569;">사후 설문</span>
+                  <span style="font-size: 10px; color: #94a3b8;">11.05(목) 수업 종료 후</span>
+                </div>
+                <div style="display: flex; gap: 6px;">
+                  <a href="https://form.kosac.re.kr/v/VKRAGo5FUJNbbgHH26tI" target="_blank" style="font-size: 11px; color: #64748b; text-decoration: underline;">미리보기 ↗</a>
+                  <button type="button" onclick="openSurveyModal('post-competency')" style="background: none; border: none; font-size: 11px; color: #64748b; cursor: pointer; text-decoration: underline;">QR</button>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- 카드 2: 사전 설문 ② 핵심역량 진단 -->
-          <div class="survey-card pre" data-survey-category="pre">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
-              <div style="flex: 1;">
-                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-                  <span class="badge" style="background-color: #e0f2fe; color: #0284c7; font-weight: 800; font-size: 11px;">사전 2</span>
-                  <span style="font-size: 12px; font-weight: 800; color: #0284c7;">핵심역량 진단 설문</span>
-                  <span class="badge" style="background-color: #ef4444; color: #ffffff; font-weight: 800; font-size: 10px;">★ 지금 참여하기</span>
-                </div>
-                <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
-                  2. 핵심역량 진단 사전 설문
-                </h3>
-                <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 12px;">
-                  디지털 소양, 융합 문제해결, 능동적 협력 3대 핵심역량 사전 진단 (약 7분)
-                </p>
-                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                  <a href="https://form.kosac.re.kr/v/4MyHDskwLX0s2i9sVZXJ" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; background-color: #0284c7;">
-                    <span>📝</span> 설문 바로가기 ↗
-                  </a>
-                  <button type="button" onclick="openSurveyModal('pre-competency')" class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-color: #7dd3fc; color: #0284c7;">
-                    <span>🔍</span> QR 확대
-                  </button>
-                  <button type="button" onclick="copySpecificSurveyLink('https://form.kosac.re.kr/v/4MyHDskwLX0s2i9sVZXJ', '사전 핵심역량 설문')" class="btn btn-outline" style="padding: 6px 10px; font-size: 12px;">
-                    📋 링크 복사
-                  </button>
-                </div>
-              </div>
-
-              <!-- QR 썸네일 -->
-              <div onclick="openSurveyModal('pre-competency')" style="cursor: pointer; text-align: center; background: #f8fafc; border: 1px solid #bae6fd; padding: 6px; border-radius: 8px; flex-shrink: 0;" title="클릭하여 QR 확대">
-                <img src="./survey-pre-competency.png" alt="사전 핵심역량 QR" style="width: 85px; height: 85px; display: block; border-radius: 4px;">
-                <div style="font-size: 10px; color: #0284c7; font-weight: 700; margin-top: 4px;">📱 QR 스캔</div>
-              </div>
+          <!-- 우측 열: 효과성 측정 -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px;">
+            <div style="font-size: 13px; font-weight: 800; color: #0f172a; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+              <span>2. 효과성 측정</span>
+              <span style="font-size: 10px; color: #64748b; background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">중·고등학생</span>
             </div>
-          </div>
 
-          <!-- 카드 3: 사후 설문 ① 효과성 측정 -->
-          <div class="survey-card post" data-survey-category="post">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
-              <div style="flex: 1;">
-                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-                  <span class="badge" style="background-color: #ede9fe; color: #7c3aed; font-weight: 800; font-size: 11px;">사후 1</span>
-                  <span style="font-size: 12px; font-weight: 800; color: #7c3aed;">효과성 측정 사후 설문</span>
-                  <span class="badge" style="background-color: #f1f5f9; color: #475569; font-size: 10px;">수업 종료 후</span>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <!-- 사전 (완료됨) -->
+              <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 12px;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-size: 12px; font-weight: 700; color: #166534;">사전 설문</span>
+                  <span style="font-size: 10px; background: #dcfce7; color: #15803d; font-weight: 800; padding: 2px 6px; border-radius: 4px;">✓ 참여 완료</span>
                 </div>
-                <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
-                  3. 효과성 측정 사후 설문
-                </h3>
-                <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 12px;">
-                  수업 참여 후 교육 만족도, 변화된 디지털 흥미와 성취도 평가 (약 5분)
-                </p>
-                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                  <a href="https://form.kosac.re.kr/v/9vDMP23fH2OhgKbZdFqC" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; background-color: #7c3aed;">
-                    <span>📝</span> 설문 바로가기 ↗
-                  </a>
-                  <button type="button" onclick="openSurveyModal('post-effect')" class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-color: #c4b5fd; color: #7c3aed;">
-                    <span>🔍</span> QR 확대
-                  </button>
-                  <button type="button" onclick="copySpecificSurveyLink('https://form.kosac.re.kr/v/9vDMP23fH2OhgKbZdFqC', '사후 효과성 설문')" class="btn btn-outline" style="padding: 6px 10px; font-size: 12px;">
-                    📋 링크 복사
-                  </button>
+                <div style="display: flex; gap: 6px;">
+                  <a href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" style="font-size: 11px; color: #166534; text-decoration: underline;">다시보기 ↗</a>
+                  <button type="button" onclick="openSurveyModal('pre-effect')" style="background: none; border: none; font-size: 11px; color: #64748b; cursor: pointer; text-decoration: underline;">QR</button>
                 </div>
               </div>
 
-              <!-- QR 썸네일 -->
-              <div onclick="openSurveyModal('post-effect')" style="cursor: pointer; text-align: center; background: #f8fafc; border: 1px solid #ddd6fe; padding: 6px; border-radius: 8px; flex-shrink: 0;" title="클릭하여 QR 확대">
-                <img src="./survey-post-effect.png" alt="사후 효과성 QR" style="width: 85px; height: 85px; display: block; border-radius: 4px;">
-                <div style="font-size: 10px; color: #7c3aed; font-weight: 700; margin-top: 4px;">📱 QR 스캔</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 카드 4: 사후 설문 ② 핵심역량 진단 -->
-          <div class="survey-card post" data-survey-category="post">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
-              <div style="flex: 1;">
-                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-                  <span class="badge" style="background-color: #ffedd5; color: #ea580c; font-weight: 800; font-size: 11px;">사후 2</span>
-                  <span style="font-size: 12px; font-weight: 800; color: #ea580c;">핵심역량 진단 사후 설문</span>
-                  <span class="badge" style="background-color: #f1f5f9; color: #475569; font-size: 10px;">수료 직전</span>
+              <!-- 사후 (2회차 예정) -->
+              <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 12px; opacity: 0.75;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-size: 12px; font-weight: 600; color: #475569;">사후 설문</span>
+                  <span style="font-size: 10px; color: #94a3b8;">11.05(목) 수업 종료 후</span>
                 </div>
-                <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
-                  4. 핵심역량 진단 사후 설문
-                </h3>
-                <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 12px;">
-                  수업 종료 후 3대 핵심역량(디지털 소양/문제해결/협력) 성장도 측정 (약 7분)
-                </p>
-                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                  <a href="https://form.kosac.re.kr/v/VKRAGo5FUJNbbgHH26tI" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; background-color: #ea580c;">
-                    <span>📝</span> 설문 바로가기 ↗
-                  </a>
-                  <button type="button" onclick="openSurveyModal('post-competency')" class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-color: #fdba74; color: #ea580c;">
-                    <span>🔍</span> QR 확대
-                  </button>
-                  <button type="button" onclick="copySpecificSurveyLink('https://form.kosac.re.kr/v/VKRAGo5FUJNbbgHH26tI', '사후 핵심역량 설문')" class="btn btn-outline" style="padding: 6px 10px; font-size: 12px;">
-                    📋 링크 복사
-                  </button>
+                <div style="display: flex; gap: 6px;">
+                  <a href="https://form.kosac.re.kr/v/9vDMP23fH2OhgKbZdFqC" target="_blank" style="font-size: 11px; color: #64748b; text-decoration: underline;">미리보기 ↗</a>
+                  <button type="button" onclick="openSurveyModal('post-effect')" style="background: none; border: none; font-size: 11px; color: #64748b; cursor: pointer; text-decoration: underline;">QR</button>
                 </div>
-              </div>
-
-              <!-- QR 썸네일 -->
-              <div onclick="openSurveyModal('post-competency')" style="cursor: pointer; text-align: center; background: #f8fafc; border: 1px solid #fed7aa; padding: 6px; border-radius: 8px; flex-shrink: 0;" title="클릭하여 QR 확대">
-                <img src="./survey-post-competency.png" alt="사후 핵심역량 QR" style="width: 85px; height: 85px; display: block; border-radius: 4px;">
-                <div style="font-size: 10px; color: #ea580c; font-weight: 700; margin-top: 4px;">📱 QR 스캔</div>
               </div>
             </div>
           </div>
 
         </div>
       </div>
+
     </section>
 
     <!-- 섹션 1: 수업 필수 활용 사이트 4선 (PC에서 4열 한 줄 보기) -->
@@ -3230,6 +3157,14 @@
 
     function copySurveyLink() {
       copySpecificSurveyLink('https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr', '사전 효과성 설문');
+    }
+
+        function openOriginalNoticeOnly() {
+      openSurveyModal('pre-competency');
+      const box = document.getElementById("smOriginalNoticeBox");
+      const txt = document.getElementById("smNoticeToggleText");
+      if (box) box.style.display = "block";
+      if (txt) txt.textContent = "원본 공지표 닫기";
     }
 
     function toggleSurveyOriginalNotice() {
