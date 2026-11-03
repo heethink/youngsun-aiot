@@ -1492,7 +1492,7 @@
                 <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
                   <span class="badge" style="background-color: #dcfce7; color: #15803d; font-weight: 800; font-size: 11px;">사전 1</span>
                   <span style="font-size: 12px; font-weight: 800; color: #15803d;">효과성 측정 설문</span>
-                  <span class="badge" style="background-color: #f1f5f9; color: #475569; font-size: 10px;">중·고등학생</span>
+                  <span class="badge" style="background-color: #16a34a; color: #ffffff; font-weight: 800; font-size: 10px;">✓ 참여 완료</span>
                 </div>
                 <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
                   1. 효과성 측정 사전 설문
@@ -1528,7 +1528,7 @@
                 <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
                   <span class="badge" style="background-color: #e0f2fe; color: #0284c7; font-weight: 800; font-size: 11px;">사전 2</span>
                   <span style="font-size: 12px; font-weight: 800; color: #0284c7;">핵심역량 진단 설문</span>
-                  <span class="badge" style="background-color: #f1f5f9; color: #475569; font-size: 10px;">중학교 전용</span>
+                  <span class="badge" style="background-color: #ef4444; color: #ffffff; font-weight: 800; font-size: 10px;">★ 지금 참여하기</span>
                 </div>
                 <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
                   2. 핵심역량 진단 사전 설문
@@ -2408,8 +2408,17 @@
         </button>
       </div>
 
+      <!-- 원본 4종 공지 이미지 토글 영역 -->
+      <div id="smOriginalNoticeBox" style="display: none; margin-bottom: 12px; text-align: center; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+        <div style="font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 6px;">선생님 공지 원본 (4종 설문 및 QR 배치도)</div>
+        <img src="./surveys-all-original.png" alt="4종 설문 공지 원본" style="max-width: 100%; max-height: 220px; object-fit: contain; border-radius: 6px; border: 1px solid #e2e8f0;">
+      </div>
+
       <!-- 모달 하단 액션 버튼 -->
       <div style="display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap;">
+        <button type="button" onclick="toggleSurveyOriginalNotice()" class="btn btn-outline" style="min-height: 38px; padding: 6px 12px; font-size: 11px;">
+          <span id="smNoticeToggleText">원본 공지표 보기</span>
+        </button>
         <button type="button" onclick="closeSurveyModal()" class="btn btn-outline" style="min-height: 38px; padding: 6px 14px; font-size: 12px;">닫기</button>
         <a id="smDirectLink" href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="min-height: 38px; padding: 6px 18px; font-size: 13px; background-color: #15803d;">
           설문지 바로가기 ↗
@@ -3496,12 +3505,17 @@
       copySpecificSurveyLink('https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr', '사전 효과성 설문');
     }
 
-    // 사전 설문 QR 모달 제어
-    function openSurveyModal() {
-      document.getElementById("surveyModal").classList.remove("hidden");
-    }
-    function closeSurveyModal() {
-      document.getElementById("surveyModal").classList.add("hidden");
+    function toggleSurveyOriginalNotice() {
+      const box = document.getElementById("smOriginalNoticeBox");
+      const txt = document.getElementById("smNoticeToggleText");
+      if (!box || !txt) return;
+      if (box.style.display === "none" || box.style.display === "") {
+        box.style.display = "block";
+        txt.textContent = "원본 공지표 접기";
+      } else {
+        box.style.display = "none";
+        txt.textContent = "원본 공지표 보기";
+      }
     }
 
     // 사이트 접속 QR 모달 제어
