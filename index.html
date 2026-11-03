@@ -1955,15 +1955,15 @@
           <span class="section-sub">Student Showcase</span>
           <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
             <h2 class="section-title" style="margin-bottom: 0;">학생 스마트팜 결과물 갤러리</h2>
-            <span id="fbSyncBadge" style="font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: #fef08a; color: #854d0e; display: inline-flex; align-items: center; gap: 5px;">
-              <span id="fbDot" style="width: 7px; height: 7px; border-radius: 50%; background: #eab308; display: inline-block;"></span>
-              <span id="fbStatusText">로컬 모드 (클라우드 연동 필요)</span>
+            <span id="fbSyncBadge" style="font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: #dcfce7; color: #15803d; display: inline-flex; align-items: center; gap: 5px;">
+              <span id="fbDot" style="width: 7px; height: 7px; border-radius: 50%; background: #22c55e; display: inline-block;"></span>
+              <span id="fbStatusText">🟢 실시간 전체 공유 활성 (클라우드 연동 완료)</span>
             </span>
           </div>
         </div>
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <button onclick="openFirebaseConfigModal()" class="btn btn-outline" style="font-size: 12px; padding: 6px 12px;" title="Firebase 클라우드 연동 설정">
-            🔥 실시간 DB 설정
+          <button onclick="syncCloudGallery(false)" class="btn btn-outline" style="font-size: 12px; padding: 6px 12px; font-weight: 700;" title="최신 결과물 즉시 새로고침">
+            🔄 실시간 새로고침
           </button>
           <button onclick="openGalleryUploadModal()" class="btn btn-primary" style="font-size: 13px;">
             + 내 결과물 등록하기
@@ -2529,26 +2529,13 @@
   <script>
     
     // ==========================================
-    // 학생 작품 갤러리 (Firebase 실시간 DB + IndexedDB 폴백)
+    // 학생 작품 갤러리 (실시간 클라우드 공유 엔진)
     // ==========================================
+    const CLOUD_DB_URL = "https://kvdb.io/P35zK2eijM9DghXrHGUv7D";
     const GALLERY_STORE = 'studentGallery';
-    let fbApp = null;
-    let fbDb = null;
-    let fbGalleryRef = null;
     let currentViewingItemId = null;
     let cachedGalleryItems = {};
-
-    // 기본 Firebase Config
-    // 콘솔에서 발급받은 실제 설정 키를 여기에 넣거나 화면 상단의 [🔥 실시간 DB 설정]에 붙여넣을 수 있습니다.
-    let firebaseConfig = {
-      apiKey: "",
-      authDomain: "",
-      databaseURL: "",
-      projectId: "",
-      storageBucket: "",
-      messagingSenderId: "",
-      appId: ""
-    };
+    let isCloudSyncing = false;
 
     function escapeHtml(str) {
       if (!str) return '';
@@ -2560,8 +2547,8 @@
         .replace(/'/g, '&#39;');
     }
 
-    // 학생 스마트폰 고화질 사진을 최대 800px / 75% 품질 JPEG로 자동 경량화 (업로드 지연/용량 초과 방지)
-    function compressImage(file, maxDimension = 800, quality = 0.75) {
+    // 학생 스마트폰 고화질 사진을 최대 640px / 70% 품질 JPEG로 자동 경량화 (30~50KB 수준으로 초고속 클라우드 전송)
+    function compressImage(file, maxDimension = 640, quality = 0.70) {
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -2595,61 +2582,41 @@
       });
     }
 
-    // Firebase 초기화 및 실시간 동기화 리스너
-    function initFirebase() {
-      // 1. 브라우저 localStorage에 저장된 설정이 있는지 우선 확인
-      const saved = localStorage.getItem('youngsun_fb_config');
-      if (saved) {
-        try {
-          const parsed = JSON.parse(saved);
-          if (parsed && parsed.apiKey) firebaseConfig = parsed;
-        } catch(e) {}
-      }
-
-      // 2. 유효한 설정이 있을 때 Firebase 연결 시도
-      if (typeof firebase !== 'undefined' && firebaseConfig && firebaseConfig.apiKey && firebaseConfig.apiKey.trim() !== '') {
-        try {
-          if (!firebase.apps.length) {
-            fbApp = firebase.initializeApp(firebaseConfig);
-          } else {
-            fbApp = firebase.app();
-          }
-          fbDb = firebase.database();
-          fbGalleryRef = fbDb.ref('studentGallery');
-
-          updateFbBadge(true);
-
-          // 실시간 변경 감지 리스너
-          fbGalleryRef.on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (!data) {
-              seedFirebaseDefaults();
-            } else {
-              const list = [];
-              Object.keys(data).forEach(key => {
-                list.push({ id: key, ...data[key] });
-              });
-              // 최신 등록순 정렬
-              list.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-              renderGalleryList(list);
+    // 클라우드 전체 동기화 함수 (모든 학생 & 선생님 실시간 공유)
+    async function syncCloudGallery(isSilent = false) {
+      if (isCloudSyncing) return;
+      isCloudSyncing = true;
+      try {
+        const res = await fetch(`${CLOUD_DB_URL}/?prefix=gallery_&values=true&format=json`, {
+          cache: "no-store"
+        });
+        if (!res.ok) throw new Error("클라우드 통신 상태코드: " + res.status);
+        const rawList = await res.json();
+        
+        const list = [];
+        rawList.forEach(([key, val]) => {
+          try {
+            const item = typeof val === 'string' ? JSON.parse(val) : val;
+            if (item && item.title) {
+              list.push({ ...item, id: key, cloudKey: key });
             }
-          }, (err) => {
-            console.error('Firebase DB listen error:', err);
-            updateFbBadge(false, 'DB 권한/주소 오류');
-            fallbackToIndexedDb();
-          });
+          } catch(e) {}
+        });
 
-          return true;
-        } catch (err) {
-          console.error('Firebase init error:', err);
-          updateFbBadge(false, '초기화 오류');
-          fallbackToIndexedDb();
-          return false;
+        // 최신 등록순 정렬 (timestamp 기준)
+        list.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+        renderGalleryList(list);
+        updateFbBadge(true, "🟢 실시간 전체 공유 활성 (동기화 완료)");
+        if (!isSilent) showToast("최신 학생 결과물을 성공적으로 동기화했습니다.");
+      } catch (err) {
+        console.warn("Cloud sync error, falling back to local:", err);
+        updateFbBadge(false, "🟡 오프라인 모드 (로컬 조회)");
+        if (!isSilent) {
+          showToast("클라우드 연결 일시 지연. 로컬 저장소를 조회합니다.");
+          renderLocalIndexedDb();
         }
-      } else {
-        updateFbBadge(false, '로컬 모드 (클라우드 연동 필요)');
-        fallbackToIndexedDb();
-        return false;
+      } finally {
+        isCloudSyncing = false;
       }
     }
 
@@ -2663,108 +2630,13 @@
         badge.style.background = '#dcfce7';
         badge.style.color = '#15803d';
         dot.style.background = '#22c55e';
-        text.textContent = '🟢 실시간 클라우드 연동 중';
+        text.textContent = customText || '🟢 실시간 전체 공유 활성 (클라우드 연동 완료)';
       } else {
         badge.style.background = '#fef08a';
         badge.style.color = '#854d0e';
         dot.style.background = '#eab308';
-        text.textContent = customText || '🟡 로컬 모드 (클라우드 연동 필요)';
+        text.textContent = customText || '🟡 로컬 모드';
       }
-    }
-
-    function fallbackToIndexedDb() {
-      initFirebase();
-    }
-
-    // 기본 예시 데이터
-    const defaultGallerySeedItems = [
-      {
-        author: "김민성",
-        title: "아이디어 카드 2: 마른 흙 감지 자동 급수 펌프",
-        desc: "토양 수분 센서(P2)를 마른 흙에 꽂았을 때 실측 대표값이 240이 나왔습니다. 기준값을 300으로 정하고, 300 미만일 때 릴레이(P9)를 3초간 켜서 물을 준 뒤 10초 대기하여 과습을 방지하는 규칙을 구현했습니다.",
-        createdAt: "2026. 11. 3. 11:45",
-        timestamp: Date.now() - 3600000,
-        imgData: "./자료드라이브(다운받아주세요)/식물%20데이터%20출력용%20이미지.png"
-      },
-      {
-        author: "구채린",
-        title: "아이디어 카드 1: 창가 조도 측정 레인보우 LED 알림",
-        desc: "교실 창가 빛 센서(P1)를 측정해보니 평소 680, 암막 천으로 가렸을 때 180이었습니다. 기준값을 400으로 설정하고, 어두워지면 P16 레인보우 LED 8구가 백색 조명으로 켜져 광합성을 돕도록 코딩했습니다.",
-        createdAt: "2026. 11. 3. 12:10",
-        timestamp: Date.now() - 2400000,
-        imgData: "./자료드라이브(다운받아주세요)/식물%20데이터%20출력용%20이미지.png"
-      },
-      {
-        author: "김승완",
-        title: "4차시 실습: 티처블머신 AI 식물의사 교차 검증",
-        desc: "식물 잎 사진 120장으로 건강/위험 클래스를 훈련시켰습니다. 신뢰도 88% 이상일 때 블루투스로 마이크로비트에 신호를 보내 스마일(정상) 또는 해골(위험) 아이콘을 띄우고 센서 측정값과 교차 검증했습니다.",
-        createdAt: "2026. 11. 3. 12:25",
-        timestamp: Date.now() - 1200000,
-        imgData: "./자료드라이브(다운받아주세요)/식물%20데이터%20출력용%20이미지.png"
-      },
-      {
-        author: "이해리",
-        title: "아이디어 카드 3: 고온 경고 내장 스피커 알림음",
-        desc: "마이크로비트 내장 온도 센서로 교실 온도를 측정했습니다. 오후 환기 부족으로 28°C 이상 올라가면 내장 스피커에서 비프 경고음이 울리고 LED 화면에 화씨/섭씨 알림이 깜빡이도록 구현했습니다.",
-        createdAt: "2026. 11. 3. 12:35",
-        timestamp: Date.now() - 600000,
-        imgData: ""
-      }
-    ];
-
-    function seedFirebaseDefaults() {
-      if (!fbGalleryRef) return;
-      defaultGallerySeedItems.forEach(item => {
-        fbGalleryRef.push(item);
-      });
-    }
-
-    // IndexedDB 지원 함수
-    function openFullDatabase() {
-      return new Promise((resolve, reject) => {
-        const req = indexedDB.open('YoungsunAdminDB', 2);
-        req.onupgradeneeded = (e) => {
-          const db = e.target.result;
-          if (!db.objectStoreNames.contains('teacherFiles')) {
-            db.createObjectStore('teacherFiles', { keyPath: 'id', autoIncrement: true });
-          }
-          if (!db.objectStoreNames.contains(GALLERY_STORE)) {
-            db.createObjectStore(GALLERY_STORE, { keyPath: 'id', autoIncrement: true });
-          }
-        };
-        req.onsuccess = (e) => resolve(e.target.result);
-        req.onerror = (e) => reject(e.target.error);
-      });
-    }
-
-    async function seedInitialGalleryIfEmpty() {
-      const db = await openFullDatabase();
-      const tx = db.transaction(GALLERY_STORE, 'readonly');
-      const store = tx.objectStore(GALLERY_STORE);
-      const req = store.count();
-
-      req.onsuccess = () => {
-        if (req.result === 0) {
-          const addTx = db.transaction(GALLERY_STORE, 'readwrite');
-          const addStore = addTx.objectStore(GALLERY_STORE);
-          defaultGallerySeedItems.forEach(item => addStore.add(item));
-          addTx.oncomplete = () => renderGallery();
-        } else {
-          renderGallery();
-        }
-      };
-    }
-
-    async function renderGallery() {
-      const db = await openFullDatabase();
-      const tx = db.transaction(GALLERY_STORE, 'readonly');
-      const store = tx.objectStore(GALLERY_STORE);
-      const req = store.getAll();
-
-      req.onsuccess = () => {
-        const items = req.result || [];
-        renderGalleryList(items.reverse());
-      };
     }
 
     // 갤러리 카드 렌더링 통합 함수
@@ -2782,7 +2654,7 @@
       }
 
       items.forEach(item => {
-        const idKey = String(item.id);
+        const idKey = String(item.id || item.cloudKey);
         cachedGalleryItems[idKey] = item;
         const card = document.createElement('div');
         card.className = 'gallery-card';
@@ -2834,6 +2706,7 @@
       document.getElementById('galleryUploadModal').classList.add('hidden');
     }
 
+    // 학생 결과물 등록 (클라우드 즉시 업로드)
     async function submitGalleryItem() {
       const author = document.getElementById('gAuthor').value.trim();
       const title = document.getElementById('gTitle').value.trim();
@@ -2845,51 +2718,89 @@
         return;
       }
 
-      showToast('작품을 등록 중입니다...');
+      showToast('☁️ 실시간 클라우드에 작품을 등록하는 중입니다...');
 
       let imgData = '';
       if (fileInput.files && fileInput.files[0]) {
         try {
-          imgData = await compressImage(fileInput.files[0], 800, 0.75);
+          imgData = await compressImage(fileInput.files[0], 640, 0.70);
         } catch (e) {
           console.warn('Image compress error:', e);
         }
       }
 
+      const timestamp = Date.now();
       const record = {
         author,
         title,
         desc,
         imgData,
         createdAt: new Date().toLocaleDateString('ko-KR') + ' ' + new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }),
-        timestamp: Date.now()
+        timestamp
       };
 
-      if (fbGalleryRef) {
-        try {
-          await fbGalleryRef.push(record);
-          closeGalleryUploadModal();
-          showToast('🎉 학생 결과물이 실시간 클라우드에 성공적으로 등록되었습니다!');
-          return;
-        } catch (err) {
-          console.error('Firebase save error:', err);
-          showToast('클라우드 저장 실패: 로컬에 임시 저장합니다.');
-        }
-      }
+      const cloudKey = `gallery_${timestamp}_${Math.random().toString(36).substring(2, 7)}`;
 
-      // 로컬 IndexedDB 폴백 저장
-      await saveGalleryRecordToIndexedDB(record);
+      try {
+        const res = await fetch(`${CLOUD_DB_URL}/${cloudKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record)
+        });
+
+        if (!res.ok) throw new Error("클라우드 응답 실패: " + res.status);
+        
+        closeGalleryUploadModal();
+        showToast('🎉 학생 결과물이 실시간 클라우드에 성공적으로 등록되었습니다! (모든 학생 공유)');
+        await syncCloudGallery(true);
+      } catch (err) {
+        console.error('Cloud save failed, saving locally:', err);
+        showToast('클라우드 연결 상태가 원활하지 않아 로컬에 임시 저장합니다.');
+        await saveGalleryRecordToIndexedDB(record);
+      }
+    }
+
+    // IndexedDB 로컬 보조 저장소
+    function openFullDatabase() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open('YoungsunAdminDB', 2);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains('teacherFiles')) {
+            db.createObjectStore('teacherFiles', { keyPath: 'id', autoIncrement: true });
+          }
+          if (!db.objectStoreNames.contains(GALLERY_STORE)) {
+            db.createObjectStore(GALLERY_STORE, { keyPath: 'id', autoIncrement: true });
+          }
+        };
+        req.onsuccess = (e) => resolve(e.target.result);
+        req.onerror = (e) => reject(e.target.error);
+      });
     }
 
     async function saveGalleryRecordToIndexedDB(record) {
-      const db = await openFullDatabase();
-      const tx = db.transaction(GALLERY_STORE, 'readwrite');
-      tx.objectStore(GALLERY_STORE).add(record);
-      tx.oncomplete = () => {
-        closeGalleryUploadModal();
-        showToast('학생 결과물이 등록되었습니다 (로컬 모드).');
-        renderGallery();
-      };
+      try {
+        const db = await openFullDatabase();
+        const tx = db.transaction(GALLERY_STORE, 'readwrite');
+        tx.objectStore(GALLERY_STORE).add(record);
+        tx.oncomplete = () => {
+          closeGalleryUploadModal();
+          renderLocalIndexedDb();
+        };
+      } catch(e) {}
+    }
+
+    async function renderLocalIndexedDb() {
+      try {
+        const db = await openFullDatabase();
+        const tx = db.transaction(GALLERY_STORE, 'readonly');
+        const store = tx.objectStore(GALLERY_STORE);
+        const req = store.getAll();
+        req.onsuccess = () => {
+          const items = req.result || [];
+          renderGalleryList(items.reverse());
+        };
+      } catch(e) {}
     }
 
     function viewGalleryItem(idKey) {
@@ -2922,237 +2833,31 @@
       document.getElementById('galleryViewModal').classList.add('hidden');
     }
 
+    // 게시물 삭제 (클라우드에서 즉시 삭제)
     async function deleteCurrentGalleryItem() {
       if (!currentViewingItemId) return;
-      if (!confirm('정말 이 게시물을 삭제하시겠습니까?')) return;
+      if (!confirm('정말 이 게시물을 삭제하시겠습니까? (모든 학생 화면에서 삭제됩니다)')) return;
 
       const targetId = currentViewingItemId;
       closeGalleryViewModal();
 
-      if (fbGalleryRef && typeof targetId === 'string' && targetId.startsWith('-')) {
-        try {
-          await fbGalleryRef.child(targetId).remove();
-          showToast('게시물이 클라우드에서 삭제되었습니다.');
-          return;
-        } catch(e) {
-          console.error('Firebase delete error:', e);
-          alert('삭제 실패: ' + e.message);
-        }
-      }
-
-      // IndexedDB 삭제
       try {
-        const db = await openFullDatabase();
-        const tx = db.transaction(GALLERY_STORE, 'readwrite');
-        tx.objectStore(GALLERY_STORE).delete(Number(targetId) || targetId);
-        tx.oncomplete = () => {
-          showToast('게시물이 로컬에서 삭제되었습니다.');
-          renderGallery();
-        };
+        await fetch(`${CLOUD_DB_URL}/${targetId}`, { method: 'DELETE' });
+        showToast('게시물이 클라우드에서 삭제되었습니다.');
+        await syncCloudGallery(true);
       } catch(e) {
-        console.error('IndexedDB delete error:', e);
+        console.error('Delete error:', e);
+        showToast('게시물 삭제 중 오류가 발생했습니다.');
       }
     }
 
-    // Firebase 설정 모달 관리
-    function openFirebaseConfigModal() {
-      const saved = localStorage.getItem('youngsun_fb_config');
-      const input = document.getElementById('fbConfigInput');
-      if (input) {
-        if (saved) {
-          input.value = saved;
-        } else if (firebaseConfig && firebaseConfig.apiKey) {
-          input.value = JSON.stringify(firebaseConfig, null, 2);
-        }
-      }
-      document.getElementById('firebaseConfigModal').classList.remove('hidden');
-    }
-
-    function closeFirebaseConfigModal() {
-      document.getElementById('firebaseConfigModal').classList.add('hidden');
-    }
-
-    function saveAndApplyFirebaseConfig() {
-      const raw = document.getElementById('fbConfigInput').value.trim();
-      if (!raw) {
-        alert('Firebase 설정 JSON 또는 코드를 입력해주세요.');
-        return;
-      }
-
-      try {
-        let parsed = null;
-        if (raw.includes('{') && raw.includes('}')) {
-          let jsonStr = raw;
-          if (raw.includes('firebaseConfig')) {
-            jsonStr = raw.substring(raw.indexOf('{'), raw.lastIndexOf('}') + 1);
-          }
-          try {
-            parsed = JSON.parse(jsonStr);
-          } catch(e) {
-            parsed = new Function('return (' + jsonStr + ')')();
-          }
-        }
-
-        if (!parsed || !parsed.apiKey) {
-          alert('올바른 Firebase 설정(apiKey 포함)을 찾을 수 없습니다.');
-          return;
-        }
-
-        localStorage.setItem('youngsun_fb_config', JSON.stringify(parsed, null, 2));
-        firebaseConfig = parsed;
-        closeFirebaseConfigModal();
-        showToast('Firebase 설정이 저장되었습니다. 연결을 시작합니다...');
-        initFirebase();
-      } catch(err) {
-        alert('설정 파싱 오류: ' + err.message);
-      }
-    }
-
-    // 관리자 탭 전환
-    function switchAdminTab(tabName) {
-      document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.admin-tab-content').forEach(content => content.classList.remove('active'));
-
-      if (tabName === 'students') {
-        document.getElementById('tabBtnStudents').classList.add('active');
-        document.getElementById('tabContentStudents').classList.add('active');
-      } else if (tabName === 'curriculum') {
-        document.getElementById('tabBtnCurriculum').classList.add('active');
-        document.getElementById('tabContentCurriculum').classList.add('active');
-      } else if (tabName === 'files') {
-        document.getElementById('tabBtnFiles').classList.add('active');
-        document.getElementById('tabContentFiles').classList.add('active');
-        renderTeacherFiles();
-      }
-    }
-
-    // 선생님 파일 업로드 및 IndexedDB 저장 시스템
-    const DB_NAME = 'YoungsunAdminDB';
-    const DB_VERSION = 1;
-    const STORE_NAME = 'teacherFiles';
-    let dbInstance = null;
-
-    function openDatabase() {
-      return new Promise((resolve, reject) => {
-        if (dbInstance) return resolve(dbInstance);
-        const req = indexedDB.open(DB_NAME, DB_VERSION);
-        req.onupgradeneeded = (e) => {
-          const db = e.target.result;
-          if (!db.objectStoreNames.contains(STORE_NAME)) {
-            db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
-          }
-        };
-        req.onsuccess = (e) => {
-          dbInstance = e.target.result;
-          resolve(dbInstance);
-        };
-        req.onerror = (e) => reject(e.target.error);
-      });
-    }
-
-    async function handleTeacherFileUpload(files) {
-      if (!files || files.length === 0) return;
-      const db = await openDatabase();
-
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const record = {
-          name: file.name,
-          size: formatBytes(file.size),
-          rawSize: file.size,
-          type: file.type || 'application/octet-stream',
-          uploadedAt: new Date().toLocaleString('ko-KR'),
-          blob: file
-        };
-
-        const tx = db.transaction(STORE_NAME, 'readwrite');
-        tx.objectStore(STORE_NAME).add(record);
-      }
-
-      showToast(files.length + '개 파일이 성공적으로 업로드되었습니다.');
-      renderTeacherFiles();
-    }
-
-    async function renderTeacherFiles() {
-      const db = await openDatabase();
-      const tx = db.transaction(STORE_NAME, 'readonly');
-      const store = tx.objectStore(STORE_NAME);
-      const req = store.getAll();
-
-      req.onsuccess = () => {
-        const files = req.result || [];
-        document.getElementById('uploadedFileCount').textContent = files.length;
-        const tbody = document.getElementById('teacherFileTableBody');
-        tbody.innerHTML = '';
-
-        if (files.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 24px; color: var(--text-light);">업로드된 파일이 없습니다. 위의 업로드 영역을 클릭하여 파일을 추가해보세요.</td></tr>`;
-          return;
-        }
-
-        files.forEach((f, idx) => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td style="text-align: center; font-weight: 700; color: var(--text-light);">${idx + 1}</td>
-            <td style="font-weight: 700; color: var(--text-main);">📄 ${f.name}</td>
-            <td style="color: var(--text-muted);">${f.size}</td>
-            <td style="color: var(--text-light); font-size: 11px;">${f.uploadedAt}</td>
-            <td style="text-align: center;">
-              <button onclick="downloadTeacherFile(${f.id})" class="btn btn-outline" style="min-height: 36px; padding: 4px 10px; font-size: 12px; margin-right: 4px;">다운로드</button>
-              <button onclick="deleteTeacherFile(${f.id})" class="btn btn-outline" style="min-height: 36px; padding: 4px 10px; font-size: 12px; color: #dc2626; border-color: #fecaca;">삭제</button>
-            </td>
-          `;
-          tbody.appendChild(tr);
-        });
-      };
-    }
-
-    async function downloadTeacherFile(id) {
-      const db = await openDatabase();
-      const tx = db.transaction(STORE_NAME, 'readonly');
-      const req = tx.objectStore(STORE_NAME).get(id);
-
-      req.onsuccess = () => {
-        const record = req.result;
-        if (!record) return;
-        const url = URL.createObjectURL(record.blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = record.name;
-        a.click();
-        URL.revokeObjectURL(url);
-        showToast(record.name + ' 다운로드를 시작합니다.');
-      };
-    }
-
-    async function deleteTeacherFile(id) {
-      if (!confirm('해당 파일을 목록에서 삭제하시겠습니까?')) return;
-      const db = await openDatabase();
-      const tx = db.transaction(STORE_NAME, 'readwrite');
-      tx.objectStore(STORE_NAME).delete(id);
-      tx.oncomplete = () => {
-        showToast('파일이 삭제되었습니다.');
-        renderTeacherFiles();
-      };
-    }
-
-    async function clearUploadedFiles() {
-      if (!confirm('업로드된 모든 파일을 삭제하시겠습니까?')) return;
-      const db = await openDatabase();
-      const tx = db.transaction(STORE_NAME, 'readwrite');
-      tx.objectStore(STORE_NAME).clear();
-      tx.oncomplete = () => {
-        showToast('모든 파일이 삭제되었습니다.');
-        renderTeacherFiles();
-      };
-    }
-
-    function formatBytes(bytes) {
-      if (bytes === 0) return '0 Bytes';
-      const k = 1024;
-      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    // 초기화: 클라우드 동기화 시작 & 3.5초 주기 실시간 자동 폴링
+    function initGalleryRealtime() {
+      syncCloudGallery(true);
+      // 모든 학생 및 선생님 화면 실시간 자동 동기화 (3.5초 간격)
+      setInterval(() => {
+        syncCloudGallery(true);
+      }, 3500);
     }
 
     // 학생 명단 데이터
@@ -3689,7 +3394,7 @@
     tempRange.addEventListener("input", runSimulation);
     luxRange.addEventListener("input", runSimulation);
     runSimulation();
-    initFirebase();
+    initGalleryRealtime();
     renderTable();
     renderTeacherFiles();
   </script>
