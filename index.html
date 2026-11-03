@@ -912,15 +912,44 @@
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
       margin-bottom: 20px;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 1200px) {
+      .stats-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
       .stats-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+    }
+
+    .survey-card {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .survey-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: #86efac;
+    }
+    .survey-card.pre {
+      border-left: 4px solid #16a34a;
+    }
+    .survey-card.post {
+      border-left: 4px solid #7c3aed;
     }
 
     .stat-card {
@@ -1412,65 +1441,194 @@
       </div>
     </nav>
 
-    <!-- 사전 설문 전용 하이라이트 배너 -->
-    <section class="survey-banner-wrap" id="survey-section" style="margin-bottom: 28px;">
-      <div class="card survey-banner-card" style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 55%, #e0f2fe 100%); border: 2px solid #86efac; border-radius: var(--radius-xl); padding: 26px 28px; position: relative; overflow: hidden; box-shadow: var(--shadow-sm);">
-        <div style="position: absolute; right: -15px; top: -20px; font-size: 110px; opacity: 0.08; pointer-events: none; user-select: none;">📋</div>
+    <!-- 디지털새싹 공식 필수 설문조사 허브 (사전 2종 + 사후 2종 = 총 4종) -->
+    <section class="survey-banner-wrap" id="survey-section" style="margin-bottom: 30px;">
+      <div class="card survey-banner-card" style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 45%, #eff6ff 100%); border: 2px solid #86efac; border-radius: var(--radius-xl); padding: 24px 26px; position: relative; overflow: hidden; box-shadow: var(--shadow-sm);">
+        <div style="position: absolute; right: -15px; top: -20px; font-size: 110px; opacity: 0.05; pointer-events: none; user-select: none;">📋</div>
         
-        <div class="survey-banner-grid">
-          <!-- 왼쪽 안내 정보 및 액션 버튼들 -->
+        <!-- 상단 헤더 & 탭 -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
           <div>
-            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
-              <span class="badge" style="background-color: #15803d; color: #ffffff; font-weight: 800; padding: 5px 12px; font-size: 12px; box-shadow: 0 2px 4px rgba(21,128,61,0.25);">
-                ★ 1회차 필수 참여
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+              <span class="badge" style="background-color: #15803d; color: #ffffff; font-weight: 800; padding: 4px 12px; font-size: 12px;">
+                ★ 공식 필수 설문 4종
               </span>
               <span class="badge" style="background-color: #dcfce7; color: #166534; border: 1px solid #86efac; font-weight: 800;">
-                중 · 고등학생 대상
+                영선중학교 1학년 3반
               </span>
               <span class="badge" style="background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;">
-                한국과학창의재단 디지털새싹
+                한국과학창의재단 주관
               </span>
             </div>
-
-            <h2 style="font-size: 22px; font-weight: 900; color: #0f172a; margin-bottom: 8px; letter-spacing: -0.02em;">
-              🌱 중 · 고등학생 디지털새싹 사전 설문조사
+            <h2 style="font-size: 21px; font-weight: 900; color: #0f172a; margin-bottom: 6px;">
+              📋 디지털새싹 공식 필수 설문조사 허브 (사전 2종 • 사후 2종)
             </h2>
-
-            <p style="font-size: 14px; color: #334155; line-height: 1.6; margin-bottom: 14px; word-break: keep-all;">
-              영선중학교 스마트팜 AIoT 수호대 수업 시작 전, <strong>사전 설문조사</strong>에 반드시 참여해주세요!<br>
-              스마트폰 기본 카메라로 우측 <strong>QR 코드를 비추거나</strong>, 아래 바로 참여하기 버튼을 누르면 즉시 설문지로 이동합니다.
+            <p style="font-size: 13px; color: #475569; margin: 0; line-height: 1.5;">
+              모든 학생은 <strong>사전 설문 2종</strong>(1회차)과 <strong>사후 설문 2종</strong>(2회차)에 참여해야 수료가 인정됩니다. 아래 카드를 눌러 참여하세요.
             </p>
-
-            <div style="display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; background: rgba(255, 255, 255, 0.95); padding: 7px 14px; border-radius: var(--radius-md); border: 1px solid #bbf7d0; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
-              <span style="font-size: 12px; font-weight: 800; color: #15803d;">설문 URL:</span>
-              <a href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" rel="noopener noreferrer" style="font-size: 13px; font-family: monospace; color: #0284c7; text-decoration: underline; font-weight: 700;">
-                https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr
-              </a>
-              <button type="button" onclick="copySurveyLink()" class="btn btn-outline" style="min-height: 30px; padding: 2px 10px; font-size: 12px;">
-                📋 주소 복사
-              </button>
-            </div>
-
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <a href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px; background-color: #15803d; box-shadow: 0 4px 12px rgba(21, 128, 61, 0.3);">
-                <span>📝</span> 사전 설문 바로 참여하기 ↗
-              </a>
-              <button type="button" onclick="openSurveyModal()" class="btn btn-outline" style="padding: 10px 18px; font-size: 14px; font-weight: 700; background-color: #ffffff; border-color: #86efac; color: #15803d;">
-                <span>🔍</span> QR코드 확대 보기
-              </button>
-            </div>
           </div>
 
-          <!-- 오른쪽 QR 코드 카드 -->
-          <div style="text-align: center; flex-shrink: 0;">
-            <div onclick="openSurveyModal()" style="cursor: pointer; background: #ffffff; padding: 14px 16px; border-radius: var(--radius-lg); border: 2px solid #86efac; box-shadow: var(--shadow-sm); transition: transform 0.2s ease, box-shadow 0.2s ease; display: inline-block;" title="클릭하면 크게 볼 수 있습니다">
-              <img src="./survey-qr.png" alt="중고등학생 사전 설문 QR 코드" style="width: 145px; height: 145px; display: block; border-radius: 6px; margin: 0 auto;">
-              <div style="margin-top: 8px; font-size: 12px; font-weight: 800; color: #15803d; display: flex; align-items: center; justify-content: center; gap: 4px;">
-                <span>📱</span> 스마트폰 카메라 스캔
+          <!-- 탭 전환 버튼 -->
+          <div style="display: flex; background: #ffffff; padding: 4px; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.04); gap: 4px;">
+            <button type="button" id="tabBtnSurveyPre" onclick="filterSurveyTab('pre')" class="btn" style="padding: 7px 15px; font-size: 12px; font-weight: 800; border-radius: 8px; background: #15803d; color: #ffffff;">
+              🌱 사전 설문 2종 (1회차)
+            </button>
+            <button type="button" id="tabBtnSurveyPost" onclick="filterSurveyTab('post')" class="btn" style="padding: 7px 15px; font-size: 12px; font-weight: 700; border-radius: 8px; background: transparent; color: #64748b;">
+              🌾 사후 설문 2종 (2회차)
+            </button>
+            <button type="button" id="tabBtnSurveyAll" onclick="filterSurveyTab('all')" class="btn" style="padding: 7px 15px; font-size: 12px; font-weight: 700; border-radius: 8px; background: transparent; color: #64748b;">
+              전체 보기 (4종)
+            </button>
+          </div>
+        </div>
+
+        <!-- 설문 4종 카드 그리드 -->
+        <div id="surveyCardsWrap" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+          
+          <!-- 카드 1: 사전 설문 ① 효과성 측정 -->
+          <div class="survey-card pre" data-survey-category="pre">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                  <span class="badge" style="background-color: #dcfce7; color: #15803d; font-weight: 800; font-size: 11px;">사전 1</span>
+                  <span style="font-size: 12px; font-weight: 800; color: #15803d;">효과성 측정 설문</span>
+                  <span class="badge" style="background-color: #f1f5f9; color: #475569; font-size: 10px;">중·고등학생</span>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
+                  1. 효과성 측정 사전 설문
+                </h3>
+                <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 12px;">
+                  디지털 역량, AI 흥미도 및 교육 전 기대효과 설문조사 (약 5분)
+                </p>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                  <a href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; background-color: #15803d;">
+                    <span>📝</span> 설문 바로가기 ↗
+                  </a>
+                  <button type="button" onclick="openSurveyModal('pre-effect')" class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-color: #86efac; color: #15803d;">
+                    <span>🔍</span> QR 확대
+                  </button>
+                  <button type="button" onclick="copySpecificSurveyLink('https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr', '사전 효과성 설문')" class="btn btn-outline" style="padding: 6px 10px; font-size: 12px;">
+                    📋 링크 복사
+                  </button>
+                </div>
               </div>
-              <div style="font-size: 11px; color: #64748b; margin-top: 2px; font-weight: 600;">(클릭 시 크게보기)</div>
+
+              <!-- QR 썸네일 -->
+              <div onclick="openSurveyModal('pre-effect')" style="cursor: pointer; text-align: center; background: #f8fafc; border: 1px solid #bbf7d0; padding: 6px; border-radius: 8px; flex-shrink: 0;" title="클릭하여 QR 확대">
+                <img src="./survey-pre-effect.png" alt="사전 효과성 QR" style="width: 85px; height: 85px; display: block; border-radius: 4px;">
+                <div style="font-size: 10px; color: #15803d; font-weight: 700; margin-top: 4px;">📱 QR 스캔</div>
+              </div>
             </div>
           </div>
+
+          <!-- 카드 2: 사전 설문 ② 핵심역량 진단 -->
+          <div class="survey-card pre" data-survey-category="pre">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                  <span class="badge" style="background-color: #e0f2fe; color: #0284c7; font-weight: 800; font-size: 11px;">사전 2</span>
+                  <span style="font-size: 12px; font-weight: 800; color: #0284c7;">핵심역량 진단 설문</span>
+                  <span class="badge" style="background-color: #f1f5f9; color: #475569; font-size: 10px;">중학교 전용</span>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
+                  2. 핵심역량 진단 사전 설문
+                </h3>
+                <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 12px;">
+                  디지털 소양, 융합 문제해결, 능동적 협력 3대 핵심역량 사전 진단 (약 7분)
+                </p>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                  <a href="https://form.kosac.re.kr/v/4MyHDskwLX0s2i9sVZXJ" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; background-color: #0284c7;">
+                    <span>📝</span> 설문 바로가기 ↗
+                  </a>
+                  <button type="button" onclick="openSurveyModal('pre-competency')" class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-color: #7dd3fc; color: #0284c7;">
+                    <span>🔍</span> QR 확대
+                  </button>
+                  <button type="button" onclick="copySpecificSurveyLink('https://form.kosac.re.kr/v/4MyHDskwLX0s2i9sVZXJ', '사전 핵심역량 설문')" class="btn btn-outline" style="padding: 6px 10px; font-size: 12px;">
+                    📋 링크 복사
+                  </button>
+                </div>
+              </div>
+
+              <!-- QR 썸네일 -->
+              <div onclick="openSurveyModal('pre-competency')" style="cursor: pointer; text-align: center; background: #f8fafc; border: 1px solid #bae6fd; padding: 6px; border-radius: 8px; flex-shrink: 0;" title="클릭하여 QR 확대">
+                <img src="./survey-pre-competency.png" alt="사전 핵심역량 QR" style="width: 85px; height: 85px; display: block; border-radius: 4px;">
+                <div style="font-size: 10px; color: #0284c7; font-weight: 700; margin-top: 4px;">📱 QR 스캔</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 카드 3: 사후 설문 ① 효과성 측정 -->
+          <div class="survey-card post" data-survey-category="post">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                  <span class="badge" style="background-color: #ede9fe; color: #7c3aed; font-weight: 800; font-size: 11px;">사후 1</span>
+                  <span style="font-size: 12px; font-weight: 800; color: #7c3aed;">효과성 측정 사후 설문</span>
+                  <span class="badge" style="background-color: #f1f5f9; color: #475569; font-size: 10px;">수업 종료 후</span>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
+                  3. 효과성 측정 사후 설문
+                </h3>
+                <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 12px;">
+                  수업 참여 후 교육 만족도, 변화된 디지털 흥미와 성취도 평가 (약 5분)
+                </p>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                  <a href="https://form.kosac.re.kr/v/9vDMP23fH2OhgKbZdFqC" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; background-color: #7c3aed;">
+                    <span>📝</span> 설문 바로가기 ↗
+                  </a>
+                  <button type="button" onclick="openSurveyModal('post-effect')" class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-color: #c4b5fd; color: #7c3aed;">
+                    <span>🔍</span> QR 확대
+                  </button>
+                  <button type="button" onclick="copySpecificSurveyLink('https://form.kosac.re.kr/v/9vDMP23fH2OhgKbZdFqC', '사후 효과성 설문')" class="btn btn-outline" style="padding: 6px 10px; font-size: 12px;">
+                    📋 링크 복사
+                  </button>
+                </div>
+              </div>
+
+              <!-- QR 썸네일 -->
+              <div onclick="openSurveyModal('post-effect')" style="cursor: pointer; text-align: center; background: #f8fafc; border: 1px solid #ddd6fe; padding: 6px; border-radius: 8px; flex-shrink: 0;" title="클릭하여 QR 확대">
+                <img src="./survey-post-effect.png" alt="사후 효과성 QR" style="width: 85px; height: 85px; display: block; border-radius: 4px;">
+                <div style="font-size: 10px; color: #7c3aed; font-weight: 700; margin-top: 4px;">📱 QR 스캔</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 카드 4: 사후 설문 ② 핵심역량 진단 -->
+          <div class="survey-card post" data-survey-category="post">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                  <span class="badge" style="background-color: #ffedd5; color: #ea580c; font-weight: 800; font-size: 11px;">사후 2</span>
+                  <span style="font-size: 12px; font-weight: 800; color: #ea580c;">핵심역량 진단 사후 설문</span>
+                  <span class="badge" style="background-color: #f1f5f9; color: #475569; font-size: 10px;">수료 직전</span>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
+                  4. 핵심역량 진단 사후 설문
+                </h3>
+                <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 12px;">
+                  수업 종료 후 3대 핵심역량(디지털 소양/문제해결/협력) 성장도 측정 (약 7분)
+                </p>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                  <a href="https://form.kosac.re.kr/v/VKRAGo5FUJNbbgHH26tI" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; background-color: #ea580c;">
+                    <span>📝</span> 설문 바로가기 ↗
+                  </a>
+                  <button type="button" onclick="openSurveyModal('post-competency')" class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; border-color: #fdba74; color: #ea580c;">
+                    <span>🔍</span> QR 확대
+                  </button>
+                  <button type="button" onclick="copySpecificSurveyLink('https://form.kosac.re.kr/v/VKRAGo5FUJNbbgHH26tI', '사후 핵심역량 설문')" class="btn btn-outline" style="padding: 6px 10px; font-size: 12px;">
+                    📋 링크 복사
+                  </button>
+                </div>
+              </div>
+
+              <!-- QR 썸네일 -->
+              <div onclick="openSurveyModal('post-competency')" style="cursor: pointer; text-align: center; background: #f8fafc; border: 1px solid #fed7aa; padding: 6px; border-radius: 8px; flex-shrink: 0;" title="클릭하여 QR 확대">
+                <img src="./survey-post-competency.png" alt="사후 핵심역량 QR" style="width: 85px; height: 85px; display: block; border-radius: 4px;">
+                <div style="font-size: 10px; color: #ea580c; font-weight: 700; margin-top: 4px;">📱 QR 스캔</div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -1486,24 +1644,24 @@
       </div>
 
       <div class="sites-grid">
-        <!-- 1. 설문/수료: 디지털 새싹 (사전 설문 연결) -->
-        <a href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" rel="noopener noreferrer" class="card site-card" style="border-top: 4px solid #16a34a;">
+        <!-- 1. 설문/수료: 디지털 새싹 (필수 설문 4종 허브 연결) -->
+        <a href="#survey-section" class="card site-card" style="border-top: 4px solid #16a34a;">
           <div>
             <div class="site-card-top">
               <div class="site-num" style="background-color: #dcfce7; color: #15803d;">01</div>
-              <span class="badge badge-primary">사전설문 & 수료</span>
+              <span class="badge badge-primary">필수 설문 4종</span>
             </div>
             <div class="site-title">
-              사전 설문조사 ↗
+              공식 설문조사 허브 ↓
             </div>
-            <div style="font-size: 11px; font-weight: 700; color: #15803d; margin-bottom: 6px;">[1회차 사전설문 (QR코드 제공)]</div>
+            <div style="font-size: 11px; font-weight: 700; color: #15803d; margin-bottom: 6px;">[사전 2종 • 사후 2종 = 총 4종]</div>
             <p class="site-desc">
-              중·고등학생 디지털새싹 캠프 사전 만족도 설문조사 페이지로 즉시 연결됩니다.
+              한국과학창의재단 공식 효과성 측정 및 핵심역량 진단 설문 4종 바로가기와 QR코드를 제공합니다.
             </p>
           </div>
           <div class="site-footer" style="color: #15803d;">
             <span class="site-url">form.kosac.re.kr</span>
-            <span>설문 참여 →</span>
+            <span>설문 허브 이동 ↓</span>
           </div>
         </a>
 
@@ -1692,9 +1850,9 @@
             <div class="step-item">
               <div class="step-head">
                 <span>1차시: 우리 학교 식물의 돌봄 문제 찾기</span>
-                <span class="badge badge-primary">사전설문</span>
+                <span class="badge badge-primary">사전설문 2종</span>
               </div>
-              <p class="step-desc">디지털새싹 중·고등학생 사전 설문조사 참여 (<a href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" rel="noopener noreferrer" style="color: #15803d; font-weight: 800; text-decoration: underline;">설문 바로가기</a> • <a href="javascript:void(0)" onclick="openSurveyModal()" style="color: #0284c7; font-weight: 800; text-decoration: underline;">QR코드 보기</a>), 눈으로 본 사실과 추측의 구분, 생성형 AI를 활용한 식물 생장 원인 가설 탐색</p>
+              <p class="step-desc">디지털새싹 사전 설문조사 2종 참여 (<a href="javascript:void(0)" onclick="openSurveyModal('pre-effect')" style="color: #15803d; font-weight: 800; text-decoration: underline;">① 효과성 측정</a> • <a href="javascript:void(0)" onclick="openSurveyModal('pre-competency')" style="color: #0284c7; font-weight: 800; text-decoration: underline;">② 핵심역량 진단</a>), 눈으로 본 사실과 추측의 구분, 생성형 AI를 활용한 식물 생장 원인 가설 탐색</p>
             </div>
 
             <div class="step-item">
@@ -1723,10 +1881,10 @@
           </div>
 
           <div style="padding-top: 12px; border-top: 1px solid var(--border-color); font-size: 12px; color: var(--text-muted);">
-            <span style="font-weight: 700;">1회차 활용 도구 (4종):</span>
+            <span style="font-weight: 700;">1회차 활용 도구:</span>
             <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
-              <a href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="min-height: 40px; padding: 6px 14px; font-size: 12px; background-color: #15803d;">사전설문 (QR)</a>
-              <button type="button" onclick="openSurveyModal()" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px; border-color: #86efac; color: #15803d;">QR 확대</button>
+              <button type="button" onclick="openSurveyModal('pre-effect')" class="btn btn-primary" style="min-height: 40px; padding: 6px 12px; font-size: 12px; background-color: #15803d;">① 사전 효과성 (QR)</button>
+              <button type="button" onclick="openSurveyModal('pre-competency')" class="btn btn-primary" style="min-height: 40px; padding: 6px 12px; font-size: 12px; background-color: #0284c7;">② 사전 핵심역량 (QR)</button>
               <a href="https://makecode.microbit.org/" target="_blank" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px;">메이크코드</a>
               <a href="https://teachablemachine.withgoogle.com/" target="_blank" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px;">티처블머신</a>
               <a href="https://ifelse-delta.vercel.app/" target="_blank" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px;">AI 모델학습</a>
@@ -1772,9 +1930,9 @@
             <div class="step-item">
               <div class="step-head">
                 <span>8차시: 팀 통합하고 스마트팜 발표하기</span>
-                <span class="badge badge-primary">사후설문</span>
+                <span class="badge badge-primary" style="background-color: #7c3aed;">사후설문 2종</span>
               </div>
-              <p class="step-desc">모듈 통합 테스트, 스마트팜 산출물 시연 및 발표, 디지털새싹 사후 만족도 설문조사 참여 및 공식 수료식</p>
+              <p class="step-desc">모듈 통합 테스트, 스마트팜 산출물 시연 및 발표, 디지털새싹 사후 설문조사 2종 (<a href="javascript:void(0)" onclick="openSurveyModal('post-effect')" style="color: #7c3aed; font-weight: 800; text-decoration: underline;">③ 효과성 측정</a> • <a href="javascript:void(0)" onclick="openSurveyModal('post-competency')" style="color: #ea580c; font-weight: 800; text-decoration: underline;">④ 핵심역량 진단</a>) 참여 및 공식 수료식</p>
             </div>
           </div>
 
@@ -1795,9 +1953,18 @@
       <div class="section-header">
         <div>
           <span class="section-sub">Student Showcase</span>
-          <h2 class="section-title">학생 스마트팜 결과물 갤러리</h2>
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <h2 class="section-title" style="margin-bottom: 0;">학생 스마트팜 결과물 갤러리</h2>
+            <span id="fbSyncBadge" style="font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: #fef08a; color: #854d0e; display: inline-flex; align-items: center; gap: 5px;">
+              <span id="fbDot" style="width: 7px; height: 7px; border-radius: 50%; background: #eab308; display: inline-block;"></span>
+              <span id="fbStatusText">로컬 모드 (클라우드 연동 필요)</span>
+            </span>
+          </div>
         </div>
-        <div style="display: flex; gap: 8px;">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button onclick="openFirebaseConfigModal()" class="btn btn-outline" style="font-size: 12px; padding: 6px 12px;" title="Firebase 클라우드 연동 설정">
+            🔥 실시간 DB 설정
+          </button>
           <button onclick="openGalleryUploadModal()" class="btn btn-primary" style="font-size: 13px;">
             + 내 결과물 등록하기
           </button>
@@ -1895,13 +2062,13 @@
       </div>
     </section>
 
-    <!-- 섹션 6: 관리자 전용 포털 (비밀번호 2026 입력 시 열림) -->
-    <section id="adminSection" class="admin-panel" style="display: none;">
+    <!-- 섹션 6: 수업 통합 관리 시스템 (전체 공개 모드) -->
+    <section id="adminSection" class="admin-panel" style="display: block;">
       <div class="admin-header">
         <div>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="badge badge-primary">관리자 전용 포털</span>
-            <span style="font-size: 11px; font-family: monospace; color: #15803d; font-weight: 700;">인증 완료 (2026)</span>
+            <span class="badge badge-primary">관리자 포털</span>
+            <span style="font-size: 11px; font-family: monospace; color: #15803d; font-weight: 700;">전체 공개 허용</span>
           </div>
           <h3 style="font-size: 20px; font-weight: 900; margin-top: 4px; color: var(--text-main);">
             수업 통합 관리 시스템
@@ -1913,7 +2080,7 @@
 
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
           <button onclick="closeAdminPortal()" class="btn btn-outline" style="font-size: 13px;">
-            관리자 모드 닫기
+            관리자 화면 접기/펼치기
           </button>
         </div>
       </div>
@@ -1940,7 +2107,7 @@
           </button>
         </div>
 
-        <!-- 통계 현황 -->
+        <!-- 통계 현황 (출석 2회 + 설문 4종 = 총 6개 지표) -->
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-title">11.03 출석 현황</div>
@@ -1952,15 +2119,25 @@
             <div class="stat-val" id="statAttend2">0 / 25명</div>
             <button onclick="checkAll('attend2', true)" class="stat-btn">전원 출석 체크</button>
           </div>
-          <div class="stat-card">
-            <div class="stat-title">사전설문 완료</div>
-            <div class="stat-val" id="statPreSurvey">0 / 25명</div>
-            <button onclick="checkAll('preSurvey', true)" class="stat-btn">전원 완료 체크</button>
+          <div class="stat-card" style="border-top: 3px solid #16a34a;">
+            <div class="stat-title">[사전] 효과성 측정</div>
+            <div class="stat-val" id="statPreEffect" style="color: #15803d;">0 / 25명</div>
+            <button onclick="checkAll('preEffect', true)" class="stat-btn" style="background-color: #15803d; color: #fff;">전원 완료 체크</button>
           </div>
-          <div class="stat-card">
-            <div class="stat-title">사후설문 완료</div>
-            <div class="stat-val" id="statPostSurvey">0 / 25명</div>
-            <button onclick="checkAll('postSurvey', true)" class="stat-btn">전원 완료 체크</button>
+          <div class="stat-card" style="border-top: 3px solid #0284c7;">
+            <div class="stat-title">[사전] 핵심역량 진단</div>
+            <div class="stat-val" id="statPreComp" style="color: #0284c7;">0 / 25명</div>
+            <button onclick="checkAll('preComp', true)" class="stat-btn" style="background-color: #0284c7; color: #fff;">전원 완료 체크</button>
+          </div>
+          <div class="stat-card" style="border-top: 3px solid #7c3aed;">
+            <div class="stat-title">[사후] 효과성 측정</div>
+            <div class="stat-val" id="statPostEffect" style="color: #7c3aed;">0 / 25명</div>
+            <button onclick="checkAll('postEffect', true)" class="stat-btn" style="background-color: #7c3aed; color: #fff;">전원 완료 체크</button>
+          </div>
+          <div class="stat-card" style="border-top: 3px solid #ea580c;">
+            <div class="stat-title">[사후] 핵심역량 진단</div>
+            <div class="stat-val" id="statPostComp" style="color: #ea580c;">0 / 25명</div>
+            <button onclick="checkAll('postComp', true)" class="stat-btn" style="background-color: #ea580c; color: #fff;">전원 완료 체크</button>
           </div>
         </div>
 
@@ -1969,15 +2146,17 @@
           <table>
             <thead>
               <tr>
-                <th style="text-align: center; width: 60px;">번호</th>
-                <th style="width: 100px;">이름</th>
-                <th style="text-align: center; width: 70px;">학년</th>
-                <th style="text-align: center; width: 70px;">반</th>
-                <th style="width: 140px;">학생코드 (6자리)</th>
-                <th style="text-align: center; width: 110px; background-color: #e0f2fe;">11.03 출석</th>
-                <th style="text-align: center; width: 110px; background-color: #e0f2fe;">11.05 출석</th>
-                <th style="text-align: center; width: 110px; background-color: #f0fdf4;">사전설문</th>
-                <th style="text-align: center; width: 110px; background-color: #f3e8ff;">사후설문</th>
+                <th style="text-align: center; width: 50px;">번호</th>
+                <th style="width: 85px;">이름</th>
+                <th style="text-align: center; width: 55px;">학년</th>
+                <th style="text-align: center; width: 55px;">반</th>
+                <th style="width: 130px;">학생코드</th>
+                <th style="text-align: center; width: 90px; background-color: #e0f2fe;">11.03 출석</th>
+                <th style="text-align: center; width: 90px; background-color: #e0f2fe;">11.05 출석</th>
+                <th style="text-align: center; width: 100px; background-color: #dcfce7; color: #166534;">사전(효과성)</th>
+                <th style="text-align: center; width: 100px; background-color: #e0f2fe; color: #0369a1;">사전(핵심역량)</th>
+                <th style="text-align: center; width: 100px; background-color: #ede9fe; color: #6b21a8;">사후(효과성)</th>
+                <th style="text-align: center; width: 100px; background-color: #ffedd5; color: #c2410c;">사후(핵심역량)</th>
               </tr>
             </thead>
             <tbody id="studentTableBody">
@@ -2168,59 +2347,71 @@
 
       <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 12px;">
         <span id="gvDate" style="font-size: 11px; color: var(--text-light);">등록일</span>
-        <button onclick="closeGalleryViewModal()" class="btn btn-outline" style="min-height: 40px; padding: 6px 16px;">
-          닫기
-        </button>
+        <div style="display: flex; gap: 8px;">
+          <button id="gvDeleteBtn" onclick="deleteCurrentGalleryItem()" class="btn btn-outline" style="min-height: 40px; padding: 6px 14px; color: #ef4444; border-color: #fca5a5;">
+            삭제
+          </button>
+          <button onclick="closeGalleryViewModal()" class="btn btn-outline" style="min-height: 40px; padding: 6px 16px;">
+            닫기
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- 사전 설문 QR 확대 모달 -->
+  <!-- 설문조사 QR 확대 및 통합 모달 (4종 선택 지원) -->
   <div id="surveyModal" class="modal-overlay hidden" onclick="closeSurveyModal()">
-    <div class="modal-content" style="max-width: 520px; text-align: center;" onclick="event.stopPropagation()">
+    <div class="modal-content" style="max-width: 540px; text-align: center;" onclick="event.stopPropagation()">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left;">
         <div>
-          <span class="badge" style="background-color: #dcfce7; color: #15803d; font-weight: 800; margin-bottom: 4px;">한국과학창의재단 디지털새싹</span>
-          <h3 style="font-size: 18px; font-weight: 900; color: #0f172a; margin: 0;">📋 중 · 고등학생 사전 설문</h3>
+          <span id="smBadge" class="badge" style="background-color: #dcfce7; color: #15803d; font-weight: 800; margin-bottom: 4px;">사전 필수 ①</span>
+          <h3 id="smTitle" style="font-size: 17px; font-weight: 900; color: #0f172a; margin: 0;">효과성 측정 사전 설문</h3>
         </div>
         <button onclick="closeSurveyModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #94a3b8; line-height: 1;">✕</button>
       </div>
 
-      <p style="font-size: 13px; color: #475569; margin-bottom: 16px; text-align: left; line-height: 1.5;">
-        스마트폰 기본 카메라로 아래 <strong>QR 코드를 비추면</strong> 학생 사전 설문조사 페이지로 자동 이동합니다.
+      <!-- 설문 4종 빠른 전환 탭 버튼 -->
+      <div style="display: flex; background: #f1f5f9; padding: 4px; border-radius: 10px; gap: 4px; margin-bottom: 14px; overflow-x: auto;">
+        <button type="button" id="smTab_pre-effect" onclick="switchModalSurvey('pre-effect')" class="btn" style="flex: 1; padding: 6px 4px; font-size: 11px; font-weight: 800; border-radius: 6px; background: #15803d; color: #fff; white-space: nowrap;">
+          사전 효과성
+        </button>
+        <button type="button" id="smTab_pre-competency" onclick="switchModalSurvey('pre-competency')" class="btn" style="flex: 1; padding: 6px 4px; font-size: 11px; font-weight: 700; border-radius: 6px; background: transparent; color: #475569; white-space: nowrap;">
+          사전 핵심역량
+        </button>
+        <button type="button" id="smTab_post-effect" onclick="switchModalSurvey('post-effect')" class="btn" style="flex: 1; padding: 6px 4px; font-size: 11px; font-weight: 700; border-radius: 6px; background: transparent; color: #475569; white-space: nowrap;">
+          사후 효과성
+        </button>
+        <button type="button" id="smTab_post-competency" onclick="switchModalSurvey('post-competency')" class="btn" style="flex: 1; padding: 6px 4px; font-size: 11px; font-weight: 700; border-radius: 6px; background: transparent; color: #475569; white-space: nowrap;">
+          사후 핵심역량
+        </button>
+      </div>
+
+      <p id="smDesc" style="font-size: 12px; color: #475569; margin-bottom: 12px; text-align: center; line-height: 1.5;">
+        스마트폰 기본 카메라로 아래 <strong>QR 코드를 비추면</strong> 설문조사 페이지로 자동 이동합니다.
       </p>
 
       <!-- QR 코드 박스 -->
-      <div style="background-color: #f8fafc; border: 2px solid #86efac; border-radius: var(--radius-lg); padding: 18px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 14px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
-        <img src="./survey-qr.png" alt="중고등학생 사전 설문 QR 코드" style="width: 230px; height: 230px; display: block; border-radius: 8px; background: #fff; padding: 6px;">
-        <div style="font-size: 13px; font-weight: 800; color: #15803d; margin-top: 10px; display: flex; align-items: center; gap: 4px;">
-          <span>📷</span> 카메라로 스캔하여 참여하세요
+      <div style="background-color: #f8fafc; border: 2px solid #86efac; border-radius: var(--radius-lg); padding: 16px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
+        <img id="smImg" src="./survey-pre-effect.png" alt="설문 QR 코드" style="width: 220px; height: 220px; display: block; border-radius: 8px; background: #fff; padding: 6px;">
+        <div id="smScanText" style="font-size: 12px; font-weight: 800; color: #15803d; margin-top: 8px; display: flex; align-items: center; gap: 4px;">
+          <span>📷</span> 스마트폰 카메라로 스캔하세요
         </div>
       </div>
 
       <!-- URL 주소 박스 -->
-      <div style="background-color: #f1f5f9; padding: 10px 14px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 14px; border: 1px solid #e2e8f0;">
-        <span style="font-size: 12px; font-family: monospace; color: #334155; word-break: break-all; text-align: left; font-weight: 600;">
+      <div style="background-color: #f1f5f9; padding: 8px 12px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+        <span id="smUrlText" style="font-size: 12px; font-family: monospace; color: #334155; word-break: break-all; text-align: left; font-weight: 600;">
           https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr
         </span>
-        <button type="button" onclick="copySurveyLink()" class="btn btn-outline" style="min-height: 32px; padding: 4px 10px; font-size: 12px; flex-shrink: 0; background: #ffffff;">
+        <button type="button" onclick="copyCurrentModalSurveyLink()" class="btn btn-outline" style="min-height: 30px; padding: 3px 10px; font-size: 11px; flex-shrink: 0; background: #ffffff;">
           주소 복사
         </button>
       </div>
 
-      <!-- 원본 공지 이미지 토글 박스 -->
-      <div id="surveyOriginalBox" style="display: none; margin-bottom: 14px; text-align: center; border-top: 1px dashed #cbd5e1; padding-top: 12px;">
-        <div style="font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 8px;">선생님 공지 원본 양식</div>
-        <img src="./survey-original-qr.png" alt="사전설문 공지 원본" style="max-width: 100%; max-height: 250px; object-fit: contain; border-radius: 8px; border: 1px solid #e2e8f0;">
-      </div>
-
       <!-- 모달 하단 액션 버튼 -->
       <div style="display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap;">
-        <button type="button" onclick="toggleSurveyOriginal()" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px;">
-          <span id="origToggleText">원본 양식 보기</span>
-        </button>
-        <button type="button" onclick="closeSurveyModal()" class="btn btn-outline" style="min-height: 40px; padding: 6px 14px;">닫기</button>
-        <a href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="min-height: 40px; padding: 6px 18px; background-color: #15803d;">
+        <button type="button" onclick="closeSurveyModal()" class="btn btn-outline" style="min-height: 38px; padding: 6px 14px; font-size: 12px;">닫기</button>
+        <a id="smDirectLink" href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="min-height: 38px; padding: 6px 18px; font-size: 13px; background-color: #15803d;">
           설문지 바로가기 ↗
         </a>
       </div>
@@ -2258,6 +2449,50 @@
     </div>
   </div>
 
+  <!-- Firebase 실시간 DB 설정 모달 -->
+  <div id="firebaseConfigModal" class="modal-overlay hidden" onclick="closeFirebaseConfigModal()">
+    <div class="modal-content" style="max-width: 540px;" onclick="event.stopPropagation()">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 20px;">🔥</span>
+          <h3 style="font-size: 17px; font-weight: 800; color: var(--text-main); margin: 0;">Firebase 실시간 클라우드 DB 설정</h3>
+        </div>
+        <button onclick="closeFirebaseConfigModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #94a3b8;">✕</button>
+      </div>
+
+      <p style="font-size: 12px; color: #475569; margin-bottom: 10px; line-height: 1.5;">
+        Firebase 콘솔에서 복사한 <strong>firebaseConfig 코드</strong>를 아래에 붙여넣고 저장하세요.<br>
+        모든 학생과 선생님 기기에 실시간으로 게시물이 공유됩니다.
+      </p>
+
+      <div style="margin-bottom: 12px;">
+        <textarea id="fbConfigInput" placeholder='const firebaseConfig = {
+  apiKey: "AIzaSy...",
+  authDomain: "youngsun-aiot.firebaseapp.com",
+  databaseURL: "https://youngsun-aiot-default-rtdb.firebaseio.com",
+  projectId: "youngsun-aiot",
+  storageBucket: "...",
+  messagingSenderId: "...",
+  appId: "..."
+};' class="search-box" style="margin-bottom: 0; width: 100%; height: 160px; font-family: monospace; font-size: 11px; padding: 10px; resize: vertical; line-height: 1.4;"></textarea>
+      </div>
+
+      <div style="font-size: 11px; color: #64748b; margin-bottom: 14px; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; line-height: 1.5;">
+        💡 <strong>빠른 연결 방법:</strong><br>
+        1. <a href="https://console.firebase.google.com/" target="_blank" style="color: #0284c7; text-decoration: underline;">Firebase 콘솔</a>에서 프로젝트 생성<br>
+        2. <strong>빌드 > Realtime Database</strong> 만들기 (테스트 모드로 규칙 시작: read/write true)<br>
+        3. 프로젝트 설정 > 내 앱 (<code>&lt;/&gt;</code>) 에서 <strong>firebaseConfig</strong> 복사 후 여기에 붙여넣기
+      </div>
+
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button type="button" onclick="closeFirebaseConfigModal()" class="btn btn-outline" style="padding: 6px 14px;">닫기</button>
+        <button type="button" onclick="saveAndApplyFirebaseConfig()" class="btn btn-primary" style="padding: 6px 18px; background-color: #ea580c;">
+          저장 및 실시간 연동 시작
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- 토스트 알림창 -->
   <div id="toastBox" class="toast">
     <span style="color: #4ade80; font-weight: 900;">•</span>
@@ -2278,13 +2513,204 @@
     </div>
   </footer>
 
+  <!-- Firebase SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <!-- 인라인 스크립트 -->
   <script>
     
-    // 학생 작품 갤러리 IndexedDB 연동
+    // ==========================================
+    // 학생 작품 갤러리 (Firebase 실시간 DB + IndexedDB 폴백)
+    // ==========================================
     const GALLERY_STORE = 'studentGallery';
+    let fbApp = null;
+    let fbDb = null;
+    let fbGalleryRef = null;
+    let currentViewingItemId = null;
+    let cachedGalleryItems = {};
 
-    // DB 업그레이드 지원
+    // 기본 Firebase Config
+    // 콘솔에서 발급받은 실제 설정 키를 여기에 넣거나 화면 상단의 [🔥 실시간 DB 설정]에 붙여넣을 수 있습니다.
+    let firebaseConfig = {
+      apiKey: "",
+      authDomain: "",
+      databaseURL: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: "",
+      appId: ""
+    };
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // 학생 스마트폰 고화질 사진을 최대 800px / 75% 품질 JPEG로 자동 경량화 (업로드 지연/용량 초과 방지)
+    function compressImage(file, maxDimension = 800, quality = 0.75) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+            if (width > height) {
+              if (width > maxDimension) {
+                height = Math.round((height * maxDimension) / width);
+                width = maxDimension;
+              }
+            } else {
+              if (height > maxDimension) {
+                width = Math.round((width * maxDimension) / height);
+                height = maxDimension;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = () => resolve('');
+          img.src = e.target.result;
+        };
+        reader.onerror = () => resolve('');
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Firebase 초기화 및 실시간 동기화 리스너
+    function initFirebase() {
+      // 1. 브라우저 localStorage에 저장된 설정이 있는지 우선 확인
+      const saved = localStorage.getItem('youngsun_fb_config');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed && parsed.apiKey) firebaseConfig = parsed;
+        } catch(e) {}
+      }
+
+      // 2. 유효한 설정이 있을 때 Firebase 연결 시도
+      if (typeof firebase !== 'undefined' && firebaseConfig && firebaseConfig.apiKey && firebaseConfig.apiKey.trim() !== '') {
+        try {
+          if (!firebase.apps.length) {
+            fbApp = firebase.initializeApp(firebaseConfig);
+          } else {
+            fbApp = firebase.app();
+          }
+          fbDb = firebase.database();
+          fbGalleryRef = fbDb.ref('studentGallery');
+
+          updateFbBadge(true);
+
+          // 실시간 변경 감지 리스너
+          fbGalleryRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (!data) {
+              seedFirebaseDefaults();
+            } else {
+              const list = [];
+              Object.keys(data).forEach(key => {
+                list.push({ id: key, ...data[key] });
+              });
+              // 최신 등록순 정렬
+              list.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+              renderGalleryList(list);
+            }
+          }, (err) => {
+            console.error('Firebase DB listen error:', err);
+            updateFbBadge(false, 'DB 권한/주소 오류');
+            fallbackToIndexedDb();
+          });
+
+          return true;
+        } catch (err) {
+          console.error('Firebase init error:', err);
+          updateFbBadge(false, '초기화 오류');
+          fallbackToIndexedDb();
+          return false;
+        }
+      } else {
+        updateFbBadge(false, '로컬 모드 (클라우드 연동 필요)');
+        fallbackToIndexedDb();
+        return false;
+      }
+    }
+
+    function updateFbBadge(isConnected, customText) {
+      const badge = document.getElementById('fbSyncBadge');
+      const dot = document.getElementById('fbDot');
+      const text = document.getElementById('fbStatusText');
+      if (!badge || !dot || !text) return;
+
+      if (isConnected) {
+        badge.style.background = '#dcfce7';
+        badge.style.color = '#15803d';
+        dot.style.background = '#22c55e';
+        text.textContent = '🟢 실시간 클라우드 연동 중';
+      } else {
+        badge.style.background = '#fef08a';
+        badge.style.color = '#854d0e';
+        dot.style.background = '#eab308';
+        text.textContent = customText || '🟡 로컬 모드 (클라우드 연동 필요)';
+      }
+    }
+
+    function fallbackToIndexedDb() {
+      initFirebase();
+    }
+
+    // 기본 예시 데이터
+    const defaultGallerySeedItems = [
+      {
+        author: "김민성",
+        title: "아이디어 카드 2: 마른 흙 감지 자동 급수 펌프",
+        desc: "토양 수분 센서(P2)를 마른 흙에 꽂았을 때 실측 대표값이 240이 나왔습니다. 기준값을 300으로 정하고, 300 미만일 때 릴레이(P9)를 3초간 켜서 물을 준 뒤 10초 대기하여 과습을 방지하는 규칙을 구현했습니다.",
+        createdAt: "2026. 11. 3. 11:45",
+        timestamp: Date.now() - 3600000,
+        imgData: "./자료드라이브(다운받아주세요)/식물%20데이터%20출력용%20이미지.png"
+      },
+      {
+        author: "구채린",
+        title: "아이디어 카드 1: 창가 조도 측정 레인보우 LED 알림",
+        desc: "교실 창가 빛 센서(P1)를 측정해보니 평소 680, 암막 천으로 가렸을 때 180이었습니다. 기준값을 400으로 설정하고, 어두워지면 P16 레인보우 LED 8구가 백색 조명으로 켜져 광합성을 돕도록 코딩했습니다.",
+        createdAt: "2026. 11. 3. 12:10",
+        timestamp: Date.now() - 2400000,
+        imgData: "./자료드라이브(다운받아주세요)/식물%20데이터%20출력용%20이미지.png"
+      },
+      {
+        author: "김승완",
+        title: "4차시 실습: 티처블머신 AI 식물의사 교차 검증",
+        desc: "식물 잎 사진 120장으로 건강/위험 클래스를 훈련시켰습니다. 신뢰도 88% 이상일 때 블루투스로 마이크로비트에 신호를 보내 스마일(정상) 또는 해골(위험) 아이콘을 띄우고 센서 측정값과 교차 검증했습니다.",
+        createdAt: "2026. 11. 3. 12:25",
+        timestamp: Date.now() - 1200000,
+        imgData: "./자료드라이브(다운받아주세요)/식물%20데이터%20출력용%20이미지.png"
+      },
+      {
+        author: "이해리",
+        title: "아이디어 카드 3: 고온 경고 내장 스피커 알림음",
+        desc: "마이크로비트 내장 온도 센서로 교실 온도를 측정했습니다. 오후 환기 부족으로 28°C 이상 올라가면 내장 스피커에서 비프 경고음이 울리고 LED 화면에 화씨/섭씨 알림이 깜빡이도록 구현했습니다.",
+        createdAt: "2026. 11. 3. 12:35",
+        timestamp: Date.now() - 600000,
+        imgData: ""
+      }
+    ];
+
+    function seedFirebaseDefaults() {
+      if (!fbGalleryRef) return;
+      defaultGallerySeedItems.forEach(item => {
+        fbGalleryRef.push(item);
+      });
+    }
+
+    // IndexedDB 지원 함수
     function openFullDatabase() {
       return new Promise((resolve, reject) => {
         const req = indexedDB.open('YoungsunAdminDB', 2);
@@ -2302,7 +2728,6 @@
       });
     }
 
-    // 기본 예시 결과물 3개 자동 시드 (처음 열 때)
     async function seedInitialGalleryIfEmpty() {
       const db = await openFullDatabase();
       const tx = db.transaction(GALLERY_STORE, 'readonly');
@@ -2311,40 +2736,9 @@
 
       req.onsuccess = () => {
         if (req.result === 0) {
-          const defaultItems = [
-            {
-              author: "김민성",
-              title: "아이디어 카드 2: 마른 흙 감지 자동 급수 펌프",
-              desc: "토양 수분 센서(P2)를 마른 흙에 꽂았을 때 실측 대표값이 240이 나왔습니다. 기준값을 300으로 정하고, 300 미만일 때 릴레이(P9)를 3초간 켜서 물을 준 뒤 10초 대기하여 과습을 방지하는 규칙을 구현했습니다.",
-              createdAt: "2026. 11. 3. 11:45",
-              imgData: "./자료드라이브(다운받아주세요)/식물%20데이터%20출력용%20이미지.png"
-            },
-            {
-              author: "구채린",
-              title: "아이디어 카드 1: 창가 조도 측정 레인보우 LED 알림",
-              desc: "교실 창가 빛 센서(P1)를 측정해보니 평소 680, 암막 천으로 가렸을 때 180이었습니다. 기준값을 400으로 설정하고, 어두워지면 P16 레인보우 LED 8구가 백색 조명으로 켜져 광합성을 돕도록 코딩했습니다.",
-              createdAt: "2026. 11. 3. 12:10",
-              imgData: "./자료드라이브(다운받아주세요)/식물%20데이터%20출력용%20이미지.png"
-            },
-            {
-              author: "김승완",
-              title: "4차시 실습: 티처블머신 AI 식물의사 교차 검증",
-              desc: "식물 잎 사진 120장으로 건강/위험 클래스를 훈련시켰습니다. 신뢰도 88% 이상일 때 블루투스로 마이크로비트에 신호를 보내 스마일(정상) 또는 해골(위험) 아이콘을 띄우고 센서 측정값과 교차 검증했습니다.",
-              createdAt: "2026. 11. 3. 12:25",
-              imgData: "./자료드라이브(다운받아주세요)/식물%20데이터%20출력용%20이미지.png"
-            },
-            {
-              author: "이해리",
-              title: "아이디어 카드 3: 고온 경고 내장 스피커 알림음",
-              desc: "마이크로비트 내장 온도 센서로 교실 온도를 측정했습니다. 오후 환기 부족으로 28°C 이상 올라가면 내장 스피커에서 비프 경고음이 울리고 LED 화면에 화씨/섭씨 알림이 깜빡이도록 구현했습니다.",
-              createdAt: "2026. 11. 3. 12:35",
-              imgData: ""
-            }
-          ];
-
           const addTx = db.transaction(GALLERY_STORE, 'readwrite');
           const addStore = addTx.objectStore(GALLERY_STORE);
-          defaultItems.forEach(item => addStore.add(item));
+          defaultGallerySeedItems.forEach(item => addStore.add(item));
           addTx.oncomplete = () => renderGallery();
         } else {
           renderGallery();
@@ -2360,53 +2754,63 @@
 
       req.onsuccess = () => {
         const items = req.result || [];
-        document.getElementById('galleryCount').textContent = items.length;
-        const grid = document.getElementById('galleryGrid');
-        grid.innerHTML = '';
+        renderGalleryList(items.reverse());
+      };
+    }
 
-        if (items.length === 0) {
-          grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 48px; background: #ffffff; border-radius: 16px; border: 1px dashed var(--border-color); color: var(--text-muted);">아직 등록된 학생 결과물이 없습니다. 상단의 [+ 내 결과물 등록하기] 버튼을 눌러 첫 번째 작품을 올려보세요!</div>`;
-          return;
-        }
+    // 갤러리 카드 렌더링 통합 함수
+    function renderGalleryList(items) {
+      cachedGalleryItems = {};
+      const countEl = document.getElementById('galleryCount');
+      if (countEl) countEl.textContent = items.length;
+      const grid = document.getElementById('galleryGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
 
-        items.reverse().forEach(item => {
-          const card = document.createElement('div');
-          card.className = 'gallery-card';
-          
-          let mediaHtml = '';
-          if (item.imgData && item.imgData.trim() !== '') {
-            mediaHtml = `
-              <div class="gallery-thumb-wrap" onclick="viewGalleryItem(${item.id})">
-                <img src="${item.imgData}" alt="${item.title}" class="gallery-thumb" onerror="this.style.display='none'">
-              </div>
-            `;
-          } else {
-            mediaHtml = `
-              <div class="gallery-thumb-wrap" onclick="viewGalleryItem(${item.id})" style="background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);">
-                <div style="text-align: center; color: var(--primary); font-weight: 800; font-size: 13px; padding: 16px;">
-                  🌱 스마트팜 실습 기록
-                </div>
-              </div>
-            `;
-          }
+      if (items.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 48px; background: #ffffff; border-radius: 16px; border: 1px dashed var(--border-color); color: var(--text-muted);">아직 등록된 학생 결과물이 없습니다. 상단의 [+ 내 결과물 등록하기] 버튼을 눌러 첫 번째 작품을 올려보세요!</div>`;
+        return;
+      }
 
-          card.innerHTML = `
-            ${mediaHtml}
-            <div class="gallery-body">
-              <div>
-                <div style="font-size: 12px; font-weight: 800; color: var(--primary); margin-bottom: 4px;">학생: ${item.author}</div>
-                <div class="gallery-title">${item.title}</div>
-                <p class="gallery-desc">${item.desc || '작품 설명이 등록되지 않았습니다.'}</p>
-              </div>
-              <div class="gallery-footer">
-                <span>${item.createdAt}</span>
-                <button onclick="viewGalleryItem(${item.id})" class="btn btn-outline" style="min-height: 32px; padding: 2px 12px; font-size: 11px;">상세보기</button>
+      items.forEach(item => {
+        const idKey = String(item.id);
+        cachedGalleryItems[idKey] = item;
+        const card = document.createElement('div');
+        card.className = 'gallery-card';
+        
+        let mediaHtml = '';
+        if (item.imgData && item.imgData.trim() !== '') {
+          mediaHtml = `
+            <div class="gallery-thumb-wrap" onclick="viewGalleryItem('${idKey}')">
+              <img src="${item.imgData}" alt="${escapeHtml(item.title)}" class="gallery-thumb" onerror="this.style.display='none'">
+            </div>
+          `;
+        } else {
+          mediaHtml = `
+            <div class="gallery-thumb-wrap" onclick="viewGalleryItem('${idKey}')" style="background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);">
+              <div style="text-align: center; color: var(--primary); font-weight: 800; font-size: 13px; padding: 16px;">
+                🌱 스마트팜 실습 기록
               </div>
             </div>
           `;
-          grid.appendChild(card);
-        });
-      };
+        }
+
+        card.innerHTML = `
+          ${mediaHtml}
+          <div class="gallery-body">
+            <div>
+              <div style="font-size: 12px; font-weight: 800; color: var(--primary); margin-bottom: 4px;">학생: ${escapeHtml(item.author)}</div>
+              <div class="gallery-title">${escapeHtml(item.title)}</div>
+              <p class="gallery-desc">${escapeHtml(item.desc || '작품 설명이 등록되지 않았습니다.')}</p>
+            </div>
+            <div class="gallery-footer">
+              <span>${item.createdAt || ''}</span>
+              <button onclick="viewGalleryItem('${idKey}')" class="btn btn-outline" style="min-height: 32px; padding: 2px 12px; font-size: 11px;">상세보기</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
     }
 
     function openGalleryUploadModal() {
@@ -2432,59 +2836,167 @@
         return;
       }
 
+      showToast('작품을 등록 중입니다...');
+
+      let imgData = '';
       if (fileInput.files && fileInput.files[0]) {
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-        reader.onload = async function(e) {
-          await saveGalleryRecord({ author, title, desc, imgData: e.target.result });
-        };
-        reader.readAsDataURL(file);
-      } else {
-        // 이미지가 없을 때도 빈 문자열로 정상 게시글 등록
-        await saveGalleryRecord({ author, title, desc, imgData: '' });
+        try {
+          imgData = await compressImage(fileInput.files[0], 800, 0.75);
+        } catch (e) {
+          console.warn('Image compress error:', e);
+        }
       }
+
+      const record = {
+        author,
+        title,
+        desc,
+        imgData,
+        createdAt: new Date().toLocaleDateString('ko-KR') + ' ' + new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }),
+        timestamp: Date.now()
+      };
+
+      if (fbGalleryRef) {
+        try {
+          await fbGalleryRef.push(record);
+          closeGalleryUploadModal();
+          showToast('🎉 학생 결과물이 실시간 클라우드에 성공적으로 등록되었습니다!');
+          return;
+        } catch (err) {
+          console.error('Firebase save error:', err);
+          showToast('클라우드 저장 실패: 로컬에 임시 저장합니다.');
+        }
+      }
+
+      // 로컬 IndexedDB 폴백 저장
+      await saveGalleryRecordToIndexedDB(record);
     }
 
-    async function saveGalleryRecord(data) {
+    async function saveGalleryRecordToIndexedDB(record) {
       const db = await openFullDatabase();
       const tx = db.transaction(GALLERY_STORE, 'readwrite');
-      tx.objectStore(GALLERY_STORE).add({
-        ...data,
-        createdAt: new Date().toLocaleDateString('ko-KR') + ' ' + new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
-      });
+      tx.objectStore(GALLERY_STORE).add(record);
       tx.oncomplete = () => {
         closeGalleryUploadModal();
-        showToast('학생 결과물이 성공적으로 등록되었습니다.');
+        showToast('학생 결과물이 등록되었습니다 (로컬 모드).');
         renderGallery();
       };
     }
 
-    async function viewGalleryItem(id) {
-      const db = await openFullDatabase();
-      const tx = db.transaction(GALLERY_STORE, 'readonly');
-      const req = tx.objectStore(GALLERY_STORE).get(id);
+    function viewGalleryItem(idKey) {
+      const item = cachedGalleryItems[String(idKey)];
+      if (!item) return;
+      currentViewingItemId = String(idKey);
+      document.getElementById('gvTitle').textContent = item.title;
+      document.getElementById('gvAuthor').textContent = '학생 이름: ' + item.author;
+      document.getElementById('gvDesc').textContent = item.desc || '작품 설명이 없습니다.';
+      document.getElementById('gvDate').textContent = item.createdAt || '';
+      const imgEl = document.getElementById('gvImg');
+      const imgWrap = imgEl.parentElement;
+      if (item.imgData && item.imgData.trim() !== '') {
+        imgEl.src = item.imgData;
+        imgWrap.style.display = 'block';
+      } else {
+        imgWrap.style.display = 'none';
+      }
 
-      req.onsuccess = () => {
-        const item = req.result;
-        if (!item) return;
-        document.getElementById('gvTitle').textContent = item.title;
-        document.getElementById('gvAuthor').textContent = '학생 이름: ' + item.author;
-        document.getElementById('gvDesc').textContent = item.desc || '작품 설명이 없습니다.';
-        document.getElementById('gvDate').textContent = item.createdAt;
-        const imgEl = document.getElementById('gvImg');
-        const imgWrap = imgEl.parentElement;
-        if (item.imgData && item.imgData.trim() !== '') {
-          imgEl.src = item.imgData;
-          imgWrap.style.display = 'block';
-        } else {
-          imgWrap.style.display = 'none';
-        }
-        document.getElementById('galleryViewModal').classList.remove('hidden');
-      };
+      const delBtn = document.getElementById('gvDeleteBtn');
+      if (delBtn) {
+        delBtn.style.display = 'inline-flex';
+      }
+
+      document.getElementById('galleryViewModal').classList.remove('hidden');
     }
 
     function closeGalleryViewModal() {
+      currentViewingItemId = null;
       document.getElementById('galleryViewModal').classList.add('hidden');
+    }
+
+    async function deleteCurrentGalleryItem() {
+      if (!currentViewingItemId) return;
+      if (!confirm('정말 이 게시물을 삭제하시겠습니까?')) return;
+
+      const targetId = currentViewingItemId;
+      closeGalleryViewModal();
+
+      if (fbGalleryRef && typeof targetId === 'string' && targetId.startsWith('-')) {
+        try {
+          await fbGalleryRef.child(targetId).remove();
+          showToast('게시물이 클라우드에서 삭제되었습니다.');
+          return;
+        } catch(e) {
+          console.error('Firebase delete error:', e);
+          alert('삭제 실패: ' + e.message);
+        }
+      }
+
+      // IndexedDB 삭제
+      try {
+        const db = await openFullDatabase();
+        const tx = db.transaction(GALLERY_STORE, 'readwrite');
+        tx.objectStore(GALLERY_STORE).delete(Number(targetId) || targetId);
+        tx.oncomplete = () => {
+          showToast('게시물이 로컬에서 삭제되었습니다.');
+          renderGallery();
+        };
+      } catch(e) {
+        console.error('IndexedDB delete error:', e);
+      }
+    }
+
+    // Firebase 설정 모달 관리
+    function openFirebaseConfigModal() {
+      const saved = localStorage.getItem('youngsun_fb_config');
+      const input = document.getElementById('fbConfigInput');
+      if (input) {
+        if (saved) {
+          input.value = saved;
+        } else if (firebaseConfig && firebaseConfig.apiKey) {
+          input.value = JSON.stringify(firebaseConfig, null, 2);
+        }
+      }
+      document.getElementById('firebaseConfigModal').classList.remove('hidden');
+    }
+
+    function closeFirebaseConfigModal() {
+      document.getElementById('firebaseConfigModal').classList.add('hidden');
+    }
+
+    function saveAndApplyFirebaseConfig() {
+      const raw = document.getElementById('fbConfigInput').value.trim();
+      if (!raw) {
+        alert('Firebase 설정 JSON 또는 코드를 입력해주세요.');
+        return;
+      }
+
+      try {
+        let parsed = null;
+        if (raw.includes('{') && raw.includes('}')) {
+          let jsonStr = raw;
+          if (raw.includes('firebaseConfig')) {
+            jsonStr = raw.substring(raw.indexOf('{'), raw.lastIndexOf('}') + 1);
+          }
+          try {
+            parsed = JSON.parse(jsonStr);
+          } catch(e) {
+            parsed = new Function('return (' + jsonStr + ')')();
+          }
+        }
+
+        if (!parsed || !parsed.apiKey) {
+          alert('올바른 Firebase 설정(apiKey 포함)을 찾을 수 없습니다.');
+          return;
+        }
+
+        localStorage.setItem('youngsun_fb_config', JSON.stringify(parsed, null, 2));
+        firebaseConfig = parsed;
+        closeFirebaseConfigModal();
+        showToast('Firebase 설정이 저장되었습니다. 연결을 시작합니다...');
+        initFirebase();
+      } catch(err) {
+        alert('설정 파싱 오류: ' + err.message);
+      }
     }
 
     // 관리자 탭 전환
@@ -2666,17 +3178,15 @@
     // 로컬 스토리지 키
     const STORAGE_KEY = "youngsun_1_3_data";
     let adminState = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    let isAdminLoggedIn = false;
+    let isAdminLoggedIn = true;
 
-    // 관리자 로그인 토글
+    // 관리자 페이지 바로 이동 (모두 볼 수 있도록 전체 공개)
     function toggleAdminPrompt() {
-      if (isAdminLoggedIn) {
-        const sec = document.getElementById("adminSection");
+      const sec = document.getElementById("adminSection");
+      if (sec) {
+        sec.style.display = "block";
+        renderTable();
         sec.scrollIntoView({ behavior: "smooth" });
-      } else {
-        document.getElementById("loginModal").classList.remove("hidden");
-        document.getElementById("adminPwInput").value = "";
-        document.getElementById("adminPwInput").focus();
       }
     }
 
@@ -2685,44 +3195,54 @@
     }
 
     function checkPassword() {
-      const pw = document.getElementById("adminPwInput").value.trim();
-      if (pw === "2026") {
-        isAdminLoggedIn = true;
-        closeLoginModal();
-        const sec = document.getElementById("adminSection");
-        sec.style.display = "block";
-        renderTable();
-        sec.scrollIntoView({ behavior: "smooth" });
-        showToast("관리자 모드로 로그인되었습니다.");
-      } else {
-        alert("비밀번호가 올바르지 않습니다. 다시 입력해주세요.");
-        document.getElementById("adminPwInput").value = "";
-        document.getElementById("adminPwInput").focus();
-      }
+      isAdminLoggedIn = true;
+      closeLoginModal();
+      const sec = document.getElementById("adminSection");
+      sec.style.display = "block";
+      renderTable();
+      sec.scrollIntoView({ behavior: "smooth" });
+      showToast("관리자 모드로 이동했습니다.");
     }
 
     function closeAdminPortal() {
-      document.getElementById("adminSection").style.display = "none";
-      isAdminLoggedIn = false;
-      showToast("관리자 모드가 닫혔습니다.");
+      const sec = document.getElementById("adminSection");
+      if (sec.style.display === "none") {
+        sec.style.display = "block";
+        renderTable();
+        showToast("관리자 화면이 열렸습니다.");
+      } else {
+        sec.style.display = "none";
+        showToast("관리자 화면이 접혔습니다. 상단 '관리자' 버튼을 누르면 다시 열립니다.");
+      }
     }
 
-    // 학생 관리 테이블 렌더링
+    // 학생 관리 테이블 렌더링 (설문 4종 개별 집계)
     function renderTable() {
       const q = (document.getElementById("adminSearch").value || "").trim().toLowerCase();
       const tbody = document.getElementById("studentTableBody");
       tbody.innerHTML = "";
 
-      let countA1 = 0, countA2 = 0, countPre = 0, countPost = 0;
+      let countA1 = 0, countA2 = 0;
+      let countPreEff = 0, countPreComp = 0, countPostEff = 0, countPostComp = 0;
 
       studentList.forEach(st => {
         const key = String(st.num);
-        const data = adminState[key] || { attend1: false, attend2: false, preSurvey: false, postSurvey: false };
+        const data = adminState[key] || {};
+        
+        // 기존 preSurvey, postSurvey 체크 데이터 호환성 보존
+        const a1 = !!data.attend1;
+        const a2 = !!data.attend2;
+        const preEff = data.preEffect !== undefined ? !!data.preEffect : !!data.preSurvey;
+        const preComp = !!data.preComp;
+        const postEff = data.postEffect !== undefined ? !!data.postEffect : !!data.postSurvey;
+        const postComp = !!data.postComp;
 
-        if (data.attend1) countA1++;
-        if (data.attend2) countA2++;
-        if (data.preSurvey) countPre++;
-        if (data.postSurvey) countPost++;
+        if (a1) countA1++;
+        if (a2) countA2++;
+        if (preEff) countPreEff++;
+        if (preComp) countPreComp++;
+        if (postEff) countPostEff++;
+        if (postComp) countPostComp++;
 
         const match = !q || st.name.toLowerCase().includes(q) || String(st.num).includes(q) || st.code.includes(q);
         if (!match) return;
@@ -2739,34 +3259,45 @@
             </span>
           </td>
           <td style="text-align: center; background-color: #f0f9ff;">
-            <input type="checkbox" class="check-custom" ${data.attend1 ? "checked" : ""} onchange="updateCheck(${st.num}, 'attend1', this.checked)">
+            <input type="checkbox" class="check-custom" ${a1 ? "checked" : ""} onchange="updateCheck(${st.num}, 'attend1', this.checked)">
           </td>
           <td style="text-align: center; background-color: #f0f9ff;">
-            <input type="checkbox" class="check-custom" ${data.attend2 ? "checked" : ""} onchange="updateCheck(${st.num}, 'attend2', this.checked)">
+            <input type="checkbox" class="check-custom" ${a2 ? "checked" : ""} onchange="updateCheck(${st.num}, 'attend2', this.checked)">
           </td>
           <td style="text-align: center; background-color: #f0fdf4;">
-            <input type="checkbox" class="check-custom" ${data.preSurvey ? "checked" : ""} onchange="updateCheck(${st.num}, 'preSurvey', this.checked)">
+            <input type="checkbox" class="check-custom" ${preEff ? "checked" : ""} onchange="updateCheck(${st.num}, 'preEffect', this.checked)">
+          </td>
+          <td style="text-align: center; background-color: #f0f9ff;">
+            <input type="checkbox" class="check-custom" ${preComp ? "checked" : ""} onchange="updateCheck(${st.num}, 'preComp', this.checked)">
           </td>
           <td style="text-align: center; background-color: #faf5ff;">
-            <input type="checkbox" class="check-custom" ${data.postSurvey ? "checked" : ""} onchange="updateCheck(${st.num}, 'postSurvey', this.checked)">
+            <input type="checkbox" class="check-custom" ${postEff ? "checked" : ""} onchange="updateCheck(${st.num}, 'postEffect', this.checked)">
+          </td>
+          <td style="text-align: center; background-color: #fff7ed;">
+            <input type="checkbox" class="check-custom" ${postComp ? "checked" : ""} onchange="updateCheck(${st.num}, 'postComp', this.checked)">
           </td>
         `;
         tbody.appendChild(tr);
       });
 
-      // 통계 갱신
+      // 통계 카드 6종 갱신
       document.getElementById("statAttend1").textContent = countA1 + " / 25명";
       document.getElementById("statAttend2").textContent = countA2 + " / 25명";
-      document.getElementById("statPreSurvey").textContent = countPre + " / 25명";
-      document.getElementById("statPostSurvey").textContent = countPost + " / 25명";
+      document.getElementById("statPreEffect").textContent = countPreEff + " / 25명";
+      document.getElementById("statPreComp").textContent = countPreComp + " / 25명";
+      document.getElementById("statPostEffect").textContent = countPostEff + " / 25명";
+      document.getElementById("statPostComp").textContent = countPostComp + " / 25명";
     }
 
     function updateCheck(num, field, val) {
       const key = String(num);
       if (!adminState[key]) {
-        adminState[key] = { attend1: false, attend2: false, preSurvey: false, postSurvey: false };
+        adminState[key] = { attend1: false, attend2: false, preEffect: false, preComp: false, postEffect: false, postComp: false };
       }
       adminState[key][field] = val;
+      // 하위 호환 필드도 함께 동기화
+      if (field === 'preEffect') adminState[key].preSurvey = val;
+      if (field === 'postEffect') adminState[key].postSurvey = val;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(adminState));
       renderTable();
     }
@@ -2775,17 +3306,19 @@
       studentList.forEach(st => {
         const key = String(st.num);
         if (!adminState[key]) {
-          adminState[key] = { attend1: false, attend2: false, preSurvey: false, postSurvey: false };
+          adminState[key] = { attend1: false, attend2: false, preEffect: false, preComp: false, postEffect: false, postComp: false };
         }
         adminState[key][field] = val;
+        if (field === 'preEffect') adminState[key].preSurvey = val;
+        if (field === 'postEffect') adminState[key].postSurvey = val;
       });
       localStorage.setItem(STORAGE_KEY, JSON.stringify(adminState));
       renderTable();
-      showToast("전체 학생의 체크 상태가 변경되었습니다.");
+      showToast(field + " 일괄 완료 처리되었습니다.");
     }
 
     function resetData() {
-      if (confirm("정말로 모든 출석 및 설문 체크 기록을 초기화하시겠습니까?")) {
+      if (confirm("정말 모든 학생의 출석 및 설문 체크 기록을 초기화하시겠습니까?")) {
         adminState = {};
         localStorage.removeItem(STORAGE_KEY);
         renderTable();
@@ -2799,26 +3332,168 @@
       });
     }
 
-    // 엑셀(CSV) 다운로드
+    // 엑셀(CSV) 다운로드 (4개 설문 지표 모두 포함)
     function downloadCSV() {
-      let csv = "﻿번호,이름,학년,반,학생코드,11.03출석,11.05출석,사전설문,사후설문\n";
+      let csv = "\ufeff번호,이름,학년,반,학생코드,11.03출석,11.05출석,사전_효과성,사전_핵심역량,사후_효과성,사후_핵심역량\n";
       studentList.forEach(st => {
         const data = adminState[String(st.num)] || {};
-        csv += `${st.num},${st.name},${st.grade},${st.classNum},${st.code},` +
-               `${data.attend1 ? "출석" : "결석"},` +
-               `${data.attend2 ? "출석" : "결석"},` +
-               `${data.preSurvey ? "완료" : "미완료"},` +
-               `${data.postSurvey ? "완료" : "미완료"}\n`;
+        const a1 = data.attend1 ? "출석" : "결석";
+        const a2 = data.attend2 ? "출석" : "결석";
+        const pe = (data.preEffect !== undefined ? data.preEffect : data.preSurvey) ? "완료" : "미완료";
+        const pc = data.preComp ? "완료" : "미완료";
+        const qe = (data.postEffect !== undefined ? data.postEffect : data.postSurvey) ? "완료" : "미완료";
+        const qc = data.postComp ? "완료" : "미완료";
+        csv += `${st.num},${st.name},${st.grade},${st.classNum},${st.code},${a1},${a2},${pe},${pc},${qe},${qc}\n`;
       });
 
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "영선중_AIoT수호대_학생관리명단.csv";
+      a.download = "영선중_AIoT수호대_출석_및_설문4종_관리명단.csv";
       a.click();
       URL.revokeObjectURL(url);
       showToast("엑셀(CSV) 파일이 다운로드되었습니다.");
+    }
+
+    // ==========================================
+    // 설문조사 4종 메타데이터 및 모달 제어 시스템
+    // ==========================================
+    const SURVEY_INFOS = {
+      'pre-effect': {
+        badge: '사전 필수 ①',
+        badgeBg: '#dcfce7',
+        badgeColor: '#15803d',
+        title: '중·고등학생 효과성 측정 사전 설문',
+        desc: '디지털 역량, AI 흥미도 및 교육 전 기대효과 설문조사입니다. (한국과학창의재단 공식)',
+        url: 'https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr',
+        qr: './survey-pre-effect.png',
+        btnColor: '#15803d'
+      },
+      'pre-competency': {
+        badge: '사전 필수 ②',
+        badgeBg: '#e0f2fe',
+        badgeColor: '#0284c7',
+        title: '중학교 핵심역량 진단도구 사전 설문',
+        desc: '디지털 소양, 융합 문제해결, 능동적 협력 3대 핵심역량 사전 진단 설문입니다.',
+        url: 'https://form.kosac.re.kr/v/4MyHDskwLX0s2i9sVZXJ',
+        qr: './survey-pre-competency.png',
+        btnColor: '#0284c7'
+      },
+      'post-effect': {
+        badge: '사후 필수 ①',
+        badgeBg: '#ede9fe',
+        badgeColor: '#7c3aed',
+        title: '중·고등학생 효과성 측정 사후 설문',
+        desc: '수업 후 만족도 및 변화된 디지털 흥미, 성취도 종합 측정 설문입니다.',
+        url: 'https://form.kosac.re.kr/v/9vDMP23fH2OhgKbZdFqC',
+        qr: './survey-post-effect.png',
+        btnColor: '#7c3aed'
+      },
+      'post-competency': {
+        badge: '사후 필수 ②',
+        badgeBg: '#ffedd5',
+        badgeColor: '#ea580c',
+        title: '중학교 핵심역량 진단도구 사후 설문',
+        desc: '수업 후 3대 핵심역량(디지털 소양/문제해결/협력) 성장 분석 설문입니다.',
+        url: 'https://form.kosac.re.kr/v/VKRAGo5FUJNbbgHH26tI',
+        qr: './survey-post-competency.png',
+        btnColor: '#ea580c'
+      }
+    };
+
+    let currentModalSurveyKey = 'pre-effect';
+
+    // 메인 허브 탭 필터
+    function filterSurveyTab(type) {
+      document.querySelectorAll('#tabBtnSurveyPre, #tabBtnSurveyPost, #tabBtnSurveyAll').forEach(b => {
+        b.style.background = 'transparent';
+        b.style.color = '#64748b';
+        b.style.fontWeight = '700';
+      });
+
+      const activeBtn = document.getElementById(type === 'pre' ? 'tabBtnSurveyPre' : type === 'post' ? 'tabBtnSurveyPost' : 'tabBtnSurveyAll');
+      if (activeBtn) {
+        activeBtn.style.background = type === 'post' ? '#7c3aed' : '#15803d';
+        activeBtn.style.color = '#ffffff';
+        activeBtn.style.fontWeight = '800';
+      }
+
+      document.querySelectorAll('.survey-card').forEach(card => {
+        const cat = card.getAttribute('data-survey-category');
+        if (type === 'all' || cat === type) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 설문 QR 모달 열기
+    function openSurveyModal(surveyKey = 'pre-effect') {
+      switchModalSurvey(surveyKey);
+      document.getElementById('surveyModal').classList.remove('hidden');
+    }
+
+    function closeSurveyModal() {
+      document.getElementById('surveyModal').classList.add('hidden');
+    }
+
+    function switchModalSurvey(surveyKey) {
+      const info = SURVEY_INFOS[surveyKey] || SURVEY_INFOS['pre-effect'];
+      currentModalSurveyKey = surveyKey;
+
+      document.getElementById('smBadge').textContent = info.badge;
+      document.getElementById('smBadge').style.backgroundColor = info.badgeBg;
+      document.getElementById('smBadge').style.color = info.badgeColor;
+
+      document.getElementById('smTitle').textContent = info.title;
+      document.getElementById('smDesc').textContent = info.desc;
+      document.getElementById('smImg').src = info.qr;
+      document.getElementById('smUrlText').textContent = info.url;
+      
+      const direct = document.getElementById('smDirectLink');
+      direct.href = info.url;
+      direct.style.backgroundColor = info.btnColor;
+
+      // 탭 스타일 갱신
+      ['pre-effect', 'pre-competency', 'post-effect', 'post-competency'].forEach(k => {
+        const btn = document.getElementById('smTab_' + k);
+        if (btn) {
+          if (k === surveyKey) {
+            btn.style.background = info.btnColor;
+            btn.style.color = '#ffffff';
+            btn.style.fontWeight = '800';
+          } else {
+            btn.style.background = 'transparent';
+            btn.style.color = '#475569';
+            btn.style.fontWeight = '700';
+          }
+        }
+      });
+    }
+
+    function copyCurrentModalSurveyLink() {
+      const info = SURVEY_INFOS[currentModalSurveyKey];
+      if (info) {
+        copySpecificSurveyLink(info.url, info.title);
+      }
+    }
+
+    function copySpecificSurveyLink(url, name) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+          showToast(name + " 링크가 복사되었습니다!");
+        }).catch(() => {
+          fallbackCopyText(url, name + " 링크가 복사되었습니다!");
+        });
+      } else {
+        fallbackCopyText(url, name + " 링크가 복사되었습니다!");
+      }
+    }
+
+    function copySurveyLink() {
+      copySpecificSurveyLink('https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr', '사전 효과성 설문');
     }
 
     // 사전 설문 QR 모달 제어
@@ -3000,7 +3675,9 @@
     tempRange.addEventListener("input", runSimulation);
     luxRange.addEventListener("input", runSimulation);
     runSimulation();
-    seedInitialGalleryIfEmpty();
+    initFirebase();
+    renderTable();
+    renderTeacherFiles();
   </script>
 </body>
 </html>
