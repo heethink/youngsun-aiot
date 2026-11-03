@@ -2587,7 +2587,7 @@
       if (isCloudSyncing) return;
       isCloudSyncing = true;
       try {
-        const res = await fetch(`${CLOUD_DB_URL}/?values=true&format=json`, {
+        const res = await fetch(`${CLOUD_DB_URL}/?values=true&format=json&limit=200`, {
           cache: "no-store"
         });
         if (!res.ok) throw new Error("클라우드 통신 상태코드: " + res.status);
