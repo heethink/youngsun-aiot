@@ -248,10 +248,10 @@
     }
 
 
-    /* 활용 사이트 전용 4열 한 줄 그리드 (PC: 4열, 태블릿: 2열, 모바일: 1열) */
+    /* 활용 사이트 전용 3열 그리드 (PC: 3열, 태블릿: 2열, 모바일: 1열) */
     .sites-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
       width: 100%;
     }
@@ -1352,9 +1352,6 @@
         </a>
 
         <div class="nav-actions">
-          <button onclick="openSurveyModal()" class="btn btn-primary" style="font-size: 13px; padding: 7px 14px; min-height: 38px; background-color: #16a34a; box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);">
-            <span>📋</span> 사전 설문 QR
-          </button>
           <button onclick="openSiteQrModal()" class="btn btn-outline" style="font-size: 13px; padding: 7px 12px; min-height: 38px;">
             <span>📱</span> 사이트 QR
           </button>
@@ -1418,7 +1415,7 @@
           <div class="portal-nav-icon">01</div>
           <div class="portal-nav-text">
             <span class="portal-nav-title">수업 필수 사이트</span>
-            <span class="portal-nav-sub">메이크코드 • 티처블머신 4선</span>
+            <span class="portal-nav-sub">메이크코드 • 티처블머신 등 3선</span>
           </div>
         </a>
 
@@ -1473,12 +1470,9 @@
             사전 효과성 설문을 마친 학생은 <strong>우측 QR코드를 스마트폰으로 스캔</strong>하거나 <strong>[설문 시작하기]</strong> 버튼을 눌러주세요.
           </p>
           <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-            <a href="https://form.kosac.re.kr/v/4MyHDskwLX0s2i9sVZXJ" target="_blank" rel="noopener noreferrer" style="background: #ffffff; color: #0284c7; padding: 10px 22px; border-radius: 10px; font-weight: 900; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: transform 0.15s ease;">
+            <a href="https://form.kosac.re.kr/v/4MyHDskwLX0s2i9sVZXJ" target="_blank" rel="noopener noreferrer" style="background: #ffffff; color: #0284c7; padding: 10px 22px; border-radius: 10px; font-weight: 900; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
               <span>📝</span> 설문 바로 시작하기 ↗
             </a>
-            <button type="button" onclick="openSurveyModal('pre-competency')" style="background: rgba(255,255,255,0.15); color: #ffffff; border: 1px solid rgba(255,255,255,0.4); padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer;">
-              🔍 QR 크게보기
-            </button>
           </div>
         </div>
 
@@ -1516,9 +1510,8 @@
                   <span style="font-size: 12px; font-weight: 800; color: #0284c7;">사전 설문</span>
                   <span style="font-size: 10px; background: #ef4444; color: #ffffff; font-weight: 800; padding: 2px 6px; border-radius: 4px;">★ 지금 참여</span>
                 </div>
-                <div style="display: flex; gap: 6px;">
+                <div>
                   <a href="https://form.kosac.re.kr/v/4MyHDskwLX0s2i9sVZXJ" target="_blank" style="font-size: 11px; font-weight: 800; color: #0284c7; text-decoration: underline;">참여하기 ↗</a>
-                  <button type="button" onclick="openSurveyModal('pre-competency')" style="background: none; border: none; font-size: 11px; color: #64748b; cursor: pointer; text-decoration: underline;">QR</button>
                 </div>
               </div>
 
@@ -1528,9 +1521,8 @@
                   <span style="font-size: 12px; font-weight: 600; color: #475569;">사후 설문</span>
                   <span style="font-size: 10px; color: #94a3b8;">11.05(목) 수업 종료 후</span>
                 </div>
-                <div style="display: flex; gap: 6px;">
+                <div>
                   <a href="https://form.kosac.re.kr/v/VKRAGo5FUJNbbgHH26tI" target="_blank" style="font-size: 11px; color: #64748b; text-decoration: underline;">미리보기 ↗</a>
-                  <button type="button" onclick="openSurveyModal('post-competency')" style="background: none; border: none; font-size: 11px; color: #64748b; cursor: pointer; text-decoration: underline;">QR</button>
                 </div>
               </div>
             </div>
@@ -1550,9 +1542,8 @@
                   <span style="font-size: 12px; font-weight: 700; color: #166534;">사전 설문</span>
                   <span style="font-size: 10px; background: #dcfce7; color: #15803d; font-weight: 800; padding: 2px 6px; border-radius: 4px;">✓ 참여 완료</span>
                 </div>
-                <div style="display: flex; gap: 6px;">
+                <div>
                   <a href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" style="font-size: 11px; color: #166534; text-decoration: underline;">다시보기 ↗</a>
-                  <button type="button" onclick="openSurveyModal('pre-effect')" style="background: none; border: none; font-size: 11px; color: #64748b; cursor: pointer; text-decoration: underline;">QR</button>
                 </div>
               </div>
 
@@ -1562,9 +1553,8 @@
                   <span style="font-size: 12px; font-weight: 600; color: #475569;">사후 설문</span>
                   <span style="font-size: 10px; color: #94a3b8;">11.05(목) 수업 종료 후</span>
                 </div>
-                <div style="display: flex; gap: 6px;">
+                <div>
                   <a href="https://form.kosac.re.kr/v/9vDMP23fH2OhgKbZdFqC" target="_blank" style="font-size: 11px; color: #64748b; text-decoration: underline;">미리보기 ↗</a>
-                  <button type="button" onclick="openSurveyModal('post-effect')" style="background: none; border: none; font-size: 11px; color: #64748b; cursor: pointer; text-decoration: underline;">QR</button>
                 </div>
               </div>
             </div>
@@ -1575,43 +1565,22 @@
 
     </section>
 
-    <!-- 섹션 1: 수업 필수 활용 사이트 4선 (PC에서 4열 한 줄 보기) -->
+    <!-- 섹션 1: 수업 필수 활용 사이트 3선 (PC에서 3열 보기) -->
     <section id="sites" class="section-wrap">
       <div class="section-header">
         <div>
           <span class="section-sub">주요 학습 도구</span>
-          <h2 class="section-title">수업 필수 활용 사이트 4선</h2>
+          <h2 class="section-title">수업 필수 활용 사이트 3선</h2>
         </div>
-        <div class="section-desc">단계별 학습 도구를 클릭하면 해당 사이트로 바로 연결됩니다</div>
+        <div class="section-desc">단계별 실습 학습 도구를 클릭하면 해당 사이트로 바로 연결됩니다</div>
       </div>
 
       <div class="sites-grid">
-        <!-- 1. 설문/수료: 디지털 새싹 (필수 설문 4종 허브 연결) -->
-        <a href="#survey-section" class="card site-card" style="border-top: 4px solid #16a34a;">
-          <div>
-            <div class="site-card-top">
-              <div class="site-num" style="background-color: #dcfce7; color: #15803d;">01</div>
-              <span class="badge badge-primary">필수 설문 4종</span>
-            </div>
-            <div class="site-title">
-              공식 설문조사 허브 ↓
-            </div>
-            <div style="font-size: 11px; font-weight: 700; color: #15803d; margin-bottom: 6px;">[사전 2종 • 사후 2종 = 총 4종]</div>
-            <p class="site-desc">
-              한국과학창의재단 공식 효과성 측정 및 핵심역량 진단 설문 4종 바로가기와 QR코드를 제공합니다.
-            </p>
-          </div>
-          <div class="site-footer" style="color: #15803d;">
-            <span class="site-url">form.kosac.re.kr</span>
-            <span>설문 허브 이동 ↓</span>
-          </div>
-        </a>
-
-        <!-- 2. 피지컬 컴퓨팅: 메이크코드 -->
+        <!-- 1. 피지컬 컴퓨팅: 메이크코드 -->
         <a href="https://makecode.microbit.org/" target="_blank" rel="noopener noreferrer" class="card site-card" style="border-top: 4px solid #0284c7;">
           <div>
             <div class="site-card-top">
-              <div class="site-num" style="background-color: #e0f2fe; color: #0369a1;">02</div>
+              <div class="site-num" style="background-color: #e0f2fe; color: #0369a1;">01</div>
               <span class="badge badge-blue">블록 코딩</span>
             </div>
             <div class="site-title">
@@ -1628,11 +1597,11 @@
           </div>
         </a>
 
-        <!-- 3. 인공지능 비전: 티처블머신 -->
+        <!-- 2. 인공지능 비전: 티처블머신 -->
         <a href="https://teachablemachine.withgoogle.com/" target="_blank" rel="noopener noreferrer" class="card site-card" style="border-top: 4px solid #d97706;">
           <div>
             <div class="site-card-top">
-              <div class="site-num" style="background-color: #fef3c7; color: #b45309;">03</div>
+              <div class="site-num" style="background-color: #fef3c7; color: #b45309;">02</div>
               <span class="badge" style="background-color: #fef3c7; color: #b45309; border: 1px solid #fde68a;">머신러닝 AI</span>
             </div>
             <div class="site-title">
@@ -1649,11 +1618,11 @@
           </div>
         </a>
 
-        <!-- 4. 알고리즘 설계: AI 모델학습 -->
+        <!-- 3. 알고리즘 설계: AI 모델학습 -->
         <a href="https://ifelse-delta.vercel.app/" target="_blank" rel="noopener noreferrer" class="card site-card" style="border-top: 4px solid #0891b2;">
           <div>
             <div class="site-card-top">
-              <div class="site-num" style="background-color: #cffafe; color: #0e7490;">04</div>
+              <div class="site-num" style="background-color: #cffafe; color: #0e7490;">03</div>
               <span class="badge" style="background-color: #cffafe; color: #0e7490; border: 1px solid #a5f3fc;">알고리즘</span>
             </div>
             <div class="site-title">
@@ -1825,8 +1794,7 @@
           <div style="padding-top: 12px; border-top: 1px solid var(--border-color); font-size: 12px; color: var(--text-muted);">
             <span style="font-weight: 700;">1회차 활용 도구:</span>
             <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
-              <button type="button" onclick="openSurveyModal('pre-effect')" class="btn btn-primary" style="min-height: 40px; padding: 6px 12px; font-size: 12px; background-color: #15803d;">① 사전 효과성 (QR)</button>
-              <button type="button" onclick="openSurveyModal('pre-competency')" class="btn btn-primary" style="min-height: 40px; padding: 6px 12px; font-size: 12px; background-color: #0284c7;">② 사전 핵심역량 (QR)</button>
+              <a href="#survey-section" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px; color: #15803d; border-color: #86efac; font-weight: 700;">📋 사전 설문 이동</a>
               <a href="https://makecode.microbit.org/" target="_blank" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px;">메이크코드</a>
               <a href="https://teachablemachine.withgoogle.com/" target="_blank" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px;">티처블머신</a>
               <a href="https://ifelse-delta.vercel.app/" target="_blank" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px;">AI 모델학습</a>
