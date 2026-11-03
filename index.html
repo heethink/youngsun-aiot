@@ -284,11 +284,18 @@
 
     .portal-nav-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 12px;
     }
 
-    @media (max-width: 860px) {
+    @media (max-width: 1024px) {
+      .portal-nav-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 768px) {
       .portal-nav-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
@@ -1434,8 +1441,16 @@
         <a href="#gallery" class="portal-nav-item">
           <div class="portal-nav-icon">04</div>
           <div class="portal-nav-text">
-            <span class="portal-nav-title">학생 작품 갤러리</span>
-            <span class="portal-nav-sub">스마트팜 결과물 공유 및 감상</span>
+            <span class="portal-nav-title">학생 작품 & 바이브 게임</span>
+            <span class="portal-nav-sub">스마트팜 결과물 • 웹게임 아케이드</span>
+          </div>
+        </a>
+
+        <a href="./vibe-games.html" class="portal-nav-item" style="border: 2px solid #a855f7; background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);">
+          <div class="portal-nav-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: #fff; font-size: 16px;">🎮</div>
+          <div class="portal-nav-text">
+            <span class="portal-nav-title" style="color: #6d28d9; font-weight: 800;">바이브 게임 전용관 ↗</span>
+            <span class="portal-nav-sub" style="color: #7c3aed;">학생 AI 웹게임 바로 플레이</span>
           </div>
         </a>
       </div>
@@ -1875,13 +1890,34 @@
       </div>
     </section>
 
-    <!-- 섹션 4: 학생 결과물 공유 갤러리 -->
+    <!-- 섹션 4: 학생 결과물 & 바이브 게임 공유 갤러리 -->
     <section id="gallery" class="section-wrap">
+      
+      <!-- 🎮 바이브 코딩 게임 아케이드 전용관 강조 배너 -->
+      <div style="background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 50%, #0f172a 100%); border-radius: 18px; padding: 22px 26px; color: #ffffff; display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 24px; box-shadow: 0 6px 20px rgba(79, 70, 229, 0.25); flex-wrap: wrap; border: 1px solid #4338ca;">
+        <div style="flex: 1; min-width: 280px;">
+          <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.18); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; margin-bottom: 8px;">
+            <span style="font-size: 13px;">🎮</span> 바이브 코딩 (Vibe Coding) 학생 게임 특별관
+          </div>
+          <h3 style="font-size: 20px; font-weight: 900; margin: 0 0 6px 0; letter-spacing: -0.02em;">
+            학생들이 AI와 프롬프팅으로 직접 만든 웹 게임 바로 플레이!
+          </h3>
+          <p style="font-size: 13px; opacity: 0.9; margin: 0; line-height: 1.5; word-break: keep-all;">
+            토마토 수분 밸런스 디펜스, AI 잡초 소탕 순발력 챌린지, 온실 러너 등 학생들의 창의적 게임을 아래 갤러리에서 즉시 실행하거나 전용 아케이드관에서 크게 즐겨보세요!
+          </p>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <a href="./vibe-games.html" class="btn" style="background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%); color: #ffffff; font-weight: 800; padding: 10px 18px; font-size: 13px; border-radius: 10px; box-shadow: 0 4px 14px rgba(168, 85, 247, 0.4); text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+            <span>🕹️</span> 전용 게임 아케이드관 열기 ↗
+          </a>
+        </div>
+      </div>
+
       <div class="section-header">
         <div>
-          <span class="section-sub">Student Showcase</span>
+          <span class="section-sub">Student Showcase & Games</span>
           <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-            <h2 class="section-title" style="margin-bottom: 0;">학생 스마트팜 결과물 갤러리</h2>
+            <h2 class="section-title" style="margin-bottom: 0;">학생 결과물 & 바이브 게임 갤러리</h2>
             <span id="fbSyncBadge" style="font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: #dcfce7; color: #15803d; display: inline-flex; align-items: center; gap: 5px;">
               <span id="fbDot" style="width: 7px; height: 7px; border-radius: 50%; background: #22c55e; display: inline-block;"></span>
               <span id="fbStatusText">🟢 실시간 전체 공유 활성 (클라우드 연동 완료)</span>
@@ -1893,18 +1929,26 @@
             🔄 실시간 새로고침
           </button>
           <button onclick="openGalleryUploadModal()" class="btn btn-primary" style="font-size: 13px;">
-            + 내 결과물 등록하기
+            + 내 결과물 / 게임 등록하기
           </button>
         </div>
       </div>
 
-      <!-- 갤러리 필터 탭 -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
-        <p class="section-desc" style="margin-bottom: 0;">
-          영선중학교 학생들이 직접 제작한 스마트팜 사진, AI 학습 결과, 마이크로비트 동작 영상을 공유하는 공간입니다.
-        </p>
+      <!-- 갤러리 카테고리 필터 탭 -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <button type="button" id="gfTabAll" onclick="filterGalleryCategory('all')" class="btn" style="padding: 6px 14px; font-size: 12px; font-weight: 800; border-radius: 8px; background: #15803d; color: #ffffff;">
+            전체 보기 (<span id="gfAllCount">0</span>)
+          </button>
+          <button type="button" id="gfTabGame" onclick="filterGalleryCategory('game')" class="btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 8px; background: #faf5ff; color: #7e22ce; border: 1px solid #d8b4fe;">
+            🎮 바이브 코딩 게임 (<span id="gfGameCount">3</span>)
+          </button>
+          <button type="button" id="gfTabHardware" onclick="filterGalleryCategory('hardware')" class="btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 8px; background: #f8fafc; color: #64748b; border: 1px solid #cbd5e1;">
+            🌱 스마트팜 하드웨어 (<span id="gfHardwareCount">0</span>)
+          </button>
+        </div>
         <div style="font-size: 12px; font-weight: 700; color: var(--primary);">
-          등록된 결과물: <span id="galleryCount">0</span>개
+          등록된 작품: <span id="galleryCount">0</span>개
         </div>
       </div>
 
@@ -2214,42 +2258,123 @@
     </div>
   </div>
 
-  <!-- 학생 결과물 업로드 모달 -->
+  <!-- 학생 결과물 & 바이브 게임 업로드 모달 -->
   <div id="galleryUploadModal" class="modal-overlay hidden" onclick="closeGalleryUploadModal()">
-    <div class="modal-content" style="max-width: 480px;" onclick="event.stopPropagation()">
+    <div class="modal-content" style="max-width: 520px;" onclick="event.stopPropagation()">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-        <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">학생 결과물 등록하기</h3>
+        <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">학생 결과물 / 바이브 게임 등록</h3>
         <button onclick="closeGalleryUploadModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #94a3b8;">✕</button>
+      </div>
+
+      <!-- 유형 선택 탭 -->
+      <div style="display: flex; background: #f1f5f9; padding: 4px; border-radius: 10px; gap: 4px; margin-bottom: 14px;">
+        <button type="button" id="upTabHardware" onclick="switchUploadKind('hardware')" class="btn" style="flex: 1; padding: 7px; font-size: 12px; font-weight: 800; border-radius: 6px; background: #15803d; color: #fff;">
+          🌱 스마트팜 실습 (사진)
+        </button>
+        <button type="button" id="upTabGame" onclick="switchUploadKind('game')" class="btn" style="flex: 1; padding: 7px; font-size: 12px; font-weight: 700; border-radius: 6px; background: transparent; color: #64748b;">
+          🎮 바이브 코딩 게임 (HTML/웹)
+        </button>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 12px;">
         <div>
           <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">작성자 이름</label>
-          <input type="text" id="gAuthor" placeholder="예: 김민성" class="search-box" style="margin-bottom: 0; width: 100%; max-width: 100%;">
+          <input type="text" id="gAuthor" placeholder="예: 1-3 김민성" class="search-box" style="margin-bottom: 0; width: 100%; max-width: 100%;">
         </div>
 
         <div>
-          <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">작품 제목</label>
+          <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">작품/게임 제목</label>
           <input type="text" id="gTitle" placeholder="예: 토마토 자동 수분 공급 스마트팜 완성!" class="search-box" style="margin-bottom: 0; width: 100%; max-width: 100%;">
         </div>
 
         <div>
-          <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">작품 설명 (기능 및 소감)</label>
-          <textarea id="gDesc" placeholder="예: 토양 수분 센서(P2) 실측값 240 확인 후 기준값 300 설정, 물 펌프 3초 작동 규칙 설계" class="search-box" style="margin-bottom: 0; width: 100%; max-width: 100%; height: 80px; padding: 10px; resize: none; font-family: inherit;"></textarea>
+          <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">작품/게임 설명 (기능, AI 프롬프트, 소감)</label>
+          <textarea id="gDesc" placeholder="기능 설명이나 바이브 코딩 시 사용한 AI 프롬프트를 적어주세요." class="search-box" style="margin-bottom: 0; width: 100%; max-width: 100%; height: 75px; padding: 10px; resize: none; font-family: inherit;"></textarea>
         </div>
 
-        <div>
-          <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">결과물 사진 첨부 <span style="font-weight: 400; color: var(--text-light);">(선택 사항)</span></label>
+        <!-- 하드웨어 실습 전용 필드 -->
+        <div id="upHardwareFields">
+          <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">결과물 사진 첨부 <span style="font-weight: 400; color: var(--text-light);">(선택)</span></label>
           <input type="file" id="gImageFile" accept="image/*" class="search-box" style="margin-bottom: 0; width: 100%; max-width: 100%; padding-top: 10px;">
+        </div>
+
+        <!-- 바이브 게임 전용 필드 -->
+        <div id="upGameFields" style="display: none; flex-direction: column; gap: 10px;">
+          <div>
+            <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">게임 등록 형태</label>
+            <select id="gGameType" onchange="toggleGameSourceField()" class="search-box" style="margin-bottom: 0; width: 100%; max-width: 100%;">
+              <option value="html">📄 HTML 코드 직접 붙여넣기 (AI가 생성해준 코드)</option>
+              <option value="url">🔗 배포 웹 게임 URL 링크 (GitHub Pages, Netlify 등)</option>
+            </select>
+          </div>
+
+          <div id="gHtmlCodeBox">
+            <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">HTML5 게임 코드 붙여넣기</label>
+            <textarea id="gGameHtml" placeholder="<!DOCTYPE html> ... AI에게 받은 게임 전체 코드를 붙여넣으세요" class="search-box" style="margin-bottom: 0; width: 100%; max-width: 100%; height: 90px; padding: 8px; font-family: monospace; font-size: 11px;"></textarea>
+          </div>
+
+          <div id="gUrlBox" style="display: none;">
+            <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">게임 웹 링크 (URL)</label>
+            <input type="url" id="gGameUrl" placeholder="https://..." class="search-box" style="margin-bottom: 0; width: 100%; max-width: 100%;">
+          </div>
+
+          <div>
+            <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">조작법 안내</label>
+            <input type="text" id="gGameControls" placeholder="예: 방향키 좌우, 스페이스바 점프, 화면 터치" class="search-box" style="margin-bottom: 0; width: 100%; max-width: 100%;">
+          </div>
+
+          <div>
+            <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">대표 아이콘 이모지</label>
+            <select id="gGameEmoji" class="search-box" style="margin-bottom: 0; width: 100%; max-width: 100%;">
+              <option value="🎮">🎮 게임 컨트롤러</option>
+              <option value="🍅">🍅 스마트 토마토</option>
+              <option value="🌿">🌿 초록 식물/잡초</option>
+              <option value="🤖">🤖 마이크로비트 로봇</option>
+              <option value="💧">💧 물방울 펌프</option>
+              <option value="⚡">⚡ 스마트 센서</option>
+            </select>
+          </div>
         </div>
 
         <div style="display: flex; gap: 8px; margin-top: 8px;">
           <button onclick="closeGalleryUploadModal()" class="btn btn-outline" style="flex: 1;">
             취소
           </button>
-          <button onclick="submitGalleryItem()" class="btn btn-primary" style="flex: 1;">
+          <button onclick="submitGalleryItem()" class="btn btn-primary" id="gSubmitBtn" style="flex: 1;">
             등록하기
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 바이브 코딩 게임 즉시 플레이 모달 -->
+  <div id="gamePlayModal" class="modal-overlay hidden" onclick="closeGamePlayModal()">
+    <div class="modal-content" style="max-width: 780px; padding: 18px; background: #0f172a; border: 2px solid #334155;" onclick="event.stopPropagation()">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #1e293b; flex-wrap: wrap; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="background: #8b5cf6; color: #fff; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px;">🎮 바이브 게임</span>
+          <h3 id="gpmTitle" style="font-size: 16px; font-weight: 800; color: #ffffff; margin: 0;">토마토 수분 지킴이</h3>
+          <span id="gpmAuthor" style="font-size: 12px; color: #94a3b8;">제작: 김민성</span>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <button onclick="reloadModalGame()" class="btn btn-outline" style="min-height: 32px; padding: 4px 10px; font-size: 11px; color: #fff; border-color: #334155;">🔄 다시 시작</button>
+          <a id="gpmExternalBtn" href="#" target="_blank" class="btn btn-outline" style="min-height: 32px; padding: 4px 10px; font-size: 11px; color: #38bdf8; border-color: #38bdf8; text-decoration: none;">새 창 ↗</a>
+          <button onclick="closeGamePlayModal()" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #94a3b8; margin-left: 6px; line-height: 1;">✕</button>
+        </div>
+      </div>
+
+      <div style="width: 100%; height: 480px; max-height: 60vh; background: #020617; border-radius: 12px; overflow: hidden; position: relative;">
+        <iframe id="gpmIframe" style="width: 100%; height: 100%; border: none; display: block;" allow="autoplay; fullscreen"></iframe>
+      </div>
+
+      <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12px; color: #94a3b8;">
+        <div id="gpmControls" style="color: #38bdf8; font-weight: 700;">🕹️ 조작: 방향키 좌우 또는 화면 터치</div>
+        <div style="display: flex; gap: 8px;">
+          <a href="./vibe-games.html" class="btn" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: #fff; font-size: 11px; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: 800;">
+            전용 아케이드관 가기 ↗
+          </a>
+          <button onclick="closeGamePlayModal()" class="btn btn-outline" style="min-height: 32px; padding: 4px 14px; font-size: 11px; color: #cbd5e1; border-color: #334155;">닫기</button>
         </div>
       </div>
     </div>
@@ -2461,8 +2586,58 @@
     const CLOUD_DB_URL = "https://kvdb.io/P35zK2eijM9DghXrHGUv7D";
     const GALLERY_STORE = 'studentGallery';
     let currentViewingItemId = null;
+    let currentPlayingModalGame = null;
     let cachedGalleryItems = {};
+    let cachedAllGalleryItems = [];
+    let currentGalleryCategory = 'all'; // 'all' | 'game' | 'hardware'
+    let currentUploadKind = 'hardware'; // 'hardware' | 'game'
     let isCloudSyncing = false;
+
+    // 기본 탑재 영선중 바이브 코딩 학생 게임 3종
+    const PRESET_VIBE_GAMES = [
+      {
+        id: "preset_tomato",
+        isVibeGame: true,
+        type: "vibe_game",
+        author: "1-3 김민성",
+        title: "토마토 수분 지킴이",
+        emoji: "🍅",
+        desc: "바이브 코딩으로 제작된 스마트 수분 조절 디펜스 게임! 떨어지는 물방울을 받아 화분 수분을 40~80%로 유지하세요.",
+        controls: "키보드 좌우 화살표 (← →) 또는 화면 좌우 터치 버튼",
+        gameUrl: "./games/tomato-water.html",
+        createdAt: "2026. 11. 3. 12:40",
+        timestamp: 1793684000000,
+        isPreset: true
+      },
+      {
+        id: "preset_weed",
+        isVibeGame: true,
+        type: "vibe_game",
+        author: "1-3 구채린",
+        title: "초록수호대 AI 잡초 소탕",
+        emoji: "🌿",
+        desc: "AI 카메라가 실시간 탐지한 잡초와 해충을 30초 동안 빠르게 탭하여 수확하는 순발력 챌린지 게임!",
+        controls: "마우스 클릭 또는 스마트폰 터치",
+        gameUrl: "./games/weed-buster.html",
+        createdAt: "2026. 11. 3. 12:45",
+        timestamp: 1793684500000,
+        isPreset: true
+      },
+      {
+        id: "preset_runner",
+        isVibeGame: true,
+        type: "vibe_game",
+        author: "1-3 김승완",
+        title: "마이크로비트 온실 러너",
+        emoji: "🤖",
+        desc: "마이크로비트 캐릭터로 온실을 질주하며 가뭄 돌을 피하고 온습도/조도 센서 칩을 수집하는 러너 게임!",
+        controls: "스페이스바 점프 또는 화면 터치",
+        gameUrl: "./games/microbit-runner.html",
+        createdAt: "2026. 11. 3. 12:50",
+        timestamp: 1793685000000,
+        isPreset: true
+      }
+    ];
 
     function escapeHtml(str) {
       if (!str) return '';
@@ -2509,7 +2684,7 @@
       });
     }
 
-    // 클라우드 전체 동기화 함수 (모든 학생 & 선생님 실시간 공유)
+    // 클라우드 전체 동기화 함수 (모든 학생 & 선생님 실시간 공유 + 바이브 게임 포함)
     async function syncCloudGallery(isSilent = false) {
       if (isCloudSyncing) return;
       isCloudSyncing = true;
@@ -2532,16 +2707,27 @@
           }
         });
 
+        // 기본 바이브 게임 3종 병합 (중복 방지)
+        PRESET_VIBE_GAMES.forEach(pg => {
+          if (!list.some(it => it.id === pg.id)) {
+            list.push(pg);
+          }
+        });
+
         // 최신 등록순 정렬 (timestamp 기준)
         list.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-        renderGalleryList(list);
+        cachedAllGalleryItems = list;
+        
+        applyGalleryFilter();
         updateFbBadge(true, "🟢 실시간 전체 공유 활성 (동기화 완료)");
-        if (!isSilent) showToast("최신 학생 결과물을 성공적으로 동기화했습니다.");
+        if (!isSilent) showToast("최신 학생 결과물과 바이브 게임을 동기화했습니다.");
       } catch (err) {
         console.warn("Cloud sync error, falling back to local:", err);
-        updateFbBadge(false, "🟡 오프라인 모드 (로컬 조회)");
+        updateFbBadge(false, "🟡 오프라인 모드 (로컬/기본 게임 조회)");
+        cachedAllGalleryItems = [...PRESET_VIBE_GAMES];
+        applyGalleryFilter();
         if (!isSilent) {
-          showToast("클라우드 연결 일시 지연. 로컬 저장소를 조회합니다.");
+          showToast("클라우드 연결 지연. 로컬 저장소를 조회합니다.");
           renderLocalIndexedDb();
         }
       } finally {
@@ -2568,7 +2754,53 @@
       }
     }
 
-    // 갤러리 카드 렌더링 통합 함수
+    // 갤러리 카테고리 필터링
+    function filterGalleryCategory(cat) {
+      currentGalleryCategory = cat;
+      const btnAll = document.getElementById('gfTabAll');
+      const btnGame = document.getElementById('gfTabGame');
+      const btnHw = document.getElementById('gfTabHardware');
+
+      if (btnAll) {
+        btnAll.style.background = cat === 'all' ? '#15803d' : '#f8fafc';
+        btnAll.style.color = cat === 'all' ? '#fff' : '#64748b';
+        btnAll.style.border = cat === 'all' ? 'none' : '1px solid #cbd5e1';
+      }
+      if (btnGame) {
+        btnGame.style.background = cat === 'game' ? '#7e22ce' : '#faf5ff';
+        btnGame.style.color = cat === 'game' ? '#fff' : '#7e22ce';
+        btnGame.style.border = cat === 'game' ? 'none' : '1px solid #d8b4fe';
+      }
+      if (btnHw) {
+        btnHw.style.background = cat === 'hardware' ? '#15803d' : '#f8fafc';
+        btnHw.style.color = cat === 'hardware' ? '#fff' : '#64748b';
+        btnHw.style.border = cat === 'hardware' ? 'none' : '1px solid #cbd5e1';
+      }
+      applyGalleryFilter();
+    }
+
+    function applyGalleryFilter() {
+      let filtered = cachedAllGalleryItems || [];
+      const gameCount = filtered.filter(i => i.isVibeGame || i.type === 'vibe_game').length;
+      const hwCount = filtered.length - gameCount;
+
+      const elAll = document.getElementById('gfAllCount');
+      const elGame = document.getElementById('gfGameCount');
+      const elHw = document.getElementById('gfHardwareCount');
+      if (elAll) elAll.textContent = filtered.length;
+      if (elGame) elGame.textContent = gameCount;
+      if (elHw) elHw.textContent = hwCount;
+
+      if (currentGalleryCategory === 'game') {
+        filtered = filtered.filter(i => i.isVibeGame || i.type === 'vibe_game');
+      } else if (currentGalleryCategory === 'hardware') {
+        filtered = filtered.filter(i => !(i.isVibeGame || i.type === 'vibe_game'));
+      }
+
+      renderGalleryList(filtered);
+    }
+
+    // 갤러리 카드 렌더링 함수
     function renderGalleryList(items) {
       cachedGalleryItems = {};
       const countEl = document.getElementById('galleryCount');
@@ -2578,18 +2810,36 @@
       grid.innerHTML = '';
 
       if (items.length === 0) {
-        grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 48px; background: #ffffff; border-radius: 16px; border: 1px dashed var(--border-color); color: var(--text-muted);">아직 등록된 학생 결과물이 없습니다. 상단의 [+ 내 결과물 등록하기] 버튼을 눌러 첫 번째 작품을 올려보세요!</div>`;
+        grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 48px; background: #ffffff; border-radius: 16px; border: 1px dashed var(--border-color); color: var(--text-muted);">해당 카테고리의 결과물이 없습니다. 상단의 등록 버튼을 눌러 첫 번째 작품을 올려보세요!</div>`;
         return;
       }
 
       items.forEach(item => {
         const idKey = String(item.id || item.cloudKey);
         cachedGalleryItems[idKey] = item;
+        const isGame = Boolean(item.isVibeGame || item.type === 'vibe_game');
+        
         const card = document.createElement('div');
         card.className = 'gallery-card';
+        if (isGame) {
+          card.style.border = '2px solid #c084fc';
+          card.style.boxShadow = '0 4px 14px rgba(168, 85, 247, 0.15)';
+        }
         
         let mediaHtml = '';
-        if (item.imgData && item.imgData.trim() !== '') {
+        if (isGame) {
+          mediaHtml = `
+            <div class="gallery-thumb-wrap" onclick="openGamePlayModal('${idKey}')" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); cursor: pointer; position: relative;" title="클릭하여 바로 플레이">
+              <span style="font-size: 58px; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.15)'" onmouseout="this.style.transform='scale(1)'">${item.emoji || '🎮'}</span>
+              <span style="position: absolute; top: 10px; right: 10px; background: #8b5cf6; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 6px;">🎮 바이브 게임</span>
+              <div style="position: absolute; bottom: 8px; left: 0; right: 0; text-align: center;">
+                <span style="background: rgba(15, 23, 42, 0.88); color: #38bdf8; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(56, 189, 248, 0.4);">
+                  ▶ 바로 플레이
+                </span>
+              </div>
+            </div>
+          `;
+        } else if (item.imgData && item.imgData.trim() !== '') {
           mediaHtml = `
             <div class="gallery-thumb-wrap" onclick="viewGalleryItem('${idKey}')">
               <img src="${item.imgData}" alt="${escapeHtml(item.title)}" class="gallery-thumb" onerror="this.style.display='none'">
@@ -2605,17 +2855,33 @@
           `;
         }
 
+        const actionBtns = isGame
+          ? `
+            <button onclick="openGamePlayModal('${idKey}')" class="btn" style="min-height: 32px; padding: 3px 12px; font-size: 11px; background: #8b5cf6; color: #fff; font-weight: 800; border-radius: 6px;">
+              ▶ 플레이
+            </button>
+            <button onclick="viewGalleryItem('${idKey}')" class="btn btn-outline" style="min-height: 32px; padding: 3px 10px; font-size: 11px;">상세</button>
+          `
+          : `
+            <button onclick="viewGalleryItem('${idKey}')" class="btn btn-outline" style="min-height: 32px; padding: 2px 12px; font-size: 11px;">상세보기</button>
+          `;
+
         card.innerHTML = `
           ${mediaHtml}
           <div class="gallery-body">
             <div>
-              <div style="font-size: 12px; font-weight: 800; color: var(--primary); margin-bottom: 4px;">학생: ${escapeHtml(item.author)}</div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="font-size: 12px; font-weight: 800; color: ${isGame ? '#7e22ce' : 'var(--primary)'};">학생: ${escapeHtml(item.author)}</span>
+                ${isGame ? '<span style="font-size: 10px; background: #f3e8ff; color: #7e22ce; padding: 1px 6px; border-radius: 4px; font-weight: 700;">HTML5 웹게임</span>' : ''}
+              </div>
               <div class="gallery-title">${escapeHtml(item.title)}</div>
               <p class="gallery-desc">${escapeHtml(item.desc || '작품 설명이 등록되지 않았습니다.')}</p>
             </div>
             <div class="gallery-footer">
               <span>${item.createdAt || ''}</span>
-              <button onclick="viewGalleryItem('${idKey}')" class="btn btn-outline" style="min-height: 32px; padding: 2px 12px; font-size: 11px;">상세보기</button>
+              <div style="display: flex; gap: 4px;">
+                ${actionBtns}
+              </div>
             </div>
           </div>
         `;
@@ -2623,52 +2889,178 @@
       });
     }
 
+    // 바이브 게임 모달 실행
+    function openGamePlayModal(idKey) {
+      const item = cachedGalleryItems[String(idKey)] || PRESET_VIBE_GAMES.find(g => g.id === idKey);
+      if (!item) return;
+      currentPlayingModalGame = item;
+
+      document.getElementById('gpmTitle').textContent = item.title;
+      document.getElementById('gpmAuthor').textContent = '제작: ' + (item.author || '학생');
+      document.getElementById('gpmControls').textContent = '🕹️ 조작: ' + (item.controls || '마우스/키보드/터치');
+
+      const iframe = document.getElementById('gpmIframe');
+      const extBtn = document.getElementById('gpmExternalBtn');
+
+      if (item.gameHtml) {
+        iframe.srcdoc = item.gameHtml;
+        extBtn.style.display = 'none';
+      } else if (item.gameUrl) {
+        iframe.removeAttribute('srcdoc');
+        iframe.src = item.gameUrl;
+        extBtn.href = item.gameUrl;
+        extBtn.style.display = 'inline-flex';
+      }
+
+      document.getElementById('gamePlayModal').classList.remove('hidden');
+    }
+
+    function reloadModalGame() {
+      if (!currentPlayingModalGame) return;
+      openGamePlayModal(currentPlayingModalGame.id || currentPlayingModalGame.cloudKey);
+      showToast('게임을 다시 시작했습니다.');
+    }
+
+    function closeGamePlayModal() {
+      currentPlayingModalGame = null;
+      const iframe = document.getElementById('gpmIframe');
+      if (iframe) {
+        iframe.removeAttribute('srcdoc');
+        iframe.src = 'about:blank'; // 음성 및 루프 완전 중지
+      }
+      document.getElementById('gamePlayModal').classList.add('hidden');
+    }
+
+    // 업로드 모달 유형 전환
+    function switchUploadKind(kind) {
+      currentUploadKind = kind;
+      const tabHw = document.getElementById('upTabHardware');
+      const tabGame = document.getElementById('upTabGame');
+      const boxHw = document.getElementById('upHardwareFields');
+      const boxGame = document.getElementById('upGameFields');
+      const submitBtn = document.getElementById('gSubmitBtn');
+
+      if (kind === 'game') {
+        tabGame.style.background = '#7e22ce';
+        tabGame.style.color = '#fff';
+        tabHw.style.background = 'transparent';
+        tabHw.style.color = '#64748b';
+        boxGame.style.display = 'flex';
+        boxHw.style.display = 'none';
+        if (submitBtn) submitBtn.style.background = '#7e22ce';
+      } else {
+        tabHw.style.background = '#15803d';
+        tabHw.style.color = '#fff';
+        tabGame.style.background = 'transparent';
+        tabGame.style.color = '#64748b';
+        boxGame.style.display = 'none';
+        boxHw.style.display = 'block';
+        if (submitBtn) submitBtn.style.background = '#15803d';
+      }
+    }
+
+    function toggleGameSourceField() {
+      const type = document.getElementById('gGameType').value;
+      const htmlBox = document.getElementById('gHtmlCodeBox');
+      const urlBox = document.getElementById('gUrlBox');
+      if (type === 'html') {
+        htmlBox.style.display = 'block';
+        urlBox.style.display = 'none';
+      } else {
+        htmlBox.style.display = 'none';
+        urlBox.style.display = 'block';
+      }
+    }
+
     function openGalleryUploadModal() {
       document.getElementById('galleryUploadModal').classList.remove('hidden');
       document.getElementById('gAuthor').value = '';
       document.getElementById('gTitle').value = '';
       document.getElementById('gDesc').value = '';
-      document.getElementById('gImageFile').value = '';
+      const imgInput = document.getElementById('gImageFile');
+      if (imgInput) imgInput.value = '';
+      const htmlInput = document.getElementById('gGameHtml');
+      if (htmlInput) htmlInput.value = '';
+      const urlInput = document.getElementById('gGameUrl');
+      if (urlInput) urlInput.value = '';
+      const ctrlInput = document.getElementById('gGameControls');
+      if (ctrlInput) ctrlInput.value = '';
+      switchUploadKind('hardware');
     }
 
     function closeGalleryUploadModal() {
       document.getElementById('galleryUploadModal').classList.add('hidden');
     }
 
-    // 학생 결과물 등록 (클라우드 즉시 업로드)
+    // 학생 결과물 및 바이브 게임 등록
     async function submitGalleryItem() {
       const author = document.getElementById('gAuthor').value.trim();
       const title = document.getElementById('gTitle').value.trim();
       const desc = document.getElementById('gDesc').value.trim();
-      const fileInput = document.getElementById('gImageFile');
 
       if (!author || !title) {
-        alert('작성자 이름과 작품 제목을 입력해주세요.');
+        alert('작성자 이름과 작품/게임 제목을 모두 입력해주세요.');
         return;
       }
 
-      showToast('☁️ 실시간 클라우드에 작품을 등록하는 중입니다...');
-
-      let imgData = '';
-      if (fileInput.files && fileInput.files[0]) {
-        try {
-          imgData = await compressImage(fileInput.files[0], 640, 0.70);
-        } catch (e) {
-          console.warn('Image compress error:', e);
-        }
-      }
+      showToast('☁️ 실시간 클라우드에 등록하는 중입니다...');
 
       const timestamp = Date.now();
-      const record = {
-        author,
-        title,
-        desc,
-        imgData,
-        createdAt: new Date().toLocaleDateString('ko-KR') + ' ' + new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }),
-        timestamp
-      };
+      let record = {};
 
-      const cloudKey = `gallery_${timestamp}_${Math.random().toString(36).substring(2, 7)}`;
+      if (currentUploadKind === 'game') {
+        const gameType = document.getElementById('gGameType').value;
+        const gameHtml = document.getElementById('gGameHtml').value.trim();
+        const gameUrl = document.getElementById('gGameUrl').value.trim();
+        const controls = document.getElementById('gGameControls').value.trim();
+        const emoji = document.getElementById('gGameEmoji').value;
+
+        if (gameType === 'html' && !gameHtml) {
+          alert('HTML5 게임 코드를 입력해주세요.');
+          return;
+        }
+        if (gameType === 'url' && !gameUrl) {
+          alert('게임 웹 링크 URL을 입력해주세요.');
+          return;
+        }
+
+        record = {
+          isVibeGame: true,
+          type: 'vibe_game',
+          author,
+          title,
+          desc: desc || `${author} 학생이 바이브 코딩으로 제작한 게임`,
+          controls: controls || '화면 터치 또는 마우스 클릭',
+          emoji: emoji || '🎮',
+          gameHtml: gameType === 'html' ? gameHtml : '',
+          gameUrl: gameType === 'url' ? gameUrl : '',
+          createdAt: new Date().toLocaleDateString('ko-KR') + ' ' + new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }),
+          timestamp
+        };
+      } else {
+        const fileInput = document.getElementById('gImageFile');
+        let imgData = '';
+        if (fileInput && fileInput.files && fileInput.files[0]) {
+          try {
+            imgData = await compressImage(fileInput.files[0], 640, 0.70);
+          } catch (e) {
+            console.warn('Image compress error:', e);
+          }
+        }
+
+        record = {
+          isVibeGame: false,
+          type: 'hardware',
+          author,
+          title,
+          desc,
+          imgData,
+          createdAt: new Date().toLocaleDateString('ko-KR') + ' ' + new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }),
+          timestamp
+        };
+      }
+
+      const cloudKey = `gallery_${currentUploadKind === 'game' ? 'game_' : ''}${timestamp}_${Math.random().toString(36).substring(2, 7)}`;
 
       try {
         const res = await fetch(`${CLOUD_DB_URL}/${cloudKey}`, {
@@ -2680,7 +3072,7 @@
         if (!res.ok) throw new Error("클라우드 응답 실패: " + res.status);
         
         closeGalleryUploadModal();
-        showToast('🎉 학생 결과물이 실시간 클라우드에 성공적으로 등록되었습니다! (모든 학생 공유)');
+        showToast('🎉 클라우드에 성공적으로 등록되었습니다! (모든 학생과 실시간 공유)');
         await syncCloudGallery(true);
       } catch (err) {
         console.error('Cloud save failed, saving locally:', err);

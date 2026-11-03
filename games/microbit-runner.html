@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>마이크로비트 온실 러너 | 바이브 코딩 게임</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    body {
+      background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      padding: 10px;
+    }
+    #gameHeader {
+      width: 100%;
+      max-width: 540px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      backdrop-filter: blur(8px);
+    }
+    .hud-item { display: flex; flex-direction: column; align-items: center; }
+    .hud-label { font-size: 10px; color: #cbd5e1; font-weight: 700; }
+    .hud-val { font-size: 16px; font-weight: 900; color: #a855f7; }
+
+    #canvasWrap {
+      position: relative;
+      width: 100%;
+      max-width: 540px;
+      aspect-ratio: 16 / 9;
+      max-height: 70vh;
+      background: #090d16;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 0 2px rgba(168, 85, 247, 0.3);
+    }
+    canvas { width: 100%; height: 100%; display: block; }
+    #jumpBtnWrap {
+      width: 100%;
+      max-width: 540px;
+      margin-top: 10px;
+    }
+    .jump-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+      transition: transform 0.08s;
+    }
+    .jump-btn:active { transform: scale(0.97); }
+
+    #overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(9, 13, 22, 0.88);
+      backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      z-index: 10;
+    }
+    #overlay.hidden { display: none; }
+    .start-btn {
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.5);
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="gameHeader">
+    <div class="hud-item">
+      <span class="hud-label">점수 (SCORE)</span>
+      <span id="scoreText" class="hud-val">0</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">달린 거리</span>
+      <span id="distText" class="hud-val" style="color: #38bdf8;">0m</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">수집 센서</span>
+      <span id="chipText" class="hud-val" style="color: #4ade80;">0개</span>
+    </div>
+  </div>
+
+  <div id="canvasWrap">
+    <canvas id="gameCanvas" width="640" height="360"></canvas>
+    <div id="overlay">
+      <div style="font-size: 42px; margin-bottom: 8px;">🤖🏃</div>
+      <h2 id="ovTitle" style="font-size: 22px; font-weight: 900; margin-bottom: 6px;">마이크로비트 온실 러너</h2>
+      <p id="ovSub" style="font-size: 13px; color: #cbd5e1; max-width: 320px; line-height: 1.5; margin-bottom: 12px;">
+        바이브 코딩 제작자: 영선중 1-3 김승완<br>
+        <strong>스페이스바 또는 화면 터치</strong>로 점프!<br>
+        가뭄 돌(🪨)을 피하고 IoT 센서 칩(📊, ☀️, 💧)을 모으세요!
+      </p>
+      <button id="ovBtn" class="start-btn" onclick="startGame()">▶ 달리기 시작!</button>
+    </div>
+  </div>
+
+  <div id="jumpBtnWrap">
+    <button class="jump-btn" id="btnJump">🚀 점프하기 (스페이스바 / 화면 클릭)</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreText = document.getElementById('scoreText');
+    const distText = document.getElementById('distText');
+    const chipText = document.getElementById('chipText');
+    const overlay = document.getElementById('overlay');
+    const ovTitle = document.getElementById('ovTitle');
+    const ovSub = document.getElementById('ovSub');
+    const ovBtn = document.getElementById('ovBtn');
+
+    // Synth
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    let actx = null;
+    function playBeep(freq, dur = 0.08, type = 'sine') {
+      try {
+        if (!actx) actx = new AudioCtx();
+        const osc = actx.createOscillator();
+        const gain = actx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, actx.currentTime);
+        gain.gain.setValueAtTime(0.12, actx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + dur);
+        osc.connect(gain);
+        gain.connect(actx.destination);
+        osc.start();
+        osc.stop(actx.currentTime + dur);
+      } catch(e) {}
+    }
+
+    let isRunning = false;
+    let score = 0;
+    let distance = 0;
+    let chips = 0;
+    let gameSpeed = 5;
+    let groundY = 280;
+
+    // Player (Microbit Robot)
+    const player = {
+      x: 70,
+      y: groundY - 45,
+      w: 42,
+      h: 45,
+      vy: 0,
+      gravity: 0.85,
+      jumpForce: -14,
+      isGrounded: true
+    };
+
+    let obstacles = [];
+    let items = [];
+    let particles = [];
+    let nextObstacleDist = 80;
+    let nextItemDist = 40;
+
+    function jump() {
+      if (!isRunning) return;
+      if (player.isGrounded) {
+        player.vy = player.jumpForce;
+        player.isGrounded = false;
+        playBeep(480, 0.1, 'sine');
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' || e.key === ' ' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        jump();
+      }
+    });
+
+    const btnJump = document.getElementById('btnJump');
+    btnJump.addEventListener('pointerdown', (e) => { e.preventDefault(); jump(); });
+    canvas.addEventListener('pointerdown', (e) => { e.preventDefault(); jump(); });
+
+    function startGame() {
+      if (!actx) {
+        try { actx = new AudioCtx(); } catch(e) {}
+      }
+      overlay.classList.add('hidden');
+      isRunning = true;
+      score = 0;
+      distance = 0;
+      chips = 0;
+      gameSpeed = 5;
+      obstacles = [];
+      items = [];
+      particles = [];
+      player.y = groundY - player.h;
+      player.vy = 0;
+      player.isGrounded = true;
+      nextObstacleDist = 80;
+      nextItemDist = 40;
+      requestAnimationFrame(gameLoop);
+    }
+
+    function gameOver() {
+      isRunning = false;
+      playBeep(160, 0.4, 'sawtooth');
+      ovTitle.textContent = '장애물 충돌!';
+      ovSub.innerHTML = `온실 탐험 종료!<br>달린 거리: <strong style="color:#38bdf8">${Math.floor(distance)}m</strong> | 수집 센서: <strong style="color:#4ade80">${chips}개</strong><br>최종 점수: <span style="color:#a855f7; font-size:22px; font-weight:900;">${score}점</span>`;
+      ovBtn.textContent = '🔄 다시 달리기';
+      overlay.classList.remove('hidden');
+    }
+
+    function gameLoop() {
+      if (!isRunning) return;
+
+      distance += gameSpeed * 0.05;
+      score = Math.floor(distance * 2 + chips * 50);
+      gameSpeed = 5 + Math.min(distance * 0.008, 6);
+
+      scoreText.textContent = score;
+      distText.textContent = Math.floor(distance) + 'm';
+      chipText.textContent = chips + '개';
+
+      // Player physics
+      player.vy += player.gravity;
+      player.y += player.vy;
+      if (player.y >= groundY - player.h) {
+        player.y = groundY - player.h;
+        player.vy = 0;
+        player.isGrounded = true;
+      }
+
+      // Spawn obstacle
+      nextObstacleDist -= gameSpeed;
+      if (nextObstacleDist <= 0) {
+        const h = 30 + Math.random() * 25;
+        obstacles.push({
+          x: canvas.width + 20,
+          y: groundY - h,
+          w: 26,
+          h: h,
+          emoji: Math.random() > 0.5 ? '🪨' : '⚡'
+        });
+        nextObstacleDist = 180 + Math.random() * 220;
+      }
+
+      // Spawn item
+      nextItemDist -= gameSpeed;
+      if (nextItemDist <= 0) {
+        const itemY = groundY - 40 - Math.random() * 65;
+        items.push({
+          x: canvas.width + 20,
+          y: itemY,
+          size: 24,
+          emoji: ['📊', '☀️', '💧', '🌱'][Math.floor(Math.random() * 4)]
+        });
+        nextItemDist = 90 + Math.random() * 120;
+      }
+
+      // Update obstacles
+      for (let i = obstacles.length - 1; i >= 0; i--) {
+        const obs = obstacles[i];
+        obs.x -= gameSpeed;
+
+        // Collision check (box vs box)
+        if (
+          player.x + player.w - 8 > obs.x &&
+          player.x + 8 < obs.x + obs.w &&
+          player.y + player.h > obs.y + 6
+        ) {
+          gameOver();
+          return;
+        }
+
+        if (obs.x < -40) obstacles.splice(i, 1);
+      }
+
+      // Update items
+      for (let i = items.length - 1; i >= 0; i--) {
+        const it = items[i];
+        it.x -= gameSpeed;
+
+        // Collision check
+        if (
+          player.x + player.w > it.x &&
+          player.x < it.x + it.size &&
+          player.y + player.h > it.y &&
+          player.y < it.y + it.size
+        ) {
+          chips++;
+          playBeep(700, 0.08, 'triangle');
+          items.splice(i, 1);
+          continue;
+        }
+
+        if (it.x < -40) items.splice(i, 1);
+      }
+
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    function draw() {
+      // Clear
+      ctx.fillStyle = '#0a0f1d';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Greenhouse ceiling arches
+      ctx.strokeStyle = 'rgba(168, 85, 247, 0.15)';
+      ctx.lineWidth = 2;
+      for (let i = 0; i < 4; i++) {
+        const archX = ((canvas.width + i * 200) - (distance * 10) % 800);
+        ctx.beginPath();
+        ctx.arc(archX, 60, 120, Math.PI, 0);
+        ctx.stroke();
+      }
+
+      // Ground
+      ctx.fillStyle = '#064e3b';
+      ctx.fillRect(0, groundY, canvas.width, canvas.height - groundY);
+      ctx.fillStyle = '#10b981';
+      ctx.fillRect(0, groundY, canvas.width, 4);
+
+      // Draw items
+      items.forEach(it => {
+        ctx.font = '22px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(it.emoji, it.x + it.size / 2, it.y + it.size / 2);
+      });
+
+      // Draw obstacles
+      obstacles.forEach(obs => {
+        ctx.font = '24px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText(obs.emoji, obs.x + obs.w / 2, obs.y + obs.h);
+      });
+
+      // Draw Player (Microbit Robot)
+      ctx.fillStyle = '#1e293b';
+      ctx.beginPath();
+      ctx.roundRect(player.x, player.y, player.w, player.h, 8);
+      ctx.fill();
+      ctx.strokeStyle = '#a855f7';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // 5x5 LED Matrix simulation on microbit
+      ctx.fillStyle = '#ef4444';
+      for (let r = 0; r < 3; r++) {
+        for (let c = 0; c < 3; c++) {
+          ctx.fillRect(player.x + 12 + c * 6, player.y + 12 + r * 6, 4, 4);
+        }
+      }
+
+      // Gold pins at bottom of microbit
+      ctx.fillStyle = '#facc15';
+      for (let p = 0; p < 5; p++) {
+        ctx.fillRect(player.x + 4 + p * 7, player.y + player.h - 4, 5, 4);
+      }
+    }
+  </script>
+</body>
+</html>

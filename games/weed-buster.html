@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>초록수호대 AI 잡초 소탕 | 바이브 코딩 게임</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    body {
+      background: linear-gradient(180deg, #064e3b 0%, #022c22 100%);
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      padding: 12px;
+    }
+    #gameHeader {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      backdrop-filter: blur(8px);
+    }
+    .hud-item { display: flex; flex-direction: column; align-items: center; }
+    .hud-label { font-size: 11px; color: #a7f3d0; font-weight: 700; }
+    .hud-val { font-size: 18px; font-weight: 900; color: #fef08a; }
+
+    #gridContainer {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      aspect-ratio: 1 / 1;
+      max-height: 65vh;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 10px;
+      background: #022c22;
+      padding: 12px;
+      border-radius: 20px;
+      border: 3px solid #10b981;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .plot {
+      background: #064e3b;
+      border: 2px dashed #047857;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.08s, background 0.15s;
+      overflow: hidden;
+    }
+    .plot:active { transform: scale(0.95); background: #059669; }
+    .plot-plant {
+      font-size: 44px;
+      transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+    }
+    .plot.hit {
+      animation: flashHit 0.25s ease-out;
+    }
+    @keyframes flashHit {
+      0% { background: #facc15; }
+      100% { background: #064e3b; }
+    }
+    #overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(2, 44, 34, 0.92);
+      backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      border-radius: 20px;
+      z-index: 20;
+    }
+    #overlay.hidden { display: none; }
+    .start-btn {
+      background: linear-gradient(135deg, #facc15 0%, #eab308 100%);
+      color: #713f12;
+      font-size: 16px;
+      font-weight: 900;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(234, 179, 8, 0.4);
+      margin-top: 16px;
+      transition: transform 0.1s;
+    }
+    .start-btn:active { transform: scale(0.96); }
+  </style>
+</head>
+<body>
+
+  <div id="gameHeader">
+    <div class="hud-item">
+      <span class="hud-label">점수 (SCORE)</span>
+      <span id="scoreText" class="hud-val">0</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">연속 콤보</span>
+      <span id="comboText" class="hud-val" style="color: #6ee7b7;">0x</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">남은 시간</span>
+      <span id="timeText" class="hud-val" style="color: #f87171;">30s</span>
+    </div>
+  </div>
+
+  <div id="gridContainer">
+    <!-- 3x3 화분 그리드 -->
+    <div class="plot" data-idx="0"><span class="plot-plant"></span></div>
+    <div class="plot" data-idx="1"><span class="plot-plant"></span></div>
+    <div class="plot" data-idx="2"><span class="plot-plant"></span></div>
+    <div class="plot" data-idx="3"><span class="plot-plant"></span></div>
+    <div class="plot" data-idx="4"><span class="plot-plant"></span></div>
+    <div class="plot" data-idx="5"><span class="plot-plant"></span></div>
+    <div class="plot" data-idx="6"><span class="plot-plant"></span></div>
+    <div class="plot" data-idx="7"><span class="plot-plant"></span></div>
+    <div class="plot" data-idx="8"><span class="plot-plant"></span></div>
+
+    <div id="overlay">
+      <div style="font-size: 42px; margin-bottom: 8px;">🌿👾</div>
+      <h2 id="ovTitle" style="font-size: 22px; font-weight: 900; margin-bottom: 6px;">초록수호대 AI 잡초 소탕</h2>
+      <p id="ovSub" style="font-size: 13px; color: #a7f3d0; max-width: 320px; line-height: 1.5; margin-bottom: 12px;">
+        바이브 코딩 제작자: 영선중 1-3 구채린<br>
+        AI 카메라가 탐지한 <strong>잡초(🌾)와 해충(🐛)</strong>을 탭하여 수확하세요!<br>
+        소중한 상추(🥬)나 토마토(🍅)를 탭하면 감점됩니다!
+      </p>
+      <button id="ovBtn" class="start-btn" onclick="startGame()">▶ 30초 챌린지 시작!</button>
+    </div>
+  </div>
+
+  <script>
+    const plots = document.querySelectorAll('.plot');
+    const scoreText = document.getElementById('scoreText');
+    const comboText = document.getElementById('comboText');
+    const timeText = document.getElementById('timeText');
+    const overlay = document.getElementById('overlay');
+    const ovTitle = document.getElementById('ovTitle');
+    const ovSub = document.getElementById('ovSub');
+    const ovBtn = document.getElementById('ovBtn');
+
+    // Audio synth
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    let actx = null;
+    function playTone(freq, dur = 0.08, type = 'sine') {
+      try {
+        if (!actx) actx = new AudioCtx();
+        const osc = actx.createOscillator();
+        const gain = actx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, actx.currentTime);
+        gain.gain.setValueAtTime(0.15, actx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + dur);
+        osc.connect(gain);
+        gain.connect(actx.destination);
+        osc.start();
+        osc.stop(actx.currentTime + dur);
+      } catch(e) {}
+    }
+
+    let isRunning = false;
+    let score = 0;
+    let combo = 0;
+    let timeLeft = 30;
+    let timerId = null;
+    let spawnTimerId = null;
+    let plotStates = Array(9).fill(null); // { type: 'weed'|'bug'|'crop', expireAt }
+
+    plots.forEach(plot => {
+      plot.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        const idx = parseInt(plot.dataset.idx, 10);
+        handlePlotClick(idx);
+      });
+    });
+
+    function handlePlotClick(idx) {
+      if (!isRunning) return;
+      const state = plotStates[idx];
+      if (!state) return;
+
+      const plot = plots[idx];
+      if (state.type === 'weed') {
+        combo++;
+        const pts = 10 + Math.min(combo * 2, 20);
+        score += pts;
+        playTone(600 + combo * 30, 0.08, 'triangle');
+        clearPlot(idx);
+        showPlotFeedback(plot, `+${pts}`, '#4ade80');
+      } else if (state.type === 'bug') {
+        combo++;
+        const pts = 25;
+        score += pts;
+        playTone(800, 0.12, 'sine');
+        clearPlot(idx);
+        showPlotFeedback(plot, `+${pts}`, '#facc15');
+      } else if (state.type === 'crop') {
+        combo = 0;
+        score = Math.max(0, score - 15);
+        playTone(180, 0.2, 'sawtooth');
+        clearPlot(idx);
+        showPlotFeedback(plot, `-15`, '#f87171');
+      }
+      updateHud();
+    }
+
+    function showPlotFeedback(plot, text, color) {
+      plot.classList.add('hit');
+      setTimeout(() => plot.classList.remove('hit'), 200);
+    }
+
+    function clearPlot(idx) {
+      plotStates[idx] = null;
+      plots[idx].querySelector('.plot-plant').textContent = '';
+    }
+
+    function spawnRandom() {
+      if (!isRunning) return;
+      const emptyIndices = [];
+      plotStates.forEach((st, i) => { if (!st) emptyIndices.push(i); });
+      if (emptyIndices.length === 0) return;
+
+      const idx = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+      const rand = Math.random();
+      let type = 'weed';
+      let emoji = '🌾';
+      let dur = 1200;
+
+      if (rand < 0.60) {
+        type = 'weed'; // 🌾 잡초
+        emoji = '🌾';
+        dur = 1100;
+      } else if (rand < 0.80) {
+        type = 'crop'; // 🥬 작물 (누르면 안 됨!)
+        emoji = Math.random() > 0.5 ? '🥬' : '🍅';
+        dur = 1400;
+      } else {
+        type = 'bug'; // 🐛 해충 보너스
+        emoji = '🐛';
+        dur = 900;
+      }
+
+      plotStates[idx] = { type };
+      const el = plots[idx].querySelector('.plot-plant');
+      el.textContent = emoji;
+
+      // Auto clear after duration
+      setTimeout(() => {
+        if (plotStates[idx] && plotStates[idx].type === type) {
+          clearPlot(idx);
+        }
+      }, dur);
+    }
+
+    function updateHud() {
+      scoreText.textContent = score;
+      comboText.textContent = combo + 'x';
+      timeText.textContent = timeLeft + 's';
+    }
+
+    function startGame() {
+      if (!actx) {
+        try { actx = new AudioCtx(); } catch(e) {}
+      }
+      overlay.classList.add('hidden');
+      isRunning = true;
+      score = 0;
+      combo = 0;
+      timeLeft = 30;
+      plotStates = Array(9).fill(null);
+      plots.forEach(p => p.querySelector('.plot-plant').textContent = '');
+      updateHud();
+
+      clearInterval(timerId);
+      clearInterval(spawnTimerId);
+
+      timerId = setInterval(() => {
+        timeLeft--;
+        updateHud();
+        if (timeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+
+      spawnTimerId = setInterval(() => {
+        spawnRandom();
+        if (Math.random() > 0.4) spawnRandom();
+      }, 650);
+    }
+
+    function endGame() {
+      isRunning = false;
+      clearInterval(timerId);
+      clearInterval(spawnTimerId);
+      playTone(400, 0.4, 'sine');
+
+      ovTitle.textContent = '타임 오버!';
+      ovSub.innerHTML = `30초 잡초 소탕 완료!<br>최종 점수: <span style="color:#facc15; font-size:22px; font-weight:900;">${score}점</span><br>최대 콤보: ${combo}x`;
+      ovBtn.textContent = '🔄 한 번 더 도전하기';
+      overlay.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

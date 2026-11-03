@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>토마토 수분 지킴이 | 바이브 코딩 게임</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    body {
+      background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      padding: 10px;
+    }
+    #gameHeader {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      backdrop-filter: blur(8px);
+      font-size: 13px;
+    }
+    .hud-item { display: flex; flex-direction: column; align-items: center; }
+    .hud-label { font-size: 10px; color: #94a3b8; font-weight: 700; }
+    .hud-val { font-size: 16px; font-weight: 900; color: #38bdf8; }
+    
+    #canvasWrap {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      aspect-ratio: 4 / 3;
+      max-height: 70vh;
+      background: #020617;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 0 2px rgba(56, 189, 248, 0.3);
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    #touchControls {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .touch-btn {
+      flex: 1;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      active-background: rgba(56, 189, 248, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.1s;
+    }
+    .touch-btn:active { background: rgba(56, 189, 248, 0.5); }
+    #overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.88);
+      backdrop-filter: blur(4px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      z-index: 10;
+    }
+    #overlay.hidden { display: none; }
+    .start-btn {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      margin-top: 16px;
+      transition: transform 0.1s;
+    }
+    .start-btn:active { transform: scale(0.96); }
+  </style>
+</head>
+<body>
+
+  <div id="gameHeader">
+    <div class="hud-item">
+      <span class="hud-label">점수 (SCORE)</span>
+      <span id="scoreText" class="hud-val">0</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">토양 수분도</span>
+      <span id="moistureText" class="hud-val" style="color: #4ade80;">50%</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">생존 시간</span>
+      <span id="timeText" class="hud-val" style="color: #facc15;">0s</span>
+    </div>
+  </div>
+
+  <div id="canvasWrap">
+    <canvas id="gameCanvas" width="600" height="450"></canvas>
+    <div id="overlay">
+      <div style="font-size: 42px; margin-bottom: 8px;">🍅</div>
+      <h2 id="ovTitle" style="font-size: 22px; font-weight: 900; margin-bottom: 6px;">토마토 수분 지킴이</h2>
+      <p id="ovSub" style="font-size: 13px; color: #94a3b8; max-width: 320px; line-height: 1.5; margin-bottom: 12px;">
+        바이브 코딩 제작자: 영선중 1-3 김민성<br>
+        떨어지는 물방울(💧)을 받아 수분을 <strong>40%~80%</strong>로 유지하세요! 해충(🐛)과 폭염(☀️)을 피하세요!
+      </p>
+      <button id="ovBtn" class="start-btn" onclick="startGame()">▶ 게임 시작하기</button>
+    </div>
+  </div>
+
+  <div id="touchControls">
+    <button class="touch-btn" id="btnLeft">◀ 왼쪽 (A / ←)</button>
+    <button class="touch-btn" id="btnRight">오른쪽 (D / →) ▶</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreText = document.getElementById('scoreText');
+    const moistureText = document.getElementById('moistureText');
+    const timeText = document.getElementById('timeText');
+    const overlay = document.getElementById('overlay');
+    const ovTitle = document.getElementById('ovTitle');
+    const ovSub = document.getElementById('ovSub');
+    const ovBtn = document.getElementById('ovBtn');
+
+    // Web Audio Synthesizer
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    let actx = null;
+    function playBeep(freq, dur = 0.1, type = 'sine') {
+      try {
+        if (!actx) actx = new AudioCtx();
+        const osc = actx.createOscillator();
+        const gain = actx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, actx.currentTime);
+        gain.gain.setValueAtTime(0.12, actx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + dur);
+        osc.connect(gain);
+        gain.connect(actx.destination);
+        osc.start();
+        osc.stop(actx.currentTime + dur);
+      } catch(e) {}
+    }
+
+    let isRunning = false;
+    let score = 0;
+    let moisture = 50; // 0 ~ 100%
+    let startTime = 0;
+    let elapsed = 0;
+    let lastDropTime = 0;
+
+    // Player (Watering Pot)
+    const pot = {
+      x: 260,
+      y: 380,
+      w: 80,
+      h: 45,
+      speed: 8,
+      dx: 0
+    };
+
+    // Falling items
+    let items = [];
+
+    // Keys
+    const keys = { left: false, right: false };
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = true;
+      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = true;
+    });
+    window.addEventListener('keyup', (e) => {
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = false;
+      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = false;
+    });
+
+    // Touch buttons
+    const btnLeft = document.getElementById('btnLeft');
+    const btnRight = document.getElementById('btnRight');
+    btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); keys.left = true; });
+    btnLeft.addEventListener('touchend', (e) => { e.preventDefault(); keys.left = false; });
+    btnLeft.addEventListener('mousedown', () => keys.left = true);
+    btnLeft.addEventListener('mouseup', () => keys.left = false);
+
+    btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); keys.right = true; });
+    btnRight.addEventListener('touchend', (e) => { e.preventDefault(); keys.right = false; });
+    btnRight.addEventListener('mousedown', () => keys.right = true);
+    btnRight.addEventListener('mouseup', () => keys.right = false);
+
+    // Canvas click to move
+    canvas.addEventListener('pointerdown', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = (e.clientX - rect.left) * (canvas.width / rect.width);
+      if (clickX < pot.x + pot.w / 2) {
+        keys.left = true;
+        setTimeout(() => keys.left = false, 150);
+      } else {
+        keys.right = true;
+        setTimeout(() => keys.right = false, 150);
+      }
+    });
+
+    function spawnItem() {
+      const rand = Math.random();
+      let type = 'water';
+      let speed = 2.5 + Math.random() * 2 + (elapsed * 0.05);
+      let size = 26;
+
+      if (rand < 0.60) {
+        type = 'water'; // 💧
+      } else if (rand < 0.75) {
+        type = 'gold'; // ⭐ (high bonus)
+        speed *= 1.3;
+      } else if (rand < 0.90) {
+        type = 'bug'; // 🐛 (bad)
+      } else {
+        type = 'sun'; // ☀️ (dries moisture)
+      }
+
+      items.push({
+        x: 30 + Math.random() * (canvas.width - 60),
+        y: -30,
+        size,
+        speed,
+        type
+      });
+    }
+
+    function startGame() {
+      if (!actx) {
+        try { actx = new AudioCtx(); } catch(e) {}
+      }
+      overlay.classList.add('hidden');
+      isRunning = true;
+      score = 0;
+      moisture = 50;
+      items = [];
+      pot.x = 260;
+      startTime = Date.now();
+      lastDropTime = Date.now();
+      requestAnimationFrame(gameLoop);
+    }
+
+    function gameOver(reason) {
+      isRunning = false;
+      playBeep(180, 0.4, 'sawtooth');
+      ovTitle.textContent = '게임 오버!';
+      ovSub.innerHTML = `<strong>${reason}</strong><br>최종 점수: <span style="color:#38bdf8; font-size:18px; font-weight:800;">${score}점</span><br>버틴 시간: ${elapsed}초`;
+      ovBtn.textContent = '🔄 다시 도전하기';
+      overlay.classList.remove('hidden');
+    }
+
+    function gameLoop() {
+      if (!isRunning) return;
+
+      const now = Date.now();
+      elapsed = Math.floor((now - startTime) / 1000);
+      timeText.textContent = elapsed + 's';
+      scoreText.textContent = score;
+
+      // Moisture natural evaporation (dries over time)
+      moisture -= 0.025;
+
+      // Update pot position
+      if (keys.left) pot.x -= pot.speed;
+      if (keys.right) pot.x += pot.speed;
+      if (pot.x < 10) pot.x = 10;
+      if (pot.x > canvas.width - pot.w - 10) pot.x = canvas.width - pot.w - 10;
+
+      // Spawn items
+      if (now - lastDropTime > Math.max(450, 1000 - elapsed * 15)) {
+        spawnItem();
+        lastDropTime = now;
+      }
+
+      // Update & check collisions
+      for (let i = items.length - 1; i >= 0; i--) {
+        const item = items[i];
+        item.y += item.speed;
+
+        // Collision with pot
+        if (
+          item.x + item.size > pot.x &&
+          item.x < pot.x + pot.w &&
+          item.y + item.size > pot.y &&
+          item.y < pot.y + pot.h
+        ) {
+          if (item.type === 'water') {
+            moisture = Math.min(100, moisture + 7);
+            score += 10;
+            playBeep(520, 0.08, 'sine');
+          } else if (item.type === 'gold') {
+            moisture = Math.min(100, moisture + 12);
+            score += 50;
+            playBeep(880, 0.15, 'triangle');
+          } else if (item.type === 'bug') {
+            moisture = Math.max(0, moisture - 12);
+            score = Math.max(0, score - 20);
+            playBeep(220, 0.2, 'square');
+          } else if (item.type === 'sun') {
+            moisture = Math.max(0, moisture - 15);
+            playBeep(300, 0.15, 'sawtooth');
+          }
+          items.splice(i, 1);
+          continue;
+        }
+
+        // Out of bounds
+        if (item.y > canvas.height + 40) {
+          items.splice(i, 1);
+        }
+      }
+
+      // Check failure conditions
+      if (moisture <= 0) {
+        gameOver('토양 수분이 0%가 되어 토마토가 말라버렸습니다! (가뭄)');
+        return;
+      }
+      if (moisture >= 100) {
+        gameOver('수분이 100%를 초과하여 뿌리가 썩어버렸습니다! (과습)');
+        return;
+      }
+
+      // UI moisture indicator
+      moistureText.textContent = Math.round(moisture) + '%';
+      if (moisture >= 40 && moisture <= 80) {
+        moistureText.style.color = '#4ade80'; // good
+      } else {
+        moistureText.style.color = '#f87171'; // warning
+      }
+
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    function draw() {
+      // Clear background
+      ctx.fillStyle = '#0b1329';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw background grid lines (cyber smart farm vibe)
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < canvas.width; x += 40) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+      }
+      for (let y = 0; y < canvas.height; y += 40) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+      }
+
+      // Draw moisture meter bar at the bottom
+      ctx.fillStyle = 'rgba(255,255,255,0.1)';
+      ctx.fillRect(40, canvas.height - 24, canvas.width - 80, 12);
+      
+      // Safe zone marker (40% to 80%)
+      const totalW = canvas.width - 80;
+      ctx.fillStyle = 'rgba(74, 222, 128, 0.25)';
+      ctx.fillRect(40 + totalW * 0.4, canvas.height - 24, totalW * 0.4, 12);
+
+      // Current level
+      ctx.fillStyle = moisture >= 40 && moisture <= 80 ? '#38bdf8' : '#ef4444';
+      ctx.fillRect(40, canvas.height - 24, totalW * (moisture / 100), 12);
+
+      // Draw items
+      items.forEach(item => {
+        ctx.font = `${item.size}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        let emoji = '💧';
+        if (item.type === 'gold') emoji = '💎';
+        if (item.type === 'bug') emoji = '🐛';
+        if (item.type === 'sun') emoji = '☀️';
+        ctx.fillText(emoji, item.x + item.size / 2, item.y + item.size / 2);
+      });
+
+      // Draw Player Pot
+      ctx.fillStyle = '#0284c7';
+      ctx.beginPath();
+      ctx.roundRect(pot.x, pot.y + 12, pot.w, pot.h - 12, 8);
+      ctx.fill();
+
+      // Pot rim
+      ctx.fillStyle = '#38bdf8';
+      ctx.beginPath();
+      ctx.roundRect(pot.x - 4, pot.y + 8, pot.w + 8, 8, 4);
+      ctx.fill();
+
+      // Cute Tomato on top
+      ctx.font = '32px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🍅', pot.x + pot.w / 2, pot.y - 2);
+
+      // Water sensor indicator on the pot
+      ctx.fillStyle = moisture >= 40 && moisture <= 80 ? '#4ade80' : '#f87171';
+      ctx.beginPath();
+      ctx.arc(pot.x + pot.w / 2, pot.y + 26, 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  </script>
+</body>
+</html>
