@@ -284,18 +284,11 @@
 
     .portal-nav-grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
     }
 
-    @media (max-width: 1024px) {
-      .portal-nav-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 10px;
-      }
-    }
-
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .portal-nav-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
@@ -304,7 +297,7 @@
 
     @media (max-width: 480px) {
       .portal-nav-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
         gap: 8px;
       }
     }
@@ -1418,9 +1411,6 @@
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 8px !important;
       }
-      .portal-nav-grid > *:last-child {
-        grid-column: 1 / -1 !important; /* 5번째 바이브 게임 카드는 2칸 가로 확장 */
-      }
       .portal-nav-item {
         padding: 8px 10px !important;
         min-height: 46px !important;
@@ -1562,15 +1552,7 @@
           <div class="portal-nav-icon">04</div>
           <div class="portal-nav-text">
             <span class="portal-nav-title">학생 작품 & 바이브 게임</span>
-            <span class="portal-nav-sub">스마트팜 결과물 • 웹게임 아케이드</span>
-          </div>
-        </a>
-
-        <a href="./vibe-games.html" class="portal-nav-item" style="border: 2px solid #a855f7; background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);">
-          <div class="portal-nav-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: #fff; font-size: 16px;">🎮</div>
-          <div class="portal-nav-text">
-            <span class="portal-nav-title" style="color: #6d28d9; font-weight: 800;">바이브 게임 전용관 ↗</span>
-            <span class="portal-nav-sub" style="color: #7c3aed;">학생 AI 웹게임 바로 플레이</span>
+            <span class="portal-nav-sub">스마트팜 결과물 • 게임 아케이드</span>
           </div>
         </a>
       </div>
