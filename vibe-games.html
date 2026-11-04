@@ -495,6 +495,34 @@
       box-shadow: 0 2px 10px var(--accent-glow);
     }
 
+      .game-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.3s ease;
+      display: block;
+    }
+    .game-card:hover .game-thumb-img {
+      transform: scale(1.05);
+    }
+    .canva-preview-box {
+      width: 320px;
+      height: 200px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid #a855f7;
+      box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
+      flex-shrink: 0;
+      background: #020617;
+    }
+    @media (max-width: 680px) {
+      .canva-preview-box {
+        width: 100%;
+        max-width: 320px;
+        height: 180px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -562,21 +590,27 @@
       <div class="player-screen-wrap" id="screenWrap">
         <iframe id="gameIframe" class="player-iframe" src="./games/tomato-water.html" allow="autoplay; fullscreen"></iframe>
         <div id="screenCanvaLaunch" class="screen-canva-launch" style="display: none;">
-          <div id="canvaEmoji" class="canva-floating-emoji">🎮</div>
-          <span id="canvaBadge" style="background: rgba(139, 92, 246, 0.25); border: 1px solid #a855f7; color: #d8b4fe; font-size: 11px; font-weight: 800; padding: 4px 14px; border-radius: 999px; margin-bottom: 8px;">
-            🎨 Canva 학생 웹 게임
-          </span>
-          <h2 id="canvaGameTitle" style="font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 6px; letter-spacing: -0.02em;">게임 제목</h2>
-          <div id="canvaAuthor" style="font-size: 13px; font-weight: 700; color: #38bdf8; margin-bottom: 12px;">제작: 영선중 1-3 학생</div>
-          <p id="canvaDesc" style="font-size: 13px; color: #cbd5e1; max-width: 520px; margin-bottom: 22px; line-height: 1.6;">게임 설명</p>
-          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; justify-content: center;">
-            <a id="canvaPlayDirectBtn" href="#" target="_blank" class="canva-launch-btn">
-              🚀 지금 바로 새 창에서 게임 플레이하기 ↗
-            </a>
+          <div style="display: flex; gap: 24px; align-items: center; justify-content: center; max-width: 860px; width: 100%; flex-wrap: wrap;">
+            <div class="canva-preview-box">
+              <img id="canvaPreviewImg" src="" alt="게임 화면 캡쳐" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="flex: 1; min-width: 280px; text-align: left;">
+              <span id="canvaBadge" style="background: rgba(139, 92, 246, 0.25); border: 1px solid #a855f7; color: #d8b4fe; font-size: 11px; font-weight: 800; padding: 4px 14px; border-radius: 999px; display: inline-block; margin-bottom: 8px;">
+                🎨 Canva 학생 웹 게임
+              </span>
+              <h2 id="canvaGameTitle" style="font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 6px; letter-spacing: -0.02em;">게임 제목</h2>
+              <div id="canvaAuthor" style="font-size: 13px; font-weight: 700; color: #38bdf8; margin-bottom: 10px;">제작: 영선중 1-3 학생</div>
+              <p id="canvaDesc" style="font-size: 13px; color: #cbd5e1; margin-bottom: 18px; line-height: 1.6;">게임 설명</p>
+              <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                <a id="canvaPlayDirectBtn" href="#" target="_blank" class="canva-launch-btn">
+                  🚀 지금 바로 새 창에서 게임 플레이하기 ↗
+                </a>
+              </div>
+              <p style="margin-top: 12px; font-size: 11px; color: #94a3b8;">
+                💡 Canva 웹사이트 보안 정책(X-Frame-Options: SAMEORIGIN)으로 인해 안전하고 쾌적한 새 창 전체화면으로 실행됩니다.
+              </p>
+            </div>
           </div>
-          <p style="margin-top: 14px; font-size: 11px; color: #94a3b8;">
-            💡 Canva 웹사이트 보안 정책(X-Frame-Options: SAMEORIGIN)으로 인해 안전하고 쾌적한 새 창 전체화면으로 실행됩니다.
-          </p>
         </div>
       </div>
 
@@ -720,7 +754,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 21:00",
-    "timestamp": 1793780001000
+    "timestamp": 1793780001000,
+    "thumbnail": "./games/thumbnails/canva_1301_gw.png"
   },
   {
     "id": "canva_1302_cr",
@@ -738,7 +773,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 21:05",
-    "timestamp": 1793780002000
+    "timestamp": 1793780002000,
+    "thumbnail": "./games/thumbnails/canva_1302_cr.png"
   },
   {
     "id": "canva_1303_ge",
@@ -756,7 +792,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 21:10",
-    "timestamp": 1793780003000
+    "timestamp": 1793780003000,
+    "thumbnail": "./games/thumbnails/canva_1303_ge.png"
   },
   {
     "id": "canva_1304_ms",
@@ -774,7 +811,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 21:15",
-    "timestamp": 1793780004000
+    "timestamp": 1793780004000,
+    "thumbnail": "./games/thumbnails/canva_1304_ms.png"
   },
   {
     "id": "canva_1305_mc",
@@ -792,7 +830,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 21:20",
-    "timestamp": 1793780005000
+    "timestamp": 1793780005000,
+    "thumbnail": "./games/thumbnails/canva_1305_mc.png"
   },
   {
     "id": "canva_1306_sh",
@@ -810,7 +849,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 21:25",
-    "timestamp": 1793780006000
+    "timestamp": 1793780006000,
+    "thumbnail": "./games/thumbnails/canva_1306_sh.png"
   },
   {
     "id": "canva_1307_sw",
@@ -828,7 +868,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 21:30",
-    "timestamp": 1793780007000
+    "timestamp": 1793780007000,
+    "thumbnail": "./games/thumbnails/canva_1307_sw.png"
   },
   {
     "id": "canva_1308_jy",
@@ -846,7 +887,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 21:35",
-    "timestamp": 1793780008000
+    "timestamp": 1793780008000,
+    "thumbnail": "./games/thumbnails/canva_1308_jy.png"
   },
   {
     "id": "canva_1309_cw",
@@ -864,7 +906,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 21:40",
-    "timestamp": 1793780009000
+    "timestamp": 1793780009000,
+    "thumbnail": "./games/thumbnails/canva_1309_cw.png"
   },
   {
     "id": "canva_1310_tg",
@@ -882,7 +925,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 21:45",
-    "timestamp": 1793780010000
+    "timestamp": 1793780010000,
+    "thumbnail": "./games/thumbnails/canva_1310_tg.png"
   },
   {
     "id": "canva_1311_mg",
@@ -900,7 +944,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 21:50",
-    "timestamp": 1793780011000
+    "timestamp": 1793780011000,
+    "thumbnail": "./games/thumbnails/canva_1311_mg.png"
   },
   {
     "id": "canva_1312_sw",
@@ -918,7 +963,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 21:55",
-    "timestamp": 1793780012000
+    "timestamp": 1793780012000,
+    "thumbnail": "./games/thumbnails/canva_1312_sw.png"
   },
   {
     "id": "canva_1314_jw",
@@ -936,7 +982,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 22:00",
-    "timestamp": 1793780014000
+    "timestamp": 1793780014000,
+    "thumbnail": "./games/thumbnails/canva_1314_jw.png"
   },
   {
     "id": "canva_1315_gy",
@@ -954,7 +1001,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 22:05",
-    "timestamp": 1793780015000
+    "timestamp": 1793780015000,
+    "thumbnail": "./games/thumbnails/canva_1315_gy.png"
   },
   {
     "id": "canva_1316_jh",
@@ -972,7 +1020,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 22:10",
-    "timestamp": 1793780016000
+    "timestamp": 1793780016000,
+    "thumbnail": "./games/thumbnails/canva_1316_jh.png"
   },
   {
     "id": "canva_1317_cm",
@@ -990,7 +1039,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 22:15",
-    "timestamp": 1793780017000
+    "timestamp": 1793780017000,
+    "thumbnail": "./games/thumbnails/canva_1317_cm.png"
   },
   {
     "id": "canva_1318_dh",
@@ -1008,7 +1058,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 22:20",
-    "timestamp": 1793780018000
+    "timestamp": 1793780018000,
+    "thumbnail": "./games/thumbnails/canva_1318_dh.png"
   },
   {
     "id": "canva_1319_gh",
@@ -1026,7 +1077,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 22:25",
-    "timestamp": 1793780019000
+    "timestamp": 1793780019000,
+    "thumbnail": "./games/thumbnails/canva_1319_gh.png"
   },
   {
     "id": "canva_1320_sb",
@@ -1044,7 +1096,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 22:30",
-    "timestamp": 1793780020000
+    "timestamp": 1793780020000,
+    "thumbnail": "./games/thumbnails/canva_1320_sb.png"
   },
   {
     "id": "canva_1322_yc",
@@ -1062,7 +1115,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 22:35",
-    "timestamp": 1793780022000
+    "timestamp": 1793780022000,
+    "thumbnail": "./games/thumbnails/canva_1322_yc.png"
   },
   {
     "id": "canva_1323_jh",
@@ -1080,7 +1134,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 22:40",
-    "timestamp": 1793780023000
+    "timestamp": 1793780023000,
+    "thumbnail": "./games/thumbnails/canva_1323_jh.png"
   },
   {
     "id": "canva_1325_pr",
@@ -1098,7 +1153,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 22:45",
-    "timestamp": 1793780025000
+    "timestamp": 1793780025000,
+    "thumbnail": "./games/thumbnails/canva_1325_pr.png"
   },
   {
     "id": "canva_1326_hr",
@@ -1116,7 +1172,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 4. 22:50",
-    "timestamp": 1793780026000
+    "timestamp": 1793780026000,
+    "thumbnail": "./games/thumbnails/canva_1326_hr.png"
   },
   {
     "id": "preset_tomato",
@@ -1133,7 +1190,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 3. 12:40",
-    "timestamp": 1793684000000
+    "timestamp": 1793684000000,
+    "thumbnail": "./games/thumbnails/preset_tomato.png"
   },
   {
     "id": "preset_weed",
@@ -1150,7 +1208,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 3. 12:45",
-    "timestamp": 1793684500000
+    "timestamp": 1793684500000,
+    "thumbnail": "./games/thumbnails/preset_weed.png"
   },
   {
     "id": "preset_runner",
@@ -1167,7 +1226,8 @@
     "isVibeGame": true,
     "type": "vibe_game",
     "createdAt": "2026. 11. 3. 12:50",
-    "timestamp": 1793685000000
+    "timestamp": 1793685000000,
+    "thumbnail": "./games/thumbnails/preset_runner.png"
   }
 ];
 
@@ -1301,13 +1361,18 @@
         const badgeBg = isCanva ? 'rgba(168, 85, 247, 0.15)' : 'rgba(56, 189, 248, 0.15)';
         const badgeColor = isCanva ? '#c084fc' : '#38bdf8';
 
+        const thumbHtml = game.thumbnail
+          ? `<img src="${game.thumbnail}" alt="${escapeHtml(game.title)}" class="game-thumb-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+             <span class="game-emoji-icon" style="display: none;">${game.emoji || '🎮'}</span>`
+          : `<span class="game-emoji-icon">${game.emoji || '🎮'}</span>`;
+
         card.innerHTML = `
-          <div class="game-thumb" onclick="playGame('${game.id}')">
-            <span class="game-emoji-icon">${game.emoji || '🎮'}</span>
+          <div class="game-thumb" onclick="playGame('${game.id}', true)">
+            ${thumbHtml}
             <div class="game-play-overlay">
               <span class="btn btn-accent" style="font-size: 13px; font-weight: 800;">${isCanva ? '🚀 플레이 보기' : '▶ 지금 플레이'}</span>
             </div>
-            <span style="position: absolute; top: 10px; right: 10px; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeColor}; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 6px;">
+            <span style="position: absolute; top: 10px; right: 10px; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeColor}; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 6px; z-index: 2;">
               ${badgeLabel}
             </span>
           </div>
@@ -1318,7 +1383,7 @@
               <p class="game-card-desc">${game.desc || '바이브 코딩으로 제작된 웹 게임입니다.'}</p>
             </div>
             <div class="game-card-footer" style="gap: 6px;">
-              <button onclick="playGame('${game.id}')" class="btn ${isCurrent ? 'btn-accent' : 'btn-outline'}" style="font-size: 11px; padding: 5px 10px; flex: 1;">
+              <button onclick="playGame('${game.id}', true)" class="btn ${isCurrent ? 'btn-accent' : 'btn-outline'}" style="font-size: 11px; padding: 5px 10px; flex: 1;">
                 ${isCurrent ? '▶ 콘솔 선택됨' : '콘솔 보기'}
               </button>
               ${game.gameUrl ? `
@@ -1333,7 +1398,7 @@
       });
     }
 
-    function playGame(id) {
+    function playGame(id, shouldScroll = false) {
       const target = allGames.find(g => g.id === id);
       if (!target) return;
       currentPlayingGame = target;
@@ -1358,7 +1423,11 @@
         iframe.src = 'about:blank';
         
         canvaPad.style.display = 'flex';
-        document.getElementById('canvaEmoji').textContent = target.emoji || '🎮';
+        const prevImg = document.getElementById('canvaPreviewImg');
+        if (prevImg) {
+          prevImg.src = target.thumbnail || '';
+          prevImg.style.display = target.thumbnail ? 'block' : 'none';
+        }
         document.getElementById('canvaGameTitle').textContent = target.title;
         document.getElementById('canvaAuthor').textContent = '제작: ' + (target.author || '영선중 학생');
         document.getElementById('canvaDesc').textContent = target.desc || '바이브 코딩으로 제작된 Canva 웹 게임입니다.';
@@ -1395,8 +1464,9 @@
         }
       }
 
-      // 부드럽게 상단 플레이어로 스크롤 이동
-      document.getElementById('playerSection').scrollIntoView({ behavior: 'smooth' });
+      if (shouldScroll) {
+        document.getElementById('playerSection').scrollIntoView({ behavior: 'smooth' });
+      }
       renderGameGrid();
     }
 
@@ -1498,6 +1568,9 @@
     // 초기 로드
     window.addEventListener('DOMContentLoaded', () => {
       fetchGameList(true);
+      if (allGames.length > 0) {
+        playGame(allGames[0].id, false);
+      }
     });
   </script>
 </body>

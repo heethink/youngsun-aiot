@@ -2580,20 +2580,22 @@
 
       <div style="width: 100%; height: 480px; max-height: 60vh; background: #020617; border-radius: 12px; overflow: hidden; position: relative;">
         <iframe id="gpmIframe" style="width: 100%; height: 100%; border: none; display: block;" allow="autoplay; fullscreen"></iframe>
-        <div id="gpmCanvaWrap" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; align-items: center; justify-content: center; flex-direction: column; padding: 24px; text-align: center; background: radial-gradient(circle at 50% 40%, #1e1b4b 0%, #020617 100%); box-sizing: border-box;">
-          <div id="gpmEmoji" style="font-size: 64px; margin-bottom: 12px; line-height: 1; filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.6));">🎮</div>
-          <span style="background: rgba(139, 92, 246, 0.25); border: 1px solid #a855f7; color: #d8b4fe; font-size: 11px; font-weight: 800; padding: 3px 12px; border-radius: 999px; margin-bottom: 8px;">
+        <div id="gpmCanvaWrap" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; align-items: center; justify-content: center; flex-direction: column; padding: 20px; text-align: center; background: radial-gradient(circle at 50% 40%, #1e1b4b 0%, #020617 100%); box-sizing: border-box; overflow-y: auto;">
+          <div style="width: 280px; height: 160px; border-radius: 12px; overflow: hidden; border: 2px solid #a855f7; box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4); margin-bottom: 12px; background: #000; flex-shrink: 0;">
+            <img id="gpmPreviewImg" src="" alt="게임 미리보기" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <span style="background: rgba(139, 92, 246, 0.25); border: 1px solid #a855f7; color: #d8b4fe; font-size: 11px; font-weight: 800; padding: 3px 12px; border-radius: 999px; margin-bottom: 6px;">
             🎨 Canva 학생 웹 게임
           </span>
-          <h2 id="gpmCanvaTitle" style="font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 6px; letter-spacing: -0.02em;">게임 제목</h2>
-          <div id="gpmCanvaAuthor" style="font-size: 13px; font-weight: 700; color: #38bdf8; margin-bottom: 12px;">제작: 영선중 1-3 학생</div>
-          <p id="gpmCanvaDesc" style="font-size: 13px; color: #cbd5e1; max-width: 480px; margin-bottom: 22px; line-height: 1.6;">게임 설명</p>
+          <h2 id="gpmCanvaTitle" style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 4px; letter-spacing: -0.02em;">게임 제목</h2>
+          <div id="gpmCanvaAuthor" style="font-size: 13px; font-weight: 700; color: #38bdf8; margin-bottom: 8px;">제작: 영선중 1-3 학생</div>
+          <p id="gpmCanvaDesc" style="font-size: 12px; color: #cbd5e1; max-width: 460px; margin-bottom: 16px; line-height: 1.5;">게임 설명</p>
           <div style="display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap;">
-            <a id="gpmCanvaDirectBtn" href="#" target="_blank" class="btn" style="background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%); color: #fff; font-size: 15px; font-weight: 800; padding: 12px 28px; border-radius: 12px; box-shadow: 0 4px 20px rgba(168, 85, 247, 0.5); text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-              🚀 지금 바로 새 창에서 게임 플레이하기 ↗
+            <a id="gpmCanvaDirectBtn" href="#" target="_blank" class="btn" style="background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%); color: #fff; font-size: 14px; font-weight: 800; padding: 10px 24px; border-radius: 10px; box-shadow: 0 4px 18px rgba(168, 85, 247, 0.5); text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+              🚀 새 창에서 게임 플레이하기 ↗
             </a>
           </div>
-          <p style="margin-top: 14px; font-size: 11px; color: #94a3b8;">
+          <p style="margin-top: 10px; font-size: 11px; color: #94a3b8;">
             💡 Canva 보안 정책(X-Frame-Options: SAMEORIGIN)에 따라 새 창 전체화면에서 가장 쾌적하게 실행됩니다.
           </p>
         </div>
@@ -3473,12 +3475,18 @@
         
         let mediaHtml = '';
         if (isGame) {
+          const gameThumbSrc = item.thumbnail || (item.imgData && item.imgData.trim() !== '' ? item.imgData : '');
+          const thumbInner = gameThumbSrc
+            ? `<img src="${gameThumbSrc}" alt="${escapeHtml(item.title)}" class="gallery-thumb" style="object-position: top center;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+               <span style="display: none; font-size: 58px;">${item.emoji || '🎮'}</span>`
+            : `<span style="font-size: 58px; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.15)'" onmouseout="this.style.transform='scale(1)'">${item.emoji || '🎮'}</span>`;
+
           mediaHtml = `
-            <div class="gallery-thumb-wrap" onclick="openGamePlayModal('${idKey}')" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); cursor: pointer; position: relative;" title="클릭하여 바로 플레이">
-              <span style="font-size: 58px; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.15)'" onmouseout="this.style.transform='scale(1)'">${item.emoji || '🎮'}</span>
-              <span style="position: absolute; top: 10px; right: 10px; background: #8b5cf6; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 6px;">🎮 바이브 게임</span>
-              <div style="position: absolute; bottom: 8px; left: 0; right: 0; text-align: center;">
-                <span style="background: rgba(15, 23, 42, 0.88); color: #38bdf8; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(56, 189, 248, 0.4);">
+            <div class="gallery-thumb-wrap" onclick="openGamePlayModal('${idKey}')" style="background: #0f172a; cursor: pointer; position: relative;" title="클릭하여 바로 플레이">
+              ${thumbInner}
+              <span style="position: absolute; top: 10px; right: 10px; background: #8b5cf6; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 6px; z-index: 2;">🎮 바이브 게임</span>
+              <div style="position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; z-index: 2;">
+                <span style="background: rgba(15, 23, 42, 0.88); color: #38bdf8; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(56, 189, 248, 0.4); box-shadow: 0 2px 8px rgba(0,0,0,0.5);">
                   ▶ 바로 플레이
                 </span>
               </div>
@@ -3562,13 +3570,16 @@
 
         if (canvaWrap) {
           canvaWrap.style.display = 'flex';
-          const elEmoji = document.getElementById('gpmEmoji');
+          const prevImg = document.getElementById('gpmPreviewImg');
           const elTitle = document.getElementById('gpmCanvaTitle');
           const elAuthor = document.getElementById('gpmCanvaAuthor');
           const elDesc = document.getElementById('gpmCanvaDesc');
           const directBtn = document.getElementById('gpmCanvaDirectBtn');
 
-          if (elEmoji) elEmoji.textContent = item.emoji || '🎮';
+          if (prevImg) {
+            prevImg.src = item.thumbnail || '';
+            prevImg.style.display = item.thumbnail ? 'block' : 'none';
+          }
           if (elTitle) elTitle.textContent = item.title;
           if (elAuthor) elAuthor.textContent = '제작: ' + (item.author || '학생');
           if (elDesc) elDesc.textContent = item.desc || '바이브 코딩으로 제작된 Canva 웹 게임입니다.';
