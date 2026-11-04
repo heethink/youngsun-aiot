@@ -729,7 +729,64 @@
       padding: 12px 14px;
       background-color: #f8fafc;
       border-radius: var(--radius-md);
-      border: 1px solid #f1f5f9;
+      border: 1px solid #e2e8f0;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .step-item:hover {
+      background-color: #f0fdf4;
+      border-color: #86efac;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(22, 163, 74, 0.12);
+    }
+
+    .step-pdf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+
+    .step-item:hover .step-pdf-btn {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+    }
+
+    .cm-tab-btn {
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .cm-tab-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .cm-tab-btn.active {
+      background: #15803d;
+      color: #ffffff;
+      border-color: #15803d;
+      box-shadow: 0 2px 6px rgba(21, 128, 61, 0.3);
     }
 
     .step-head {
@@ -1980,11 +2037,16 @@
     <section id="curriculum" class="section-wrap">
       <div class="section-header">
         <div>
-          <span class="section-sub">수업 계획표</span>
+          <span class="section-sub">수업 계획표 & 교안 뷰어</span>
           <h2 class="section-title">차시별 수업 안내 (4차시씩 총 2회)</h2>
         </div>
-        <div class="section-desc">11월 3일(화) 1~4차시 / 11월 5일(목) 5~8차시 (공식 교안 기반)</div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+          <button type="button" onclick="openCurriculumModal(1)" class="btn btn-outline" style="font-size: 12px; font-weight: 700; color: #15803d; border-color: #86efac; background: #f0fdf4; padding: 6px 14px;" title="공식 교안 PDF 뷰어 열기">
+            📖 전체 교안 뷰어 열기 (196p) ↗
+          </button>
+        </div>
       </div>
+      <div class="section-desc">11월 3일(화) 1~4차시 / 11월 5일(목) 5~8차시 • <strong>각 차시를 클릭하면 해당 수업 교안의 슬라이드 페이지가 즉시 열립니다.</strong></div>
 
       <div class="curriculum-grid">
         <!-- 1회차: 11월 3일 (화) -->
@@ -1998,33 +2060,45 @@
           </div>
 
           <div class="session-steps">
-            <div class="step-item">
+            <div class="step-item" onclick="openCurriculumModal(1)" title="클릭하여 1차시 수업 교안(p.3~21) 바로보기">
               <div class="step-head">
-                <span>1차시: 우리 학교 식물의 돌봄 문제 찾기</span>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-weight: 800; color: #0f172a;">1차시: 우리 학교 식물의 돌봄 문제 찾기</span>
+                  <span class="step-pdf-btn">📖 교안 p.3 ↗</span>
+                </div>
                 <span class="badge badge-primary">사전설문 2종</span>
               </div>
-              <p class="step-desc">디지털새싹 사전 설문조사 2종 참여 (<a href="javascript:void(0)" onclick="openSurveyModal('pre-effect')" style="color: #15803d; font-weight: 800; text-decoration: underline;">① 효과성 측정</a> • <a href="javascript:void(0)" onclick="openSurveyModal('pre-competency')" style="color: #0284c7; font-weight: 800; text-decoration: underline;">② 핵심역량 진단</a>), 눈으로 본 사실과 추측의 구분, 생성형 AI를 활용한 식물 생장 원인 가설 탐색</p>
+              <p class="step-desc">디지털새싹 사전 설문조사 2종 참여 (<a href="javascript:void(0)" onclick="event.stopPropagation(); openSurveyModal('pre-effect')" style="color: #15803d; font-weight: 800; text-decoration: underline;">① 효과성 측정</a> • <a href="javascript:void(0)" onclick="event.stopPropagation(); openSurveyModal('pre-competency')" style="color: #0284c7; font-weight: 800; text-decoration: underline;">② 핵심역량 진단</a>), 눈으로 본 사실과 추측의 구분, 생성형 AI를 활용한 식물 생장 원인 가설 탐색</p>
             </div>
 
-            <div class="step-item">
+            <div class="step-item" onclick="openCurriculumModal(2)" title="클릭하여 2차시 수업 교안(p.22~62) 바로보기">
               <div class="step-head">
-                <span>2차시: 센서로 문제의 원인 분석</span>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-weight: 800; color: #0f172a;">2차시: 센서로 문제의 원인 분석</span>
+                  <span class="step-pdf-btn">📖 교안 p.22 ↗</span>
+                </div>
                 <span class="badge badge-blue">메이크코드</span>
               </div>
               <p class="step-desc">빛 센서와 토양 수분 센서로 환경을 숫자 데이터로 변환, 센서 미세 노이즈 관찰 및 대표값 결정 실습</p>
             </div>
 
-            <div class="step-item">
+            <div class="step-item" onclick="openCurriculumModal(3)" title="클릭하여 3차시 수업 교안(p.63~91) 바로보기">
               <div class="step-head">
-                <span>3차시: 데이터로 식물 상태 알림 만들기</span>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-weight: 800; color: #0f172a;">3차시: 데이터로 식물 상태 알림 만들기</span>
+                  <span class="step-pdf-btn">📖 교안 p.63 ↗</span>
+                </div>
                 <span class="badge badge-blue">메이크코드</span>
               </div>
               <p class="step-desc">센서 측정값과 기준값을 비교하는 조건문 블록 코딩, 레인보우 생장 LED 색상과 밝기 자동 제어 구현</p>
             </div>
 
-            <div class="step-item">
+            <div class="step-item" onclick="openCurriculumModal(4)" title="클릭하여 4차시 수업 교안(p.92~128) 바로보기">
               <div class="step-head">
-                <span>4차시: AI 식물 의사의 판단 시험하기</span>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-weight: 800; color: #0f172a;">4차시: AI 식물 의사의 판단 시험하기</span>
+                  <span class="step-pdf-btn">📖 교안 p.92 ↗</span>
+                </div>
                 <span class="badge" style="background-color: #fef3c7; color: #b45309;">티처블머신•AI모델학습</span>
               </div>
               <p class="step-desc">구글 티처블머신 식물 잎 이미지 분류 학습, ifelse-delta 조건 분기 설계, 센서값과 AI 판단 교차 검증</p>
@@ -2053,36 +2127,48 @@
           </div>
 
           <div class="session-steps">
-            <div class="step-item">
+            <div class="step-item" onclick="openCurriculumModal(5)" title="클릭하여 5차시 수업 교안(p.129~143) 바로보기">
               <div class="step-head">
-                <span>5차시: 스마트팜 키트 조립 및 실습 준비</span>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-weight: 800; color: #0f172a;">5차시: 스마트팜 키트 조립 및 실습 준비</span>
+                  <span class="step-pdf-btn">📖 교안 p.129 ↗</span>
+                </div>
                 <span class="badge" style="background-color: #f1f5f9; color: #334155;">하드웨어 조립</span>
               </div>
               <p class="step-desc">그린하우스 베이스, 커버, IoT 확장보드, 토양 수분 센서, 빛 센서, 워터펌프 배선 및 하드웨어 결합</p>
             </div>
 
-            <div class="step-item">
+            <div class="step-item" onclick="openCurriculumModal(6)" title="클릭하여 6차시 수업 교안(p.144~173) 바로보기">
               <div class="step-head">
-                <span>6차시: 내가 설계하는 초록 생명 유지 장치</span>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-weight: 800; color: #0f172a;">6차시: 내가 설계하는 초록 생명 유지 장치</span>
+                  <span class="step-pdf-btn">📖 교안 p.144 ↗</span>
+                </div>
                 <span class="badge badge-blue">메이크코드</span>
               </div>
               <p class="step-desc">토양 수분 기준 자동 급수 규칙 및 조명 제어 규칙 설계 (식물의사.hex 탑재 및 엣지 케이스 테스트)</p>
             </div>
 
-            <div class="step-item">
+            <div class="step-item" onclick="openCurriculumModal(7)" title="클릭하여 7차시 수업 교안(p.174~188) 바로보기">
               <div class="step-head">
-                <span>7차시: 인공지능과 아이디어 카드로 기능 만들기</span>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-weight: 800; color: #0f172a;">7차시: 인공지능과 아이디어 카드로 기능 만들기</span>
+                  <span class="step-pdf-btn">📖 교안 p.174 ↗</span>
+                </div>
                 <span class="badge" style="background-color: #fef3c7; color: #b45309;">메이크코드•티처블</span>
               </div>
               <p class="step-desc">티처블머신 AI 카메라 판단 결과 연동 및 6가지 아이디어 카드 기반 자율 제어 스마트팜 구현</p>
             </div>
 
-            <div class="step-item">
+            <div class="step-item" onclick="openCurriculumModal(8)" title="클릭하여 8차시 수업 교안(p.189~196) 바로보기">
               <div class="step-head">
-                <span>8차시: 팀 통합하고 스마트팜 발표하기</span>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-weight: 800; color: #0f172a;">8차시: 팀 통합하고 스마트팜 발표하기</span>
+                  <span class="step-pdf-btn">📖 교안 p.189 ↗</span>
+                </div>
                 <span class="badge badge-primary" style="background-color: #7c3aed;">사후설문 2종</span>
               </div>
-              <p class="step-desc">모듈 통합 테스트, 스마트팜 산출물 시연 및 발표, 디지털새싹 사후 설문조사 2종 (<a href="javascript:void(0)" onclick="openSurveyModal('post-effect')" style="color: #7c3aed; font-weight: 800; text-decoration: underline;">③ 효과성 측정</a> • <a href="javascript:void(0)" onclick="openSurveyModal('post-competency')" style="color: #ea580c; font-weight: 800; text-decoration: underline;">④ 핵심역량 진단</a>) 참여 및 공식 수료식</p>
+              <p class="step-desc">모듈 통합 테스트, 스마트팜 산출물 시연 및 발표, 디지털새싹 사후 설문조사 2종 (<a href="javascript:void(0)" onclick="event.stopPropagation(); openSurveyModal('post-effect')" style="color: #7c3aed; font-weight: 800; text-decoration: underline;">③ 효과성 측정</a> • <a href="javascript:void(0)" onclick="event.stopPropagation(); openSurveyModal('post-competency')" style="color: #ea580c; font-weight: 800; text-decoration: underline;">④ 핵심역량 진단</a>) 참여 및 공식 수료식</p>
             </div>
           </div>
 
@@ -2108,7 +2194,7 @@
             <span style="font-size: 13px;">🎮</span> 바이브 코딩 (Vibe Coding) 학생 게임 특별관
           </div>
           <h3 style="font-size: 20px; font-weight: 900; margin: 0 0 6px 0; letter-spacing: -0.02em;">
-            학생들이 AI와 프롬프팅으로 직접 만든 웹 게임 바로 플레이!
+            1-3반 학생들이 바이브코딩으로 구현한 인터랙티브 아케이드 플레이!
           </h3>
           <p style="font-size: 13px; opacity: 0.9; margin: 0; line-height: 1.5; word-break: keep-all;">
             토마토 수분 밸런스 디펜스, AI 잡초 소탕 순발력 챌린지, 온실 러너 등 학생들의 창의적 게임을 아래 갤러리에서 즉시 실행하거나 전용 아케이드관에서 크게 즐겨보세요!
@@ -2137,7 +2223,7 @@
             🔄 실시간 새로고침
           </button>
           <button onclick="openGalleryUploadModal()" class="btn btn-primary" style="font-size: 13px;">
-            + 내 결과물 / 게임 등록하기
+            ✨ 내 작품 & 게임 공유하기
           </button>
         </div>
       </div>
@@ -2775,6 +2861,65 @@
           저장 및 실시간 연동 시작
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- 차시별 수업 교안 PDF 바로보기 모달 -->
+  <div id="curriculumModal" class="modal-overlay hidden" onclick="closeCurriculumModal()">
+    <div class="modal-content" style="max-width: 1040px; width: 95vw; height: 90vh; padding: 20px; display: flex; flex-direction: column; background: #ffffff; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);" onclick="event.stopPropagation()">
+      
+      <!-- 상단 헤더 -->
+      <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
+            <span id="cmBadge" class="badge badge-primary" style="background-color: #dcfce7; color: #15803d; font-weight: 800; font-size: 12px;">
+              🌱 1회차 (11월 3일)
+            </span>
+            <h3 id="cmTitle" style="font-size: 17px; font-weight: 900; color: #0f172a; margin: 0;">
+              1차시: 우리 학교 식물의 돌봄 문제 찾기
+            </h3>
+          </div>
+          <p id="cmSub" style="font-size: 12px; color: #64748b; margin: 0;">
+            슬라이드 범위: p.3 ~ p.21 (총 19장) • 부산교육대학교 디지털새싹 공식 교안
+          </p>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <a id="cmExternalBtn" href="./%EC%A4%91%EB%93%B1_%EC%B4%88%EB%A1%9D%EC%88%98%ED%98%B8%EB%8C%80%20%EA%B5%90%EC%95%88.pdf#page=3" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="min-height: 36px; padding: 6px 14px; font-size: 12px; color: #0284c7; border-color: #38bdf8; font-weight: 700; text-decoration: none;" title="브라우저 새 탭에서 전체화면으로 열기">
+            ↗ 새 창에서 크게 보기
+          </a>
+          <a id="cmDownloadBtn" href="./%EC%A4%91%EB%93%B1_%EC%B4%88%EB%A1%9D%EC%88%98%ED%98%B8%EB%8C%80%20%EA%B5%90%EC%95%88.pdf" download="중등_초록수호대_공식교안.pdf" class="btn btn-primary" style="min-height: 36px; padding: 6px 14px; font-size: 12px; background: #15803d; font-weight: 700;">
+            💾 PDF 다운로드 (23MB)
+          </a>
+          <button type="button" onclick="closeCurriculumModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #94a3b8; line-height: 1; padding: 4px;" aria-label="닫기">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- 차시 빠른 전환 탭 버튼 (1차시 ~ 8차시) -->
+      <div style="display: flex; gap: 6px; padding: 10px 0; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; border-bottom: 1px solid #f1f5f9; align-items: center;">
+        <span style="font-size: 12px; font-weight: 800; color: #475569; margin-right: 4px; flex-shrink: 0;">차시 바로가기:</span>
+        <button type="button" class="cm-tab-btn" id="cmTab1" onclick="switchCurriculumLesson(1)">1차시 (p.3)</button>
+        <button type="button" class="cm-tab-btn" id="cmTab2" onclick="switchCurriculumLesson(2)">2차시 (p.22)</button>
+        <button type="button" class="cm-tab-btn" id="cmTab3" onclick="switchCurriculumLesson(3)">3차시 (p.63)</button>
+        <button type="button" class="cm-tab-btn" id="cmTab4" onclick="switchCurriculumLesson(4)">4차시 (p.92)</button>
+        <button type="button" class="cm-tab-btn" id="cmTab5" onclick="switchCurriculumLesson(5)">5차시 (p.129)</button>
+        <button type="button" class="cm-tab-btn" id="cmTab6" onclick="switchCurriculumLesson(6)">6차시 (p.144)</button>
+        <button type="button" class="cm-tab-btn" id="cmTab7" onclick="switchCurriculumLesson(7)">7차시 (p.174)</button>
+        <button type="button" class="cm-tab-btn" id="cmTab8" onclick="switchCurriculumLesson(8)">8차시 (p.189)</button>
+      </div>
+
+      <!-- 메인 PDF 뷰어 iframe 영역 -->
+      <div style="flex: 1; width: 100%; min-height: 350px; background: #525659; border-radius: 8px; overflow: hidden; position: relative; margin-top: 10px;">
+        <iframe id="curriculumPdfFrame" src="" style="width: 100%; height: 100%; border: none; display: block;" allow="fullscreen"></iframe>
+      </div>
+
+      <!-- 하단 안내 문구 -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 12px; color: #64748b; flex-wrap: wrap; gap: 6px;">
+        <span>💡 마우스 휠이나 방향키로 슬라이드를 넘길 수 있으며, 모바일에서는 상단 <strong>[새 창에서 크게 보기 ↗]</strong>를 누르시면 스마트폰 뷰어로 편하게 보실 수 있습니다.</span>
+        <button type="button" onclick="closeCurriculumModal()" class="btn btn-outline" style="min-height: 32px; padding: 4px 14px; font-size: 12px;">닫기</button>
+      </div>
+
     </div>
   </div>
 
@@ -4506,6 +4651,162 @@
     function closeImageModal() {
       document.getElementById("imgModal").classList.add("hidden");
     }
+
+    // ==========================================
+    // 차시별 수업 교안 PDF 뷰어 모달
+    // ==========================================
+    const CURRICULUM_DATA = {
+      1: {
+        num: 1,
+        title: "1차시: 우리 학교 식물의 돌봄 문제 찾기",
+        sub: "슬라이드 범위: p.3 ~ p.21 (총 19장) • 식물 돌봄 문제 발견 & 관찰과 추측 구분",
+        startPage: 3,
+        endPage: 21,
+        session: "🌱 1회차 (11월 3일)",
+        sessionColor: "#0284c7",
+        sessionBg: "#e0f2fe"
+      },
+      2: {
+        num: 2,
+        title: "2차시: 센서로 문제의 원인 분석",
+        sub: "슬라이드 범위: p.22 ~ p.62 (총 41장) • 빛 센서 • 토양 수분 센서 데이터 측정",
+        startPage: 22,
+        endPage: 62,
+        session: "🌱 1회차 (11월 3일)",
+        sessionColor: "#0284c7",
+        sessionBg: "#e0f2fe"
+      },
+      3: {
+        num: 3,
+        title: "3차시: 데이터로 식물 상태 알림 만들기",
+        sub: "슬라이드 범위: p.63 ~ p.91 (총 29장) • 메이크코드 조건문 블록 코딩 & 레인보우 LED",
+        startPage: 63,
+        endPage: 91,
+        session: "🌱 1회차 (11월 3일)",
+        sessionColor: "#0284c7",
+        sessionBg: "#e0f2fe"
+      },
+      4: {
+        num: 4,
+        title: "4차시: AI 식물 의사의 판단 시험하기",
+        sub: "슬라이드 범위: p.92 ~ p.128 (총 37장) • 티처블머신 이미지 분류 학습 & 센서 교차 검증",
+        startPage: 92,
+        endPage: 128,
+        session: "🌱 1회차 (11월 3일)",
+        sessionColor: "#0284c7",
+        sessionBg: "#e0f2fe"
+      },
+      5: {
+        num: 5,
+        title: "5차시: 스마트팜 키트 조립 및 실습 준비",
+        sub: "슬라이드 범위: p.129 ~ p.143 (총 15장) • 그린하우스 하드웨어 결합 & IoT 확장보드 배선",
+        startPage: 129,
+        endPage: 143,
+        session: "🌿 2회차 (11월 5일)",
+        sessionColor: "#15803d",
+        sessionBg: "#dcfce7"
+      },
+      6: {
+        num: 6,
+        title: "6차시: 내가 설계하는 초록 생명 유지 장치",
+        sub: "슬라이드 범위: p.144 ~ p.173 (총 30장) • 자동 급수 펌프 규칙 & 식물의사.hex 테스트",
+        startPage: 144,
+        endPage: 173,
+        session: "🌿 2회차 (11월 5일)",
+        sessionColor: "#15803d",
+        sessionBg: "#dcfce7"
+      },
+      7: {
+        num: 7,
+        title: "7차시: 인공지능과 아이디어 카드로 기능 만들기",
+        sub: "슬라이드 범위: p.174 ~ p.188 (총 15장) • AI 카메라 연동 & 6가지 아이디어 카드 스마트팜",
+        startPage: 174,
+        endPage: 188,
+        session: "🌿 2회차 (11월 5일)",
+        sessionColor: "#15803d",
+        sessionBg: "#dcfce7"
+      },
+      8: {
+        num: 8,
+        title: "8차시: 팀 통합하고 스마트팜 발표하기",
+        sub: "슬라이드 범위: p.189 ~ p.196 (총 8장) • 최종 시연 및 발표, 사후 설문조사 & 수료식",
+        startPage: 189,
+        endPage: 196,
+        session: "🌿 2회차 (11월 5일)",
+        sessionColor: "#15803d",
+        sessionBg: "#dcfce7"
+      }
+    };
+
+    let currentCurriculumLesson = 1;
+
+    function openCurriculumModal(lessonNum = 1) {
+      currentCurriculumLesson = lessonNum;
+      const modal = document.getElementById("curriculumModal");
+      if (modal) modal.classList.remove("hidden");
+      switchCurriculumLesson(lessonNum);
+    }
+
+    function switchCurriculumLesson(lessonNum) {
+      currentCurriculumLesson = lessonNum;
+      const data = CURRICULUM_DATA[lessonNum] || CURRICULUM_DATA[1];
+
+      const titleEl = document.getElementById("cmTitle");
+      const subEl = document.getElementById("cmSub");
+      const badgeEl = document.getElementById("cmBadge");
+      if (titleEl) titleEl.textContent = data.title;
+      if (subEl) subEl.textContent = data.sub + " • 부산교육대학교 디지털새싹 공식 교안";
+      if (badgeEl) {
+        badgeEl.textContent = data.session;
+        badgeEl.style.backgroundColor = data.sessionBg;
+        badgeEl.style.color = data.sessionColor;
+      }
+
+      for (let i = 1; i <= 8; i++) {
+        const tab = document.getElementById(`cmTab${i}`);
+        if (tab) {
+          if (i === lessonNum) {
+            tab.classList.add("active");
+          } else {
+            tab.classList.remove("active");
+          }
+        }
+      }
+
+      const pdfUrlWithPage = `./%EC%A4%91%EB%93%B1_%EC%B4%88%EB%A1%9D%EC%88%98%ED%98%B8%EB%8C%80%20%EA%B5%90%EC%95%88.pdf#page=${data.startPage}&view=FitH&toolbar=1`;
+      const iframe = document.getElementById("curriculumPdfFrame");
+      if (iframe) {
+        iframe.src = pdfUrlWithPage;
+      }
+
+      const extBtn = document.getElementById("cmExternalBtn");
+      if (extBtn) {
+        extBtn.href = `./%EC%A4%91%EB%93%B1_%EC%B4%88%EB%A1%9D%EC%88%98%ED%98%B8%EB%8C%80%20%EA%B5%90%EC%95%88.pdf#page=${data.startPage}&view=FitH`;
+      }
+    }
+
+    function closeCurriculumModal() {
+      const modal = document.getElementById("curriculumModal");
+      if (modal) modal.classList.add("hidden");
+      const iframe = document.getElementById("curriculumPdfFrame");
+      if (iframe) {
+        iframe.src = "about:blank";
+      }
+    }
+
+    // ESC 키로 모든 모달 닫기
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeCurriculumModal();
+        closeGamePlayModal();
+        closeImageModal();
+        closeSurveyModal();
+        closeGalleryViewModal();
+        closeGalleryUploadModal();
+        closeSiteQrModal();
+        closeLoginModal();
+      }
+    });
 
     // 토스트 알림
     function showToast(msg) {
