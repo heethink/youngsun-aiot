@@ -1614,16 +1614,51 @@
               </span>
             </div>
             <h2 style="font-size: 19px; font-weight: 900; color: #0f172a; margin: 0 0 4px 0;">
-              📋 필수 설문조사 4종 바로가기 허브
+              📋 설문조사
             </h2>
             <p style="font-size: 12.5px; color: #475569; margin: 0; line-height: 1.5;">
-              모든 학생은 <strong>사전 설문 2종</strong>과 <strong>사후 설문 2종</strong>에 참여해야 수료가 인정됩니다. 아래 카드에서 바로 참여하세요.
+              모든 학생은 <strong>사전 설문 2종</strong>과 <strong>사후 설문 2종</strong>에 참여해야 수료가 인정됩니다. 아래에서 본인 학생코드를 확인한 후 설문에 참여하세요.
             </p>
           </div>
           <div>
             <button type="button" onclick="toggleSurveySection(false)" class="btn btn-outline" style="min-height: 34px; padding: 4px 14px; font-size: 12px; font-weight: 700; color: #64748b; border: 1.5px solid #cbd5e1; background: #ffffff;" title="설문 섹션 닫기">
               ✕ 닫기
             </button>
+          </div>
+        </div>
+
+        <!-- 학생 본인 이름 선택/입력 & 학생코드 복사 영역 -->
+        <div style="background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); border: 1.5px solid #7dd3fc; border-radius: 12px; padding: 14px 18px; margin-bottom: 22px; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.08);">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 800; color: #0369a1;">
+              <span style="font-size: 16px;">🔑</span> <span>설문용 내 학생코드 확인 &amp; 복사</span>
+            </div>
+            <span style="font-size: 11.5px; color: #475569;">※ 설문 응답 첫 화면에 <strong>6자리 학생코드</strong>를 입력해야 합니다.</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <!-- 이름 선택 드롭다운 -->
+            <div style="flex: 1 1 170px; min-width: 160px;">
+              <select id="surveyStudentSelect" onchange="handleSurveyStudentSelect(this.value)" class="form-control" style="width: 100%; height: 42px; font-size: 13px; font-weight: 700; border-radius: 8px; border: 1.5px solid #93c5fd; background-color: #ffffff; padding: 0 10px; color: #0f172a;">
+                <option value="">👤 이름 선택 (목록에서 찾기)</option>
+              </select>
+            </div>
+
+            <!-- 이름 직접 검색 입력 -->
+            <div style="flex: 1 1 170px; min-width: 160px;">
+              <input type="text" id="surveyStudentInput" oninput="handleSurveyStudentInput(this.value)" placeholder="또는 이름 직접 입력 (예: 김가은)" class="form-control" style="width: 100%; height: 42px; font-size: 13px; border-radius: 8px; border: 1.5px solid #93c5fd; background-color: #ffffff; padding: 0 12px; color: #0f172a;">
+            </div>
+
+            <!-- 학생코드 표시 및 복사 버튼 영역 -->
+            <div id="surveyStudentCodeResult" style="display: none; align-items: center; gap: 8px; background: #ffffff; border: 2px solid #0284c7; padding: 4px 12px; border-radius: 8px; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15); min-height: 42px; flex: 1 1 230px; justify-content: space-between;">
+              <div style="font-size: 12.5px; font-weight: 700; color: #0f172a; white-space: nowrap;">
+                <span id="scDisplayStudent" style="color: #0369a1;">-</span> 코드:
+                <strong id="scDisplayCode" style="font-size: 17px; font-family: monospace; letter-spacing: 1.5px; color: #0284c7; margin-left: 4px;">-</strong>
+              </div>
+              <button type="button" onclick="copyMyStudentCode()" class="btn btn-primary" style="min-height: 32px; padding: 4px 12px; font-size: 12px; font-weight: 800; background: #0284c7; border: none; border-radius: 6px; box-shadow: 0 1px 4px rgba(2, 132, 199, 0.3); white-space: nowrap;">
+                📋 코드 복사
+              </button>
+            </div>
           </div>
         </div>
 
@@ -3857,10 +3892,106 @@
       }
     }
 
+    // 설문조사 상단 학생코드 도우미 (이름 선택/입력 시 학생코드 표시 및 원클릭 복사)
+    let currentSelectedStudent = null;
+
+    function initSurveyStudentCode() {
+      const select = document.getElementById("surveyStudentSelect");
+      if (!select) return;
+      select.innerHTML = '<option value="">👤 이름 선택 (목록에서 찾기)</option>';
+      studentList.forEach(st => {
+        const opt = document.createElement("option");
+        opt.value = String(st.num);
+        opt.textContent = `${st.num}번 ${st.name}`;
+        select.appendChild(opt);
+      });
+    }
+
+    function showStudentCodeResult(st) {
+      const resultBox = document.getElementById("surveyStudentCodeResult");
+      const nameEl = document.getElementById("scDisplayStudent");
+      const codeEl = document.getElementById("scDisplayCode");
+      if (!resultBox || !nameEl || !codeEl) return;
+      nameEl.textContent = `${st.name} (${st.num}번)`;
+      codeEl.textContent = st.code;
+      resultBox.style.display = "inline-flex";
+    }
+
+    function handleSurveyStudentSelect(numStr) {
+      const input = document.getElementById("surveyStudentInput");
+      const resultBox = document.getElementById("surveyStudentCodeResult");
+      if (!numStr) {
+        currentSelectedStudent = null;
+        if (input) input.value = "";
+        if (resultBox) resultBox.style.display = "none";
+        return;
+      }
+      const st = studentList.find(s => String(s.num) === String(numStr));
+      if (st) {
+        currentSelectedStudent = st;
+        if (input) input.value = st.name;
+        showStudentCodeResult(st);
+      }
+    }
+
+    function handleSurveyStudentInput(query) {
+      const trimmed = (query || "").trim();
+      const select = document.getElementById("surveyStudentSelect");
+      const resultBox = document.getElementById("surveyStudentCodeResult");
+      if (!trimmed) {
+        currentSelectedStudent = null;
+        if (select) select.value = "";
+        if (resultBox) resultBox.style.display = "none";
+        return;
+      }
+      // 이름 또는 번호 매칭
+      const matched = studentList.filter(s => 
+        s.name.includes(trimmed) || String(s.num) === trimmed
+      );
+      if (matched.length === 1) {
+        const st = matched[0];
+        currentSelectedStudent = st;
+        if (select) select.value = String(st.num);
+        showStudentCodeResult(st);
+      } else if (matched.length > 1) {
+        const exact = matched.find(s => s.name === trimmed);
+        if (exact) {
+          currentSelectedStudent = exact;
+          if (select) select.value = String(exact.num);
+          showStudentCodeResult(exact);
+        } else {
+          if (resultBox) resultBox.style.display = "none";
+        }
+      } else {
+        currentSelectedStudent = null;
+        if (select) select.value = "";
+        if (resultBox) resultBox.style.display = "none";
+      }
+    }
+
+    function copyMyStudentCode() {
+      if (!currentSelectedStudent || !currentSelectedStudent.code) {
+        showToast("학생을 먼저 선택하거나 이름을 입력해주세요.");
+        return;
+      }
+      const code = currentSelectedStudent.code;
+      const name = currentSelectedStudent.name;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(() => {
+          showToast(`[${name}] 학생코드(${code})가 복사되었습니다! 설문지에 붙여넣으세요.`);
+        }).catch(() => {
+          fallbackCopyText(code, `[${name}] 학생코드(${code})가 복사되었습니다!`);
+        });
+      } else {
+        fallbackCopyText(code, `[${name}] 학생코드(${code})가 복사되었습니다!`);
+      }
+    }
+
     soilRange.addEventListener("input", runSimulation);
     tempRange.addEventListener("input", runSimulation);
     luxRange.addEventListener("input", runSimulation);
     runSimulation();
+    initSurveyStudentCode();
     initGalleryRealtime();
     renderTable();
     renderTeacherFiles();
