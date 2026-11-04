@@ -1445,6 +1445,79 @@
         margin: 10px auto !important;
       }
     }
+
+    /* =======================================
+       설문조사 버튼 호버 인터랙션 (마우스 올렸을 때 색상 변경)
+       ======================================= */
+    /* 1. 상단 헤더 설문조사 버튼 기본 스타일 */
+    #headerSurveyBtn {
+      font-size: 13px !important;
+      font-weight: 800 !important;
+      padding: 7px 16px !important;
+      min-height: 38px !important;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      color: #ffffff !important;
+      border: none !important;
+      border-radius: var(--radius-md) !important;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      cursor: pointer !important;
+      transition: all 0.25s ease !important;
+      user-select: none;
+    }
+
+    /* 마우스 올렸을 때(호버): 선명한 에메랄드 그린 그라데이션으로 부드럽게 색상 전환 + 리프트 효과 */
+    #headerSurveyBtn:hover {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important;
+      color: #ffffff !important;
+      box-shadow: 0 5px 16px rgba(22, 163, 74, 0.5) !important;
+      transform: translateY(-2px);
+    }
+
+    /* 설문 섹션이 열려있을 때(활성 상태): 에메랄드 그린 + 포커스 링 */
+    #headerSurveyBtn.active {
+      background: linear-gradient(135deg, #15803d 0%, #166534 100%) !important;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.45), 0 2px 8px rgba(21, 128, 61, 0.35) !important;
+    }
+
+    /* 설문 섹션이 열려있을 때 마우스 올렸을 때(호버): 화사하고 밝은 라이트 그린 */
+    #headerSurveyBtn.active:hover {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.65), 0 5px 16px rgba(34, 197, 94, 0.4) !important;
+      transform: translateY(-2px);
+    }
+
+    /* 2. 상단 배너 '디지털새싹 공식 필수 설문조사' 원터치 바 호버 */
+    #surveyToggleBtn {
+      transition: all 0.25s ease !important;
+      cursor: pointer !important;
+    }
+
+    #surveyToggleBtn:hover {
+      background: linear-gradient(135deg, #dcfce7 0%, #bae6fd 100%) !important;
+      border-color: #0284c7 !important;
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.22) !important;
+      transform: translateY(-2px);
+    }
+
+    #surveyToggleBtn:hover #surveyToggleArrow {
+      background: #0284c7 !important;
+      color: #ffffff !important;
+      border-color: #0284c7 !important;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35) !important;
+    }
+
+    /* 3. 설문 카드 바로가기 버튼 호버 */
+    .survey-direct-link {
+      transition: all 0.2s ease !important;
+    }
+    .survey-direct-link:hover {
+      transform: translateY(-2px) !important;
+      filter: brightness(1.08) !important;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4) !important;
+    }
   </style>
 </head>
 <body>
@@ -1462,7 +1535,7 @@
         </a>
 
         <div class="nav-actions">
-          <button type="button" id="headerSurveyBtn" onclick="toggleSurveySection()" class="btn btn-primary" style="font-size: 13px; font-weight: 800; padding: 7px 14px; min-height: 38px; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: none; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35); display: inline-flex; align-items: center; gap: 6px; transition: all 0.25s ease;" title="공식 설문조사 4종 열기">
+          <button type="button" id="headerSurveyBtn" onclick="toggleSurveySection()" class="btn" title="공식 설문조사 4종 열기">
             <span>📋</span> 설문조사
           </button>
           <button onclick="openSiteQrModal()" class="btn btn-outline" style="font-size: 13px; padding: 7px 12px; min-height: 38px;">
@@ -1662,7 +1735,7 @@
               <div style="font-size: 10.5px; color: #0284c7; font-weight: 700; margin-bottom: 12px;">📱 스마트폰 카메라 스캔</div>
             </div>
 
-            <a href="https://form.kosac.re.kr/v/4MyHDskwLX0s2i9sVZXJ" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; padding: 10px 12px; font-size: 13px; font-weight: 900; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border-radius: 8px; text-decoration: none; box-shadow: 0 3px 10px rgba(2, 132, 199, 0.35);">
+            <a href="https://form.kosac.re.kr/v/4MyHDskwLX0s2i9sVZXJ" target="_blank" rel="noopener noreferrer" class="btn btn-primary survey-direct-link" style="width: 100%; padding: 10px 12px; font-size: 13px; font-weight: 900; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border-radius: 8px; text-decoration: none; box-shadow: 0 3px 10px rgba(2, 132, 199, 0.35);">
               📝 설문 바로가기 ↗
             </a>
           </div>
@@ -1682,7 +1755,7 @@
               <div style="font-size: 10.5px; color: #15803d; font-weight: 700; margin-bottom: 12px;">📱 스마트폰 카메라 스캔</div>
             </div>
 
-            <a href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="width: 100%; padding: 10px 12px; font-size: 12.5px; font-weight: 800; color: #166534; border-color: #86efac; background: #ffffff; border-radius: 8px; text-decoration: none;">
+            <a href="https://form.kosac.re.kr/v/7P0fvHzob0GgGPiTFcCr" target="_blank" rel="noopener noreferrer" class="btn btn-outline survey-direct-link" style="width: 100%; padding: 10px 12px; font-size: 12.5px; font-weight: 800; color: #166534; border-color: #86efac; background: #ffffff; border-radius: 8px; text-decoration: none;">
               다시보기 / 확인 ↗
             </a>
           </div>
@@ -1702,7 +1775,7 @@
               <div style="font-size: 10.5px; color: #78716c; margin-bottom: 12px;">📱 2회차 사후 스캔용</div>
             </div>
 
-            <a href="https://form.kosac.re.kr/v/VKRAGo5FUJNbbgHH26tI" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="width: 100%; padding: 10px 12px; font-size: 12.5px; font-weight: 700; color: #57534e; border-color: #d6d3d1; background: #ffffff; border-radius: 8px; text-decoration: none;">
+            <a href="https://form.kosac.re.kr/v/VKRAGo5FUJNbbgHH26tI" target="_blank" rel="noopener noreferrer" class="btn btn-outline survey-direct-link" style="width: 100%; padding: 10px 12px; font-size: 12.5px; font-weight: 700; color: #57534e; border-color: #d6d3d1; background: #ffffff; border-radius: 8px; text-decoration: none;">
               미리보기 ↗
             </a>
           </div>
@@ -1722,7 +1795,7 @@
               <div style="font-size: 10.5px; color: #78716c; margin-bottom: 12px;">📱 2회차 사후 스캔용</div>
             </div>
 
-            <a href="https://form.kosac.re.kr/v/9vDMP23fH2OhgKbZdFqC" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="width: 100%; padding: 10px 12px; font-size: 12.5px; font-weight: 700; color: #57534e; border-color: #d6d3d1; background: #ffffff; border-radius: 8px; text-decoration: none;">
+            <a href="https://form.kosac.re.kr/v/9vDMP23fH2OhgKbZdFqC" target="_blank" rel="noopener noreferrer" class="btn btn-outline survey-direct-link" style="width: 100%; padding: 10px 12px; font-size: 12.5px; font-weight: 700; color: #57534e; border-color: #d6d3d1; background: #ffffff; border-radius: 8px; text-decoration: none;">
               미리보기 ↗
             </a>
           </div>
@@ -3646,10 +3719,11 @@
 
       if (shouldOpen) {
         sec.style.display = 'block';
-        // 1. 상단 헤더 버튼 색상 변경 (활성화 상태: 선명한 초록색 테마 + 은은한 활성 링, 텍스트는 자연스럽게 유지)
+        // 1. 상단 헤더 버튼 상태 활성화 (.active 클래스 부여로 CSS 호버/색상 적용)
         if (headerBtn) {
-          headerBtn.style.background = 'linear-gradient(135deg, #15803d 0%, #166534 100%)';
-          headerBtn.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.45)';
+          headerBtn.classList.add('active');
+          headerBtn.style.background = '';
+          headerBtn.style.boxShadow = '';
           headerBtn.innerHTML = '<span>📋</span> 설문조사';
         }
         // 2. 상단 토글 바 상태 변경
@@ -3661,10 +3735,11 @@
         sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
         sec.style.display = 'none';
-        // 1. 상단 헤더 버튼 색상 원복 (기본 파란색 테마)
+        // 1. 상단 헤더 버튼 활성 상태 해제 (기본 파란색, 호버 시 초록색)
         if (headerBtn) {
-          headerBtn.style.background = 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)';
-          headerBtn.style.boxShadow = '0 2px 8px rgba(2, 132, 199, 0.35)';
+          headerBtn.classList.remove('active');
+          headerBtn.style.background = '';
+          headerBtn.style.boxShadow = '';
           headerBtn.innerHTML = '<span>📋</span> 설문조사';
         }
         // 2. 상단 토글 바 상태 원복
