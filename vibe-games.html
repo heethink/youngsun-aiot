@@ -1268,6 +1268,54 @@
       document.getElementById('gameUploadModal').classList.add('hidden');
     }
 
+    // 중복 검사 헬퍼 함수
+    function isVibeGameMatch(a, b) {
+      if (!a || !b) return false;
+      if (a.id && b.id && a.id === b.id) return true;
+      if (a.cloudKey && b.id && a.cloudKey.includes(b.id)) return true;
+      if (b.cloudKey && a.id && b.cloudKey.includes(a.id)) return true;
+      if (a.cloudKey && b.cloudKey && a.cloudKey === b.cloudKey) return true;
+      const normUrlA = (a.gameUrl || '').trim().toLowerCase().replace(/\/+$/, '');
+      const normUrlB = (b.gameUrl || '').trim().toLowerCase().replace(/\/+$/, '');
+      if (normUrlA && normUrlB && normUrlA === normUrlB) return true;
+      const titleA = (a.title || '').trim().toLowerCase();
+      const titleB = (b.title || '').trim().toLowerCase();
+      const authorA = (a.author || '').trim().toLowerCase();
+      const authorB = (b.author || '').trim().toLowerCase();
+      if (titleA && titleB && titleA === titleB && authorA && authorB && (authorA.includes(authorB) || authorB.includes(authorA))) return true;
+      return false;
+    }
+
+    // 전역 중복 제거 헬퍼 함수
+    function deduplicateVibeGames(items) {
+      const seen = new Set();
+      const deduped = [];
+      items.forEach(it => {
+        const normUrl = (it.gameUrl || '').trim().toLowerCase().replace(/\/+$/, '');
+        const urlKey = normUrl ? 'url:' + normUrl : null;
+        const idKey = it.id ? 'id:' + it.id : null;
+        const cloudKey = it.cloudKey ? 'ck:' + it.cloudKey : null;
+        const normTitle = (it.title || '').trim().toLowerCase();
+        const normAuthor = (it.author || '').trim().toLowerCase();
+        const taKey = (normTitle && normAuthor) ? 'ta:' + normTitle + '::' + normAuthor : null;
+
+        let isDup = false;
+        if (urlKey && seen.has(urlKey)) isDup = true;
+        if (idKey && seen.has(idKey)) isDup = true;
+        if (cloudKey && seen.has(cloudKey)) isDup = true;
+        if (taKey && seen.has(taKey)) isDup = true;
+
+        if (!isDup) {
+          if (urlKey) seen.add(urlKey);
+          if (idKey) seen.add(idKey);
+          if (cloudKey) seen.add(cloudKey);
+          if (taKey) seen.add(taKey);
+          deduped.push(it);
+        }
+      });
+      return deduped;
+    }
+
     // 클라우드에서 바이브 게임 목록 불러오기
     async function fetchGameList(isSilent = false) {
       try {
@@ -1281,14 +1329,49 @@
             try {
               const item = typeof val === 'string' ? JSON.parse(val) : val;
               if (item && item.isVibeGame) {
-                cloudGames.push({ ...item, id: key, cloudKey: key });
+                const origId = item.id || key;
+                cloudGames.push({ ...item, id: origId, cloudKey: key });
               }
             } catch(e) {}
           }
         });
 
-        cloudGames.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-        allGames = [...cloudGames, ...PRESET_GAMES];
+        // 프리셋 게임 병합 (클라우드 데이터와 병합 및 썸네일/카테고리 속성 보완, 중복 배제)
+        const combined = [...cloudGames];
+        PRESET_GAMES.forEach(pg => {
+          const matchIndex = combined.findIndex(cg => isVibeGameMatch(cg, pg));
+          if (matchIndex >= 0) {
+            combined[matchIndex] = {
+              ...pg,
+              ...combined[matchIndex],
+              thumbnail: combined[matchIndex].thumbnail || pg.thumbnail,
+              category: combined[matchIndex].category || pg.category,
+              isPreset: pg.isPreset !== undefined ? pg.isPreset : combined[matchIndex].isPreset
+            };
+          } else {
+            combined.push(pg);
+          }
+        });
+
+        // 2차 전역 엄격 중복 제거
+        const dedupedGames = deduplicateVibeGames(combined);
+
+        // 정렬: 실시간 업로드 게임 최우선, 학생 번호순 (1번~26번), 클래식 미니게임 순
+        dedupedGames.sort((a, b) => {
+          const isNewA = (a.timestamp || 0) > 1793790000000;
+          const isNewB = (b.timestamp || 0) > 1793790000000;
+          if (isNewA && !isNewB) return -1;
+          if (!isNewA && isNewB) return 1;
+          if (isNewA && isNewB) return (b.timestamp || 0) - (a.timestamp || 0);
+
+          const numA = a.num ? Number(a.num) : 999;
+          const numB = b.num ? Number(b.num) : 999;
+          if (numA !== numB) return numA - numB;
+
+          return (b.timestamp || 0) - (a.timestamp || 0);
+        });
+
+        allGames = dedupedGames;
         renderGameGrid();
         if (!isSilent) showToast("최신 바이브 코딩 게임 목록을 갱신했습니다!");
       } catch (err) {
@@ -1405,7 +1488,7 @@
     }
 
     function playGame(id, shouldScroll = false) {
-      const target = allGames.find(g => g.id === id);
+      const target = allGames.find(g => g.id === id || g.cloudKey === id);
       if (!target) return;
       currentPlayingGame = target;
 
@@ -1505,7 +1588,9 @@
         await fetch(`${CLOUD_DB_URL}/${currentPlayingGame.cloudKey || currentPlayingGame.id}`, { method: 'DELETE' });
         showToast("게임을 삭제했습니다.");
         await fetchGameList(true);
-        playGame(PRESET_GAMES[0].id);
+        if (allGames.length > 0) {
+          playGame(allGames[0].id);
+        }
       } catch(e) {
         alert("삭제 처리 중 오류 발생: " + e.message);
       }
@@ -1571,12 +1656,25 @@
       }
     }
 
-    // 초기 로드
-    window.addEventListener('DOMContentLoaded', () => {
-      fetchGameList(true);
+    // 초기 로드 & 실시간 자동 동기화
+    window.addEventListener('DOMContentLoaded', async () => {
+      // 1. 초기 프리셋 즉시 렌더링 (화면 깜빡임 방지)
+      allGames = [...PRESET_GAMES];
+      renderGameGrid();
       if (allGames.length > 0) {
         playGame(allGames[0].id, false);
       }
+
+      // 2. 클라우드 최신 게임 동기화
+      await fetchGameList(true);
+      if (!currentPlayingGame && allGames.length > 0) {
+        playGame(allGames[0].id, false);
+      }
+
+      // 3. 다른 학생 등록건 실시간 반영 (4초 간격 자동 갱신)
+      setInterval(() => {
+        fetchGameList(true);
+      }, 4000);
     });
   </script>
 </body>

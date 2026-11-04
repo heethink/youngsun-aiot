@@ -3357,6 +3357,54 @@
       });
     }
 
+    // 중복 검사 헬퍼 함수
+    function isGalleryItemMatch(a, b) {
+      if (!a || !b) return false;
+      if (a.id && b.id && a.id === b.id) return true;
+      if (a.cloudKey && b.id && a.cloudKey.includes(b.id)) return true;
+      if (b.cloudKey && a.id && b.cloudKey.includes(a.id)) return true;
+      if (a.cloudKey && b.cloudKey && a.cloudKey === b.cloudKey) return true;
+      const normUrlA = (a.gameUrl || '').trim().toLowerCase().replace(/\/+$/, '');
+      const normUrlB = (b.gameUrl || '').trim().toLowerCase().replace(/\/+$/, '');
+      if (normUrlA && normUrlB && normUrlA === normUrlB) return true;
+      const titleA = (a.title || '').trim().toLowerCase();
+      const titleB = (b.title || '').trim().toLowerCase();
+      const authorA = (a.author || '').trim().toLowerCase();
+      const authorB = (b.author || '').trim().toLowerCase();
+      if (titleA && titleB && titleA === titleB && authorA && authorB && (authorA.includes(authorB) || authorB.includes(authorA))) return true;
+      return false;
+    }
+
+    // 전역 중복 제거 헬퍼 함수
+    function deduplicateGalleryItems(items) {
+      const seen = new Set();
+      const deduped = [];
+      items.forEach(it => {
+        const normUrl = (it.gameUrl || '').trim().toLowerCase().replace(/\/+$/, '');
+        const urlKey = normUrl ? 'url:' + normUrl : null;
+        const idKey = it.id ? 'id:' + it.id : null;
+        const cloudKey = it.cloudKey ? 'ck:' + it.cloudKey : null;
+        const normTitle = (it.title || '').trim().toLowerCase();
+        const normAuthor = (it.author || '').trim().toLowerCase();
+        const taKey = (normTitle && normAuthor) ? 'ta:' + normTitle + '::' + normAuthor : null;
+
+        let isDup = false;
+        if (urlKey && seen.has(urlKey)) isDup = true;
+        if (idKey && seen.has(idKey)) isDup = true;
+        if (cloudKey && seen.has(cloudKey)) isDup = true;
+        if (taKey && seen.has(taKey)) isDup = true;
+
+        if (!isDup) {
+          if (urlKey) seen.add(urlKey);
+          if (idKey) seen.add(idKey);
+          if (cloudKey) seen.add(cloudKey);
+          if (taKey) seen.add(taKey);
+          deduped.push(it);
+        }
+      });
+      return deduped;
+    }
+
     // 클라우드 전체 동기화 함수 (모든 학생 & 선생님 실시간 공유 + 바이브 게임 포함)
     async function syncCloudGallery(isSilent = false) {
       if (isCloudSyncing) return;
@@ -3374,22 +3422,58 @@
             try {
               const item = typeof val === 'string' ? JSON.parse(val) : val;
               if (item && item.title) {
-                list.push({ ...item, id: key, cloudKey: key });
+                const origId = item.id || key;
+                list.push({ ...item, id: origId, cloudKey: key });
               }
             } catch(e) {}
           }
         });
 
-        // 기본 바이브 게임 3종 병합 (중복 방지)
+        // 기본 바이브 게임 병합 (클라우드 데이터와 병합 및 속성 보완, 중복 배제)
+        const combined = [...list];
         PRESET_VIBE_GAMES.forEach(pg => {
-          if (!list.some(it => it.id === pg.id)) {
-            list.push(pg);
+          const matchIndex = combined.findIndex(it => isGalleryItemMatch(it, pg));
+          if (matchIndex >= 0) {
+            combined[matchIndex] = {
+              ...pg,
+              ...combined[matchIndex],
+              thumbnail: combined[matchIndex].thumbnail || pg.thumbnail,
+              category: combined[matchIndex].category || pg.category,
+              isPreset: pg.isPreset !== undefined ? pg.isPreset : combined[matchIndex].isPreset
+            };
+          } else {
+            combined.push(pg);
           }
         });
 
-        // 최신 등록순 정렬 (timestamp 기준)
-        list.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-        cachedAllGalleryItems = list;
+        // 2차 전역 엄격 중복 제거 (URL, ID, 작성자+제목)
+        const dedupedList = deduplicateGalleryItems(combined);
+
+        // 학생 번호순 (1번~26번), 신규 등록건, 클래식 게임, 하드웨어 카드 순서 정렬
+        dedupedList.sort((a, b) => {
+          const isGameA = Boolean(a.isVibeGame || a.type === 'vibe_game');
+          const isGameB = Boolean(b.isVibeGame || b.type === 'vibe_game');
+          const isNewA = (a.timestamp || 0) > 1793790000000;
+          const isNewB = (b.timestamp || 0) > 1793790000000;
+
+          if (isNewA && !isNewB) return -1;
+          if (!isNewA && isNewB) return 1;
+          if (isNewA && isNewB) return (b.timestamp || 0) - (a.timestamp || 0);
+
+          if (isGameA && !isGameB) return -1;
+          if (!isGameA && isGameB) return 1;
+
+          if (isGameA && isGameB) {
+            const numA = a.num ? Number(a.num) : 999;
+            const numB = b.num ? Number(b.num) : 999;
+            if (numA !== numB) return numA - numB;
+            return (b.timestamp || 0) - (a.timestamp || 0);
+          }
+
+          return (b.timestamp || 0) - (a.timestamp || 0);
+        });
+
+        cachedAllGalleryItems = dedupedList;
         
         applyGalleryFilter();
         updateFbBadge(true, "🟢 실시간 전체 공유 활성 (동기화 완료)");
@@ -3490,6 +3574,8 @@
       items.forEach(item => {
         const idKey = String(item.id || item.cloudKey);
         cachedGalleryItems[idKey] = item;
+        if (item.cloudKey) cachedGalleryItems[String(item.cloudKey)] = item;
+        if (item.id) cachedGalleryItems[String(item.id)] = item;
         const isGame = Boolean(item.isVibeGame || item.type === 'vibe_game');
         
         const card = document.createElement('div');
@@ -3891,7 +3977,8 @@
 
       if (!confirm("정말 이 게시물을 삭제하시겠습니까?\n모든 학생과 선생님 화면에서 영구 삭제됩니다.")) return;
 
-      const targetId = currentViewingItemId;
+      const targetItem = cachedGalleryItems[currentViewingItemId];
+      const targetId = (targetItem && targetItem.cloudKey) ? targetItem.cloudKey : currentViewingItemId;
       closeGalleryViewModal();
 
       showToast("게시물을 삭제하는 중입니다...");
