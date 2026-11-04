@@ -2186,13 +2186,13 @@
       </div>
     </section>
 
-    <!-- 섹션 6: 수업 통합 관리 시스템 (전체 공개 모드) -->
-    <section id="adminSection" class="admin-panel" style="display: block;">
+    <!-- 섹션 6: 수업 통합 관리 시스템 (비밀번호 인증 모드) -->
+    <section id="adminSection" class="admin-panel" style="display: none;">
       <div class="admin-header">
         <div>
           <div style="display: flex; align-items: center; gap: 8px;">
             <span class="badge badge-primary">관리자 포털</span>
-            <span style="font-size: 11px; font-family: monospace; color: #15803d; font-weight: 700;">전체 공개 허용</span>
+            <span style="font-size: 11px; font-family: monospace; color: #15803d; font-weight: 700;">비밀번호 인증 완료</span>
           </div>
           <h3 style="font-size: 20px; font-weight: 900; margin-top: 4px; color: var(--text-main);">
             수업 통합 관리 시스템
@@ -2204,7 +2204,7 @@
 
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
           <button onclick="closeAdminPortal()" class="btn btn-outline" style="font-size: 13px;">
-            관리자 화면 접기/펼치기
+            ✕ 관리자 화면 닫기
           </button>
         </div>
       </div>
@@ -2370,8 +2370,8 @@
   </main>
 
   <!-- 관리자 로그인 모달 (비밀번호: 2026) -->
-  <div id="loginModal" class="modal-overlay hidden">
-    <div class="modal-content">
+  <div id="loginModal" class="modal-overlay hidden" onclick="closeLoginModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
         <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">🔒 관리자 인증</h3>
         <button onclick="closeLoginModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #94a3b8;">✕</button>
@@ -3371,15 +3371,30 @@
     // 로컬 스토리지 키
     const STORAGE_KEY = "youngsun_1_3_data";
     let adminState = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    let isAdminLoggedIn = true;
+    let isAdminLoggedIn = false;
 
-    // 관리자 페이지 바로 이동 (모두 볼 수 있도록 전체 공개)
+    // 관리자 페이지 비밀번호 인증 (2026)
     function toggleAdminPrompt() {
       const sec = document.getElementById("adminSection");
-      if (sec) {
-        sec.style.display = "block";
-        renderTable();
-        sec.scrollIntoView({ behavior: "smooth" });
+      if (isAdminLoggedIn) {
+        if (!sec) return;
+        if (sec.style.display === "none" || sec.style.display === "") {
+          sec.style.display = "block";
+          renderTable();
+          sec.scrollIntoView({ behavior: "smooth" });
+        } else {
+          sec.style.display = "none";
+        }
+      } else {
+        const modal = document.getElementById("loginModal");
+        if (modal) {
+          modal.classList.remove("hidden");
+          const input = document.getElementById("adminPwInput");
+          if (input) {
+            input.value = "";
+            setTimeout(() => input.focus(), 100);
+          }
+        }
       }
     }
 
@@ -3388,24 +3403,32 @@
     }
 
     function checkPassword() {
-      isAdminLoggedIn = true;
-      closeLoginModal();
-      const sec = document.getElementById("adminSection");
-      sec.style.display = "block";
-      renderTable();
-      sec.scrollIntoView({ behavior: "smooth" });
-      showToast("관리자 모드로 이동했습니다.");
+      const input = document.getElementById("adminPwInput");
+      const pw = (input ? input.value : "").trim();
+      if (pw === "2026") {
+        isAdminLoggedIn = true;
+        closeLoginModal();
+        const sec = document.getElementById("adminSection");
+        if (sec) {
+          sec.style.display = "block";
+          renderTable();
+          sec.scrollIntoView({ behavior: "smooth" });
+        }
+        showToast("관리자 모드로 인증되었습니다.");
+      } else {
+        alert("관리자 비밀번호가 올바르지 않습니다. (비밀번호: 2026)");
+        if (input) {
+          input.value = "";
+          input.focus();
+        }
+      }
     }
 
     function closeAdminPortal() {
       const sec = document.getElementById("adminSection");
-      if (sec.style.display === "none") {
-        sec.style.display = "block";
-        renderTable();
-        showToast("관리자 화면이 열렸습니다.");
-      } else {
+      if (sec) {
         sec.style.display = "none";
-        showToast("관리자 화면이 접혔습니다. 상단 '관리자' 버튼을 누르면 다시 열립니다.");
+        showToast("관리자 화면이 닫혔습니다.");
       }
     }
 
