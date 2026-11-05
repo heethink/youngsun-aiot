@@ -1952,8 +1952,13 @@
           <span class="section-sub">학습 자료실</span>
           <h2 class="section-title">수업 자료 드라이브 (다운로드)</h2>
         </div>
-        <div class="section-desc">수업에 필요한 실습 펌웨어 및 데이터셋 5종</div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+          <button type="button" onclick="openCircuitModal()" class="btn btn-outline" style="font-size: 12px; font-weight: 800; color: #0284c7; border-color: #7dd3fc; background: #f0f9ff; padding: 6px 14px;" title="스마트팜 하드웨어 핀 연결 참고 회로도 크게 보기">
+            🔌 참고 회로도 크게 보기 ↗
+          </button>
+        </div>
       </div>
+      <div class="section-desc">수업에 필요한 실습 펌웨어, 데이터셋 및 하드웨어 배선도 6종</div>
 
       <div class="menu-grid">
         <!-- 1. 식물의사 HEX -->
@@ -2036,6 +2041,25 @@
           </div>
         </div>
 
+        <!-- 6. 스마트팜 참고 회로도 (배선도) -->
+        <div class="card file-card" style="border: 2px solid #bae6fd; background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%);">
+          <div>
+            <div class="file-header">
+              <span class="badge" style="background: #0284c7; color: #ffffff; font-weight: 800;">스마트팜 배선도</span>
+              <span style="font-size: 11px; font-weight: 700; color: #0284c7;">495 KB (고화질)</span>
+            </div>
+            <div class="file-title" style="color: #0369a1;">스마트팜 참고 회로도.png</div>
+            <p class="file-desc">빛 센서(P1), 토양 수분 센서(P2), 릴레이 및 펌프(P8), 레인보우 LED(P16) 하드웨어 핀 연결도입니다.</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" onclick="openCircuitModal()" class="btn btn-primary" style="flex: 1.2; background: #0284c7; font-weight: 800; min-height: 38px; padding: 6px 10px; font-size: 12px;">
+              🔍 크게 보기 (회로도 뷰어)
+            </button>
+            <a href="./smartfarm-circuit.png" download="스마트팜_참고_회로도.png" class="btn btn-outline" style="flex: 0.8; min-height: 38px; padding: 6px 8px; font-size: 12px; text-align: center;">
+              다운로드
+            </a>
+          </div>
+        </div>
 
       </div>
     </section>
@@ -2139,6 +2163,7 @@
                 <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                   <span style="font-weight: 800; color: #0f172a;">5차시: 스마트팜 키트 조립 및 실습 준비</span>
                   <span class="step-pdf-btn">📖 5차시 교안 (15p) ↗</span>
+                  <span class="step-pdf-btn" onclick="event.stopPropagation(); openCircuitModal()" style="background: #e0f2fe; color: #0369a1; border-color: #7dd3fc;" title="스마트팜 하드웨어 핀 연결 참고 회로도 크게 보기">🔌 참고 회로도 ↗</span>
                 </div>
                 <span class="badge" style="background-color: #f1f5f9; color: #334155;">하드웨어 조립</span>
               </div>
@@ -2150,6 +2175,7 @@
                 <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                   <span style="font-weight: 800; color: #0f172a;">6차시: 내가 설계하는 초록 생명 유지 장치</span>
                   <span class="step-pdf-btn">📖 6차시 교안 (30p) ↗</span>
+                  <span class="step-pdf-btn" onclick="event.stopPropagation(); openCircuitModal()" style="background: #e0f2fe; color: #0369a1; border-color: #7dd3fc;" title="스마트팜 하드웨어 핀 연결 참고 회로도 크게 보기">🔌 참고 회로도 ↗</span>
                 </div>
                 <span class="badge badge-blue">메이크코드</span>
               </div>
@@ -2182,6 +2208,7 @@
           <div style="padding-top: 12px; border-top: 1px solid var(--border-color); font-size: 12px; color: var(--text-muted);">
             <span style="font-weight: 700;">2회차 활용 도구:</span>
             <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+              <button type="button" onclick="openCircuitModal()" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px; color: #0284c7; border-color: #7dd3fc; font-weight: 800; background: #f0f9ff;">🔌 참고 회로도 (배선도)</button>
               <a href="https://makecode.microbit.org/" target="_blank" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px;">메이크코드</a>
               <a href="https://teachablemachine.withgoogle.com/" target="_blank" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px;">티처블머신</a>
               <a href="https://newsac.kosac.re.kr/" target="_blank" class="btn btn-outline" style="min-height: 40px; padding: 6px 12px; font-size: 12px;">사후설문</a>
@@ -2372,11 +2399,39 @@
 
       <!-- TAB 1: 학생 관리 탭 -->
       <div id="tabContentStudents" class="admin-tab-content active">
+
+        <!-- ⚡ 일괄 전체 체크 / 선택 퀵 툴바 -->
+        <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 14px 18px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <span style="font-size: 13px; font-weight: 900; color: #0f172a; display: inline-flex; align-items: center; gap: 5px;">
+              ⚡ <span style="color: #0284c7;">원클릭 일괄 체크:</span>
+            </span>
+            <button type="button" onclick="selectAllAttendance('attend2', true)" class="btn" style="min-height: 34px; padding: 5px 12px; font-size: 12px; font-weight: 800; background: #0284c7; color: #ffffff; border-radius: 6px; box-shadow: 0 1px 3px rgba(2, 132, 199, 0.3);" title="오늘(11.05) 출석 25명 전체 출석 체크">
+              ✅ 오늘(11.05) 출석 전체체크
+            </button>
+            <button type="button" onclick="selectAllAttendance('attend1', true)" class="btn" style="min-height: 34px; padding: 5px 12px; font-size: 12px; font-weight: 700; background: #ffffff; color: #0369a1; border: 1px solid #bae6fd; border-radius: 6px;" title="1회차(11.03) 출석 25명 전체 출석 체크">
+              11.03 출석 전체체크
+            </button>
+            <button type="button" onclick="selectAllPreSurveys(true)" class="btn" style="min-height: 34px; padding: 5px 12px; font-size: 12px; font-weight: 800; background: #15803d; color: #ffffff; border-radius: 6px; box-shadow: 0 1px 3px rgba(21, 128, 61, 0.3);" title="사전설문 2종(효과성+핵심역량) 25명 전원 완료 체크">
+              📋 사전설문 2종 전체체크
+            </button>
+            <button type="button" onclick="selectAllPostSurveys(true)" class="btn" style="min-height: 34px; padding: 5px 12px; font-size: 12px; font-weight: 800; background: #7c3aed; color: #ffffff; border-radius: 6px; box-shadow: 0 1px 3px rgba(124, 58, 237, 0.3);" title="사후설문 2종(효과성+핵심역량) 25명 전원 완료 체크">
+              🎓 사후설문 2종 전체체크
+            </button>
+          </div>
+
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <button type="button" onclick="downloadCSV()" class="btn btn-dark" style="min-height: 34px; padding: 5px 14px; font-size: 12px; font-weight: 800;">
+              📥 엑셀(CSV) 다운로드
+            </button>
+          </div>
+        </div>
+
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
           <input type="text" id="adminSearch" placeholder="학생 이름, 번호, 학생코드로 검색..." class="search-box" style="margin-bottom: 0;" oninput="renderTable()">
-          <button onclick="downloadCSV()" class="btn btn-dark" style="font-size: 13px;">
-            엑셀(CSV) 다운로드
-          </button>
+          <span style="font-size: 12px; color: #64748b;">
+            💡 표 머리글(헤더)의 <strong>[전체]</strong> 체크박스를 누르면 해당 항목을 즉시 전체 선택/해제할 수 있습니다.
+          </span>
         </div>
 
         <!-- 통계 현황 (출석 2회 + 설문 4종 = 총 6개 지표) -->
@@ -2384,32 +2439,32 @@
           <div class="stat-card">
             <div class="stat-title">11.03 출석 현황</div>
             <div class="stat-val" id="statAttend1">0 / 25명</div>
-            <button onclick="checkAll('attend1', true)" class="stat-btn">전원 출석 체크</button>
+            <button onclick="toggleStatCheck('attend1')" id="btnStat_attend1" class="stat-btn">전원 출석 체크</button>
           </div>
           <div class="stat-card">
             <div class="stat-title">11.05 출석 현황</div>
             <div class="stat-val" id="statAttend2">0 / 25명</div>
-            <button onclick="checkAll('attend2', true)" class="stat-btn">전원 출석 체크</button>
+            <button onclick="toggleStatCheck('attend2')" id="btnStat_attend2" class="stat-btn">전원 출석 체크</button>
           </div>
           <div class="stat-card" style="border-top: 3px solid #16a34a;">
             <div class="stat-title">[사전] 효과성 측정</div>
             <div class="stat-val" id="statPreEffect" style="color: #15803d;">0 / 25명</div>
-            <button onclick="checkAll('preEffect', true)" class="stat-btn" style="background-color: #15803d; color: #fff;">전원 완료 체크</button>
+            <button onclick="toggleStatCheck('preEffect')" id="btnStat_preEffect" class="stat-btn" style="background-color: #15803d; color: #fff;">전원 완료 체크</button>
           </div>
           <div class="stat-card" style="border-top: 3px solid #0284c7;">
             <div class="stat-title">[사전] 핵심역량 진단</div>
             <div class="stat-val" id="statPreComp" style="color: #0284c7;">0 / 25명</div>
-            <button onclick="checkAll('preComp', true)" class="stat-btn" style="background-color: #0284c7; color: #fff;">전원 완료 체크</button>
+            <button onclick="toggleStatCheck('preComp')" id="btnStat_preComp" class="stat-btn" style="background-color: #0284c7; color: #fff;">전원 완료 체크</button>
           </div>
           <div class="stat-card" style="border-top: 3px solid #7c3aed;">
             <div class="stat-title">[사후] 효과성 측정</div>
             <div class="stat-val" id="statPostEffect" style="color: #7c3aed;">0 / 25명</div>
-            <button onclick="checkAll('postEffect', true)" class="stat-btn" style="background-color: #7c3aed; color: #fff;">전원 완료 체크</button>
+            <button onclick="toggleStatCheck('postEffect')" id="btnStat_postEffect" class="stat-btn" style="background-color: #7c3aed; color: #fff;">전원 완료 체크</button>
           </div>
           <div class="stat-card" style="border-top: 3px solid #ea580c;">
             <div class="stat-title">[사후] 핵심역량 진단</div>
             <div class="stat-val" id="statPostComp" style="color: #ea580c;">0 / 25명</div>
-            <button onclick="checkAll('postComp', true)" class="stat-btn" style="background-color: #ea580c; color: #fff;">전원 완료 체크</button>
+            <button onclick="toggleStatCheck('postComp')" id="btnStat_postComp" class="stat-btn" style="background-color: #ea580c; color: #fff;">전원 완료 체크</button>
           </div>
           <div class="stat-card" style="border-top: 3px solid #9333ea; background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%);">
             <div class="stat-title" style="color: #6b21a8; font-weight: 800;">🎮 바이브 게임 등록</div>
@@ -2429,12 +2484,42 @@
                 <th style="text-align: center; width: 55px;">반</th>
                 <th style="width: 120px;">학생코드</th>
                 <th style="text-align: center; width: 145px; background-color: #f3e8ff; color: #6b21a8;">🎮 바이브 게임 (Canva)</th>
-                <th style="text-align: center; width: 90px; background-color: #e0f2fe;">11.03 출석</th>
-                <th style="text-align: center; width: 90px; background-color: #e0f2fe;">11.05 출석</th>
-                <th style="text-align: center; width: 100px; background-color: #dcfce7; color: #166534;">사전(효과성)</th>
-                <th style="text-align: center; width: 100px; background-color: #e0f2fe; color: #0369a1;">사전(핵심역량)</th>
-                <th style="text-align: center; width: 100px; background-color: #ede9fe; color: #6b21a8;">사후(효과성)</th>
-                <th style="text-align: center; width: 100px; background-color: #ffedd5; color: #c2410c;">사후(핵심역량)</th>
+                <th style="text-align: center; width: 95px; background-color: #e0f2fe;">
+                  <div style="font-size: 12px; font-weight: 800; margin-bottom: 4px;">11.03 출석</div>
+                  <label style="font-size: 11px; font-weight: 700; color: #0369a1; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;" title="11.03 출석 전체 선택/해제">
+                    <input type="checkbox" id="thCheck_attend1" onchange="toggleSelectAll('attend1', this.checked)"> 전체
+                  </label>
+                </th>
+                <th style="text-align: center; width: 95px; background-color: #e0f2fe;">
+                  <div style="font-size: 12px; font-weight: 800; margin-bottom: 4px;">11.05 출석</div>
+                  <label style="font-size: 11px; font-weight: 700; color: #0369a1; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;" title="11.05 출석 전체 선택/해제">
+                    <input type="checkbox" id="thCheck_attend2" onchange="toggleSelectAll('attend2', this.checked)"> 전체
+                  </label>
+                </th>
+                <th style="text-align: center; width: 105px; background-color: #dcfce7; color: #166534;">
+                  <div style="font-size: 12px; font-weight: 800; margin-bottom: 4px;">사전(효과성)</div>
+                  <label style="font-size: 11px; font-weight: 700; color: #15803d; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;" title="사전 효과성 전체 선택/해제">
+                    <input type="checkbox" id="thCheck_preEffect" onchange="toggleSelectAll('preEffect', this.checked)"> 전체
+                  </label>
+                </th>
+                <th style="text-align: center; width: 105px; background-color: #e0f2fe; color: #0369a1;">
+                  <div style="font-size: 12px; font-weight: 800; margin-bottom: 4px;">사전(핵심역량)</div>
+                  <label style="font-size: 11px; font-weight: 700; color: #0284c7; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;" title="사전 핵심역량 전체 선택/해제">
+                    <input type="checkbox" id="thCheck_preComp" onchange="toggleSelectAll('preComp', this.checked)"> 전체
+                  </label>
+                </th>
+                <th style="text-align: center; width: 105px; background-color: #ede9fe; color: #6b21a8;">
+                  <div style="font-size: 12px; font-weight: 800; margin-bottom: 4px;">사후(효과성)</div>
+                  <label style="font-size: 11px; font-weight: 700; color: #7c3aed; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;" title="사후 효과성 전체 선택/해제">
+                    <input type="checkbox" id="thCheck_postEffect" onchange="toggleSelectAll('postEffect', this.checked)"> 전체
+                  </label>
+                </th>
+                <th style="text-align: center; width: 105px; background-color: #ffedd5; color: #c2410c;">
+                  <div style="font-size: 12px; font-weight: 800; margin-bottom: 4px;">사후(핵심역량)</div>
+                  <label style="font-size: 11px; font-weight: 700; color: #ea580c; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;" title="사후 핵심역량 전체 선택/해제">
+                    <input type="checkbox" id="thCheck_postComp" onchange="toggleSelectAll('postComp', this.checked)"> 전체
+                  </label>
+                </th>
               </tr>
             </thead>
             <tbody id="studentTableBody">
@@ -2562,6 +2647,71 @@
           <a href="./자료드라이브(다운받아주세요)/식물%20데이터%20출력용%20이미지.png" download="식물 데이터 출력용 이미지.png" class="btn btn-primary" style="min-height: 40px; padding: 6px 14px;">다운로드</a>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- 스마트팜 참고 회로도(배선도) 크게 보기 모달 -->
+  <div id="circuitModal" class="modal-overlay hidden" onclick="closeCircuitModal()">
+    <div class="modal-content" style="max-width: 960px; width: 95vw; max-height: 92vh; padding: 22px; display: flex; flex-direction: column; background: #ffffff; border-radius: 18px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);" onclick="event.stopPropagation()">
+      
+      <!-- 상단 헤더 -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 14px; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
+            <span class="badge" style="background-color: #e0f2fe; color: #0369a1; font-weight: 800; font-size: 12px;">
+              🌿 2회차 (5~8차시) 하드웨어 조립
+            </span>
+            <h3 style="font-size: 18px; font-weight: 900; color: #0f172a; margin: 0;">
+              🔌 스마트팜 AIoT 하드웨어 참고 회로도 (배선도)
+            </h3>
+          </div>
+          <p style="font-size: 12.5px; color: #64748b; margin: 0;">
+            마이크로비트 IoT 확장보드와 센서·액추에이터 핀 결합 가이드 (클릭 시 원본 새 창 열기 가능)
+          </p>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <a href="./smartfarm-circuit.png" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="min-height: 36px; padding: 6px 14px; font-size: 12px; color: #0284c7; border-color: #38bdf8; font-weight: 800; text-decoration: none;" title="브라우저 새 탭에서 원본 해상도로 열기">
+            ↗ 새 창에서 크게 보기
+          </a>
+          <a href="./smartfarm-circuit.png" download="스마트팜_참고_회로도.png" class="btn btn-primary" style="min-height: 36px; padding: 6px 14px; font-size: 12px; background: #0284c7; font-weight: 800;">
+            💾 회로도 다운로드
+          </a>
+          <button type="button" onclick="closeCircuitModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #94a3b8; line-height: 1; padding: 4px;" aria-label="닫기">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- 센서/부품 핀 연결 요약 뱃지 바 -->
+      <div style="display: flex; gap: 8px; padding: 10px 0; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; border-bottom: 1px solid #f1f5f9; align-items: center;">
+        <span style="font-size: 12px; font-weight: 800; color: #334155; margin-right: 4px; flex-shrink: 0;">핀 연결 요약:</span>
+        <span class="badge" style="background: #fef3c7; color: #92400e; font-size: 11px; padding: 4px 10px; border: 1px solid #fde68a;">
+          🌞 빛 센서 → <strong>P1</strong> (S-V-G)
+        </span>
+        <span class="badge" style="background: #dcfce7; color: #166534; font-size: 11px; padding: 4px 10px; border: 1px solid #bbf7d0;">
+          🌱 토양 수분 센서 → <strong>P2</strong> (S-V-G)
+        </span>
+        <span class="badge" style="background: #fee2e2; color: #991b1b; font-size: 11px; padding: 4px 10px; border: 1px solid #fecaca;">
+          ⚡ 릴레이(워터펌프) → <strong>P8</strong> (S-V-G)
+        </span>
+        <span class="badge" style="background: #f3e8ff; color: #6b21a8; font-size: 11px; padding: 4px 10px; border: 1px solid #e9d5ff;">
+          🌈 레인보우 LED → <strong>P16</strong> (S-V-G)
+        </span>
+      </div>
+
+      <!-- 메인 고화질 회로도 이미지 뷰어 영역 -->
+      <div style="flex: 1; width: 100%; min-height: 380px; max-height: calc(90vh - 200px); background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; overflow: auto; display: flex; align-items: center; justify-content: center; padding: 14px; margin-top: 10px;">
+        <a href="./smartfarm-circuit.png" target="_blank" title="클릭하면 원본 크기로 새 탭에서 열립니다" style="display: inline-block; cursor: zoom-in;">
+          <img src="./smartfarm-circuit.png" alt="스마트팜 하드웨어 참고 회로도" style="max-width: 100%; max-height: 60vh; object-fit: contain; display: block; margin: 0 auto; border-radius: 8px;">
+        </a>
+      </div>
+
+      <!-- 하단 안내 문구 -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 12px; color: #64748b; flex-wrap: wrap; gap: 8px;">
+        <span>💡 노란색(S: 신호), 빨간색(V: 전원), 검은색(G: 접지) 핀 방향을 반드시 확인하여 보드 색상(노랑/빨강/검정)에 맞게 꽂아주세요.</span>
+        <button type="button" onclick="closeCircuitModal()" class="btn btn-outline" style="min-height: 34px; padding: 4px 16px; font-size: 12px;">닫기</button>
+      </div>
+
     </div>
   </div>
 
@@ -4353,6 +4503,63 @@
       document.getElementById("statPostComp").textContent = countPostComp + " / 25명";
       const statVg = document.getElementById("statVibeGame");
       if (statVg) statVg.textContent = countGames + " / 25명";
+
+      // 표 헤더 [전체] 체크박스 상태 동기화 (전원 체크되어 있으면 true)
+      const totalStudents = studentList.length;
+      const thA1 = document.getElementById("thCheck_attend1");
+      const thA2 = document.getElementById("thCheck_attend2");
+      const thPE = document.getElementById("thCheck_preEffect");
+      const thPC = document.getElementById("thCheck_preComp");
+      const thQE = document.getElementById("thCheck_postEffect");
+      const thQC = document.getElementById("thCheck_postComp");
+
+      if (thA1) thA1.checked = (totalStudents > 0 && countA1 === totalStudents);
+      if (thA2) thA2.checked = (totalStudents > 0 && countA2 === totalStudents);
+      if (thPE) thPE.checked = (totalStudents > 0 && countPreEff === totalStudents);
+      if (thPC) thPC.checked = (totalStudents > 0 && countPreComp === totalStudents);
+      if (thQE) thQE.checked = (totalStudents > 0 && countPostEff === totalStudents);
+      if (thQC) thQC.checked = (totalStudents > 0 && countPostComp === totalStudents);
+
+      // 통계 카드 하단 버튼 문구 동기화 (전원 체크 시 '전원 체크 해제'로 자동 토글)
+      updateStatBtnText("btnStat_attend1", countA1 === totalStudents, "출석");
+      updateStatBtnText("btnStat_attend2", countA2 === totalStudents, "출석");
+      updateStatBtnText("btnStat_preEffect", countPreEff === totalStudents, "완료");
+      updateStatBtnText("btnStat_preComp", countPreComp === totalStudents, "완료");
+      updateStatBtnText("btnStat_postEffect", countPostEff === totalStudents, "완료");
+      updateStatBtnText("btnStat_postComp", countPostComp === totalStudents, "완료");
+    }
+
+    function updateStatBtnText(btnId, isAllChecked, actionWord) {
+      const btn = document.getElementById(btnId);
+      if (!btn) return;
+      btn.textContent = isAllChecked ? "전원 체크 해제" : `전원 ${actionWord} 체크`;
+    }
+
+    function getFieldLabel(field) {
+      const labels = {
+        attend1: "11.03 출석",
+        attend2: "11.05 출석",
+        preEffect: "사전 효과성 측정",
+        preComp: "사전 핵심역량 진단",
+        postEffect: "사후 효과성 측정",
+        postComp: "사후 핵심역량 진단"
+      };
+      return labels[field] || field;
+    }
+
+    function isFieldAllChecked(field) {
+      if (!studentList || studentList.length === 0) return false;
+      return studentList.every(st => {
+        const data = adminState[String(st.num)] || {};
+        if (field === 'preEffect') return !!(data.preEffect !== undefined ? data.preEffect : data.preSurvey);
+        if (field === 'postEffect') return !!(data.postEffect !== undefined ? data.postEffect : data.postSurvey);
+        return !!data[field];
+      });
+    }
+
+    function toggleStatCheck(field) {
+      const isAll = isFieldAllChecked(field);
+      toggleSelectAll(field, !isAll);
     }
 
     function updateCheck(num, field, val) {
@@ -4368,19 +4575,61 @@
       renderTable();
     }
 
-    function checkAll(field, val) {
+    // 단일 항목 전체 선택/해제 토글
+    function toggleSelectAll(field, isChecked) {
       studentList.forEach(st => {
         const key = String(st.num);
         if (!adminState[key]) {
           adminState[key] = { attend1: false, attend2: false, preEffect: false, preComp: false, postEffect: false, postComp: false };
         }
-        adminState[key][field] = val;
-        if (field === 'preEffect') adminState[key].preSurvey = val;
-        if (field === 'postEffect') adminState[key].postSurvey = val;
+        adminState[key][field] = isChecked;
+        if (field === 'preEffect') adminState[key].preSurvey = isChecked;
+        if (field === 'postEffect') adminState[key].postSurvey = isChecked;
       });
       localStorage.setItem(STORAGE_KEY, JSON.stringify(adminState));
       renderTable();
-      showToast(field + " 일괄 완료 처리되었습니다.");
+      showToast(`${getFieldLabel(field)} 항목이 전원 ${isChecked ? '완료(체크)' : '해제'}되었습니다.`);
+    }
+
+    // 사전 설문 2종 한 번에 전체 선택
+    function selectAllPreSurveys(isChecked = true) {
+      studentList.forEach(st => {
+        const key = String(st.num);
+        if (!adminState[key]) {
+          adminState[key] = { attend1: false, attend2: false, preEffect: false, preComp: false, postEffect: false, postComp: false };
+        }
+        adminState[key].preEffect = isChecked;
+        adminState[key].preComp = isChecked;
+        adminState[key].preSurvey = isChecked;
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(adminState));
+      renderTable();
+      showToast(`사전설문 2종(효과성+핵심역량)이 전원 ${isChecked ? '완료' : '해제'} 처리되었습니다.`);
+    }
+
+    // 사후 설문 2종 한 번에 전체 선택
+    function selectAllPostSurveys(isChecked = true) {
+      studentList.forEach(st => {
+        const key = String(st.num);
+        if (!adminState[key]) {
+          adminState[key] = { attend1: false, attend2: false, preEffect: false, preComp: false, postEffect: false, postComp: false };
+        }
+        adminState[key].postEffect = isChecked;
+        adminState[key].postComp = isChecked;
+        adminState[key].postSurvey = isChecked;
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(adminState));
+      renderTable();
+      showToast(`사후설문 2종(효과성+핵심역량)이 전원 ${isChecked ? '완료' : '해제'} 처리되었습니다.`);
+    }
+
+    // 출석 일괄 선택
+    function selectAllAttendance(day = 'attend2', isChecked = true) {
+      toggleSelectAll(day, isChecked);
+    }
+
+    function checkAll(field, val) {
+      toggleSelectAll(field, val);
     }
 
     function resetData() {
@@ -4675,6 +4924,16 @@
       document.getElementById("imgModal").classList.add("hidden");
     }
 
+    // 스마트팜 참고 회로도(배선도) 모달
+    function openCircuitModal() {
+      const modal = document.getElementById("circuitModal");
+      if (modal) modal.classList.remove("hidden");
+    }
+    function closeCircuitModal() {
+      const modal = document.getElementById("circuitModal");
+      if (modal) modal.classList.add("hidden");
+    }
+
     // ==========================================
     // 차시별 수업 교안 PDF 뷰어 모달 (차시별 분리 PDF 단독 보기)
     // ==========================================
@@ -4837,6 +5096,7 @@
         closeCurriculumModal();
         closeGamePlayModal();
         closeImageModal();
+        closeCircuitModal();
         closeSurveyModal();
         closeGalleryViewModal();
         closeGalleryUploadModal();
