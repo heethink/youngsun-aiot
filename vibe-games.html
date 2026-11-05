@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>영선중 AIoT | 🎮 바이브 코딩(Vibe Coding) 학생 게임 아케이드</title>
+  <title>영선중 AIoT | 🎮 바이브 코딩(Vibe Coding) 학생 아케이드</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -534,7 +534,7 @@
         <span class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;">← 스마트팜 포털 홈</span>
         <span class="brand-badge">디지털새싹 AIoT</span>
         <div class="brand-title">
-          <span>🎮</span> 바이브 코딩 게임 아케이드
+          <span>🎮</span> 바이브 코딩 아케이드
         </div>
       </a>
 
@@ -546,7 +546,7 @@
           🔄 새로고침
         </button>
         <button onclick="openGameUploadModal()" class="btn btn-accent" style="font-size: 12px;">
-          ✨ 내 바이브 게임 공유
+          ✨ 내 바이브 코딩 공유
         </button>
       </div>
     </div>
@@ -555,7 +555,7 @@
   <!-- 히어로 배너 -->
   <section class="hero-banner">
     <div class="container">
-      <h1 class="hero-title">🎮 1-3반 바이브 코딩 게임</h1>
+      <h1 class="hero-title">🎮 1-3반 바이브 코딩</h1>
       <p class="hero-sub">
         생성형 AI(ChatGPT, Claude)와 자연어로 대화하며 1-3반 학생들이 직접 프롬프팅하여 구현한 창의 소프트웨어를 지금 바로 브라우저에서 체험해보세요!
       </p>
@@ -630,7 +630,7 @@
     <div class="grid-header" style="flex-direction: column; align-items: stretch; gap: 14px; margin-bottom: 24px;">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
         <div class="grid-title">
-          <span>🕹️</span> 영선중 1-3 바이브 게임 컬렉션 (<span id="totalGameCount" style="color: #38bdf8;">26</span>)
+          <span>🕹️</span> 영선중 1-3 바이브 코딩 컬렉션 (<span id="totalGameCount" style="color: #38bdf8;">26</span>)
         </div>
         <div style="font-size: 12px; color: var(--text-muted);">
           카드를 클릭하면 상단 플레이어 화면에서 선택되거나 새 창으로 플레이할 수 있습니다.
@@ -662,11 +662,11 @@
     </div>
   </section>
 
-  <!-- 바이브 게임 등록 모달 -->
+  <!-- 바이브 코딩 등록 모달 -->
   <div id="gameUploadModal" class="modal-overlay hidden" onclick="closeGameUploadModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <h3 style="font-size: 17px; font-weight: 800; color: #fff;">🎮 내 바이브 코딩 게임 등록하기</h3>
+        <h3 style="font-size: 17px; font-weight: 800; color: #fff;">🎮 내 바이브 코딩 등록하기</h3>
         <button onclick="closeGameUploadModal()" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #94a3b8;">✕</button>
       </div>
 
@@ -1392,7 +1392,7 @@
 
         allGames = dedupedGames;
         renderGameGrid();
-        if (!isSilent) showToast("최신 바이브 코딩 게임 목록을 갱신했습니다!");
+        if (!isSilent) showToast("최신 바이브 코딩 목록을 갱신했습니다!");
       } catch (err) {
         console.warn("Cloud game fetch error:", err);
         allGames = [...PRESET_GAMES];
@@ -1449,7 +1449,7 @@
       grid.innerHTML = '';
 
       if (filtered.length === 0) {
-        grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 48px; background: rgba(19, 27, 46, 0.5); border-radius: 16px; border: 1px dashed var(--border-color); color: var(--text-muted);">검색 조건에 맞는 바이브 게임이 없습니다.</div>`;
+        grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 48px; background: rgba(19, 27, 46, 0.5); border-radius: 16px; border: 1px dashed var(--border-color); color: var(--text-muted);">검색 조건에 맞는 바이브 코딩 작품이 없습니다.</div>`;
         return;
       }
 
@@ -1639,7 +1639,7 @@
         return;
       }
 
-      showToast("☁️ 바이브 코딩 게임을 클라우드에 등록 중입니다...");
+      showToast("☁️ 바이브 코딩 작품을 클라우드에 등록 중입니다...");
 
       const timestamp = Date.now();
       const record = {
@@ -1647,7 +1647,7 @@
         type: 'vibe_game',
         author,
         title,
-        desc: desc || `${author} 학생이 바이브 코딩으로 제작한 게임`,
+        desc: desc || `${author} 학생이 바이브 코딩으로 제작한 소프트웨어`,
         controls: controls || "화면 터치 또는 마우스 클릭",
         emoji: emoji || "🎮",
         gameUrl: type === 'url' ? url : '',
@@ -1667,7 +1667,7 @@
 
         if (!res.ok) throw new Error("클라우드 저장 실패: " + res.status);
         closeGameUploadModal();
-        showToast("🎉 바이브 게임이 성공적으로 등록되었습니다! (모든 학생 플레이 가능)");
+        showToast("🎉 바이브 코딩 작품이 성공적으로 등록되었습니다! (모든 학생 체험 가능)");
         await fetchGameList(true);
         playGame(cloudKey);
       } catch(err) {
